@@ -8,3 +8,4 @@ build/
 .packages
 .pub-cache/
 .pub/
+.claude/*.tmp.*
