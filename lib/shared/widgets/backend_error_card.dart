@@ -23,34 +23,36 @@ class BackendErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFEF2F2),
+        color: colors.errorSurface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.error.withOpacity(borderOpacity)),
+        border: Border.all(color: colors.error.withOpacity(borderOpacity)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 2.0),
-            child: Icon(Icons.error_outline_rounded, color: AppColors.error, size: 18),
+          Padding(
+            padding: const EdgeInsets.only(top: 2.0),
+            child: Icon(Icons.error_outline_rounded, color: colors.error, size: 18),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.error)),
+                Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.error)),
                 const SizedBox(height: 2),
-                Text(message, style: const TextStyle(fontSize: 12, color: Color(0xFF991B1B), height: 1.4)),
+                Text(message, style: TextStyle(fontSize: 12, color: colors.errorSurfaceText, height: 1.4)),
               ],
             ),
           ),
           IconButton(
             onPressed: onClose,
-            icon: const Icon(Icons.close_rounded, size: 16, color: Color(0xFF991B1B)),
+            icon: Icon(Icons.close_rounded, size: 16, color: colors.errorSurfaceText),
             style: IconButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size.zero, tapTargetSize: MaterialTapTargetSize.shrinkWrap),
           )
         ],

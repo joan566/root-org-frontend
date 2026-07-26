@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
+import 'package:savings_api_frontend/core/design_system/colors/theme_controller.dart';
 import 'package:savings_api_frontend/main.dart';
 
 void main() {
@@ -26,8 +27,11 @@ void main() {
     addTearDown(() => FlutterError.onError = originalOnError);
 
     await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => AuthProvider(),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
+          ChangeNotifierProvider(create: (_) => ThemeController()),
+        ],
         child: const MainApp(),
       ),
     );

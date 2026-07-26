@@ -6,11 +6,16 @@ import 'features/auth/presentation/login/login_screen.dart';
 import 'features/auth/presentation/register/register_screen.dart';
 import 'features/auth/presentation/provider/auth_provider.dart';
 import 'core/routing/app_routes.dart';
+import 'core/design_system/colors/theme_controller.dart';
+import 'core/design_system/colors/app_theme.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+      ],
       child: const MainApp(),
     ),
   );
@@ -21,10 +26,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (_, auth, __) {
+    return Consumer2<AuthProvider, ThemeController>(
+      builder: (_, auth, themeController, __) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: themeController.mode,
           home: auth.isLogged
               ? const MainLayout()
               : const LoginScreen(),

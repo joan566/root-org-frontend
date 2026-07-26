@@ -15,6 +15,8 @@ class AppBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -26,28 +28,28 @@ class AppBackButton extends StatelessWidget {
             vertical: 10,
           ),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: AppColors.border,
+              color: colors.border,
             ),
-            boxShadow: AppColors.premiumShadow(),
+            boxShadow: colors.premiumShadow(),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.arrow_back_rounded,
                 size: 18,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
               if (label != null) ...[
                 const SizedBox(width: 8),
                 Text(
                   label!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                 ),
               ],

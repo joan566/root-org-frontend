@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/typography/app_typography.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 /// Label de campo de formulario reutilizado entre auth y tenant.
 /// `fontWeight` es parametrizable porque create_tenant usaba w700 en vez
@@ -19,7 +20,10 @@ class FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: AppTypography.labelMedium.copyWith(fontWeight: fontWeight),
+      style: AppTypography.labelMedium.copyWith(
+        fontWeight: fontWeight,
+        color: AppColors.of(context).textPrimary,
+      ),
     );
   }
 }
