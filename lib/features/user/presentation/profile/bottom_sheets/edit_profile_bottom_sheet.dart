@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/update_profile_controller.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/users_injection.dart';
+import 'package:savings_api_frontend/features/user/presentation/profile/state/update_profile_controller.dart';
+import 'package:savings_api_frontend/features/user/presentation/state/users_injection.dart';
 
 import '../../../../auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/change_password_controller.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/users_injection.dart';
+import 'package:savings_api_frontend/features/user/presentation/change_password/state/change_password_controller.dart';
+import 'package:savings_api_frontend/features/user/presentation/state/users_injection.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/shared/widgets/app_back_button.dart';

@@ -6,21 +6,21 @@ import 'package:savings_api_frontend/features/auth/presentation/provider/auth_pr
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 // Widgets refactorizados
-import '../../widgets/profile/personal_info_card.dart';
-import '../../widgets/profile/preferences_card.dart';
-import '../../widgets/profile/profile_completion_card.dart';
-import '../../widgets/profile/profile_header.dart';
-import '../../widgets/profile/profile_stats.dart';
-import '../../widgets/profile/recent_activity_card.dart';
-import '../../widgets/profile/security_card.dart';
-import '../../widgets/profile/contact_info_card.dart';
-import '../../widgets/profile/edit_profile_bottom_sheet.dart';
-import '../../widgets/profile/logout_card.dart';
-import '../../widgets/profile/organizations_section.dart';
+import 'widgets/personal_info_card.dart';
+import 'widgets/preferences_card.dart';
+import 'widgets/profile_completion_card.dart';
+import 'widgets/profile_header.dart';
+import 'widgets/profile_stats.dart';
+import 'widgets/recent_activity_card.dart';
+import 'widgets/security_card.dart';
+import 'widgets/contact_info_card.dart';
+import 'bottom_sheets/edit_profile_bottom_sheet.dart';
+import 'widgets/logout_card.dart';
+import 'widgets/organizations_section.dart';
 
-import '../../../../auth/domain/entities/user.dart';
-import '../../controllers/get_user_controller.dart';
-import '../../controllers/users_injection.dart';
+import '../../../auth/domain/entities/user.dart';
+import 'state/get_user_controller.dart';
+import '../state/users_injection.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

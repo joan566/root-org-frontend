@@ -3,9 +3,9 @@ import 'package:savings_api_frontend/features/user/data/repositories/user_reposi
 import 'package:savings_api_frontend/features/user/domain/usecases/change_password_use_case.dart';
 import 'package:savings_api_frontend/features/user/domain/usecases/get_user_use_case.dart';
 import 'package:savings_api_frontend/features/user/domain/usecases/update_profile_use_case.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/change_password_controller.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/get_user_controller.dart';
-import 'package:savings_api_frontend/features/user/presentation/controllers/update_profile_controller.dart';
+import 'package:savings_api_frontend/features/user/presentation/change_password/state/change_password_controller.dart';
+import 'package:savings_api_frontend/features/user/presentation/profile/state/get_user_controller.dart';
+import 'package:savings_api_frontend/features/user/presentation/profile/state/update_profile_controller.dart';
 
 class UsersInjection {
   static GetUserController getUserController() {
