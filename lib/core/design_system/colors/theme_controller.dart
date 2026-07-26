@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Estado global del modo de tema (claro/oscuro/sistema), con persistencia
-/// en disco - ver docs/00-core/08-theming/ADR-013-modo-oscuro.md.
+/// en disco vía shared_preferences.
 ///
 /// Solo guarda la preferencia del usuario (`mode`). La resolucion a
 /// AppPalette.light/dark segun el brillo real (incluyendo el del sistema
