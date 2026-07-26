@@ -159,8 +159,10 @@ class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
 
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -199,10 +201,10 @@ class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerPr
                             Container(
                               padding: const EdgeInsets.all(28),
                               decoration: BoxDecoration(
-                                color: AppColors.surface,
+                                color: colors.surface,
                                 borderRadius: BorderRadius.circular(24),
-                                border: Border.all(color: AppColors.border),
-                                boxShadow: AppColors.premiumShadow(),
+                                border: Border.all(color: colors.border),
+                                boxShadow: colors.premiumShadow(),
                               ),
                               child: Form(
                                 key: _formKey,

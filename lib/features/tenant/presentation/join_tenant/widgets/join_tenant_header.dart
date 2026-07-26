@@ -6,42 +6,44 @@ class JoinTenantHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Column(
       children: [
         Container(
           width: 84,
           height: 84,
-          decoration: const BoxDecoration(
-            color: AppColors.primaryLight,
+          decoration: BoxDecoration(
+            color: colors.primaryLight,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
+          child: Icon(
             Icons.groups_rounded,
             size: 40,
-            color: AppColors.primary,
+            color: colors.primary,
           ),
         ),
         const SizedBox(height: 24),
-        const Text(
+        Text(
           "Unirse a una organización",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w800,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
             letterSpacing: -0.75,
             height: 1.2,
           ),
         ),
         const SizedBox(height: 12),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
             "Introduce el código proporcionado por tu fondo de ahorro para vincularte de forma inmediata y comenzar a colaborar.",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: colors.textSecondary,
               height: 1.5,
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 import 'package:savings_api_frontend/shared/widgets/header_clipper.dart';
 
 class TenantHeader extends StatelessWidget {
@@ -18,6 +19,7 @@ class TenantHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Stack(
@@ -28,11 +30,11 @@ class TenantHeader extends StatelessWidget {
           child: Container(
             height: 290 + statusBarHeight,
             width: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.primaryDark,
-                  AppColors.primary,
+                  colors.primaryDark,
+                  colors.primary,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -99,43 +101,45 @@ class _StatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: AppColors.floatingShadow(),
-        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: colors.floatingShadow(),
+        border: Border.all(color: colors.border, width: 1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem(Icons.grid_view_rounded, 'Total Orgs', totalOrgs.toString()),
-          Container(width: 1, height: 35, color: AppColors.border),
-          _buildStatItem(Icons.verified_user_rounded, 'Rol Principal', primaryRole),
-          Container(width: 1, height: 35, color: AppColors.border),
-          _buildStatItem(Icons.check_circle_rounded, 'Activas', '$activeOrgs/$totalOrgs'),
+          _buildStatItem(colors, Icons.grid_view_rounded, 'Total Orgs', totalOrgs.toString()),
+          Container(width: 1, height: 35, color: colors.border),
+          _buildStatItem(colors, Icons.verified_user_rounded, 'Rol Principal', primaryRole),
+          Container(width: 1, height: 35, color: colors.border),
+          _buildStatItem(colors, Icons.check_circle_rounded, 'Activas', '$activeOrgs/$totalOrgs'),
         ],
       ),
     );
   }
 
-  Widget _buildStatItem(IconData icon, String label, String value) {
+  Widget _buildStatItem(AppPalette colors, IconData icon, String label, String value) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14, color: AppColors.primary),
+            Icon(icon, size: 14, color: colors.primary),
             const SizedBox(width: 6),
-            Text(label, style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
+            Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary, fontWeight: FontWeight.w500)),
           ],
         ),
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textPrimary),
           overflow: TextOverflow.ellipsis,
         ),
       ],

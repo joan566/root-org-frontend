@@ -107,8 +107,10 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
 
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -147,6 +149,8 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
   }
 
   Widget _buildContent({required bool showPreview}) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -170,10 +174,10 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: colors.surface,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppColors.border),
-                    boxShadow: AppColors.premiumShadow(),
+                    border: Border.all(color: colors.border),
+                    boxShadow: colors.premiumShadow(),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +196,7 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
                           const FieldLabel(fontWeight: FontWeight.w700, label: 'Descripción o propósito'),
                           Text(
                             '${descriptionController.text.length}/200',
-                            style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 11, color: colors.textMuted, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -229,24 +233,26 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
   }
 
   Widget _buildNameField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: nameController,
       focusNode: _nameFocusNode,
       enabled: !loading,
       textInputAction: TextInputAction.next,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       onChanged: (v) => setState(() {}),
       decoration: InputDecoration(
         hintText: 'Ej. Corporación Lambda S.A.',
         helperText: 'Será el identificador visible para todos los futuros miembros.',
-        helperStyle: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
-        prefixIcon: const Icon(Icons.business_rounded, size: 18, color: AppColors.textSecondary),
+        helperStyle: TextStyle(fontSize: 11, color: colors.textSecondary),
+        prefixIcon: Icon(Icons.business_rounded, size: 18, color: colors.textSecondary),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         filled: true,
-        fillColor: loading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+        fillColor: loading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
       ),
       validator: (v) => (v == null || v.trim().isEmpty) ? "El nombre es mandatorio para inicializar el tenant" : null,
       onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_descFocusNode),
@@ -254,6 +260,8 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
   }
 
   Widget _buildDescriptionField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: descriptionController,
       focusNode: _descFocusNode,
@@ -261,32 +269,34 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
       maxLines: 3,
       maxLength: 200,
       textInputAction: TextInputAction.done,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       onChanged: (v) => setState(() {}),
       decoration: InputDecoration(
         hintText: 'Describe brevemente el alcance u objetivo de este espacio organizacional...',
         counterText: '',
         contentPadding: const EdgeInsets.all(16),
         filled: true,
-        fillColor: loading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border, width: 1.5)),
+        fillColor: loading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border, width: 1.5)),
       ),
       onFieldSubmitted: (_) => _registerWithOwner(),
     );
   }
 
   Widget _buildSubmitButton() {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: FilledButton(
         onPressed: loading ? null : _registerWithOwner,
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.textPrimary,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.textMuted.withOpacity(0.4),
+          backgroundColor: colors.textPrimary,
+          foregroundColor: colors.surface,
+          disabledBackgroundColor: colors.textMuted.withOpacity(0.4),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 0,
         ),

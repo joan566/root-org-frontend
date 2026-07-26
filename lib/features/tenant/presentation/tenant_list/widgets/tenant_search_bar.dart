@@ -16,33 +16,35 @@ class TenantSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(100),
-        boxShadow: isFocused ? AppColors.floatingShadow() : AppColors.subtleShadow(),
+        boxShadow: isFocused ? colors.floatingShadow() : colors.subtleShadow(),
         border: Border.all(
-          color: isFocused ? AppColors.primary : AppColors.border,
+          color: isFocused ? colors.primary : colors.border,
           width: isFocused ? 1.5 : 1.0,
         ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          Icon(Icons.search, color: isFocused ? AppColors.primary : AppColors.textSecondary, size: 20),
+          Icon(Icons.search, color: isFocused ? colors.primary : colors.textSecondary, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: TextField(
               controller: controller,
               focusNode: focusNode,
-              style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w500),
-              decoration: const InputDecoration(
+              style: TextStyle(color: colors.textPrimary, fontSize: 14, fontWeight: FontWeight.w500),
+              decoration: InputDecoration(
                 hintText: "Buscar por nombre u organización...",
-                hintStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(color: colors.textSecondary, fontSize: 14, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 14),
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
               ),
             ),
           ),
@@ -52,7 +54,7 @@ class TenantSearchBar extends StatelessWidget {
                 HapticFeedback.lightImpact();
                 controller.clear();
               },
-              child: const Icon(Icons.cancel_rounded, color: AppColors.textSecondary, size: 18),
+              child: Icon(Icons.cancel_rounded, color: colors.textSecondary, size: 18),
             )
         ],
       ),

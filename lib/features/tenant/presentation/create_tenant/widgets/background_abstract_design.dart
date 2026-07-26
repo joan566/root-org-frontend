@@ -7,6 +7,8 @@ class BackgroundAbstractDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Positioned.fill(
       child: Stack(
         children: [
@@ -16,7 +18,7 @@ class BackgroundAbstractDesign extends StatelessWidget {
             child: Container(
               width: 280,
               height: 280,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary.withOpacity(0.02)),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: colors.primary.withOpacity(0.02)),
               child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80), child: Container(color: Colors.transparent)),
             ),
           ),

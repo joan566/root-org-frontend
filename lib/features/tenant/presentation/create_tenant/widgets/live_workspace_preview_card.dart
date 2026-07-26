@@ -9,10 +9,12 @@ class LiveWorkspacePreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        color: AppColors.slateDark,
+        color: colors.slateDark,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
@@ -24,7 +26,7 @@ class LiveWorkspacePreviewCard extends StatelessWidget {
               Container(
                 width: 10,
                 height: 10,
-                decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: colors.primary, shape: BoxShape.circle),
               ),
               const SizedBox(width: 8),
               Text('VISTA PREVIA EN TIEMPO REAL', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Colors.white.withOpacity(0.4), letterSpacing: 0.8)),

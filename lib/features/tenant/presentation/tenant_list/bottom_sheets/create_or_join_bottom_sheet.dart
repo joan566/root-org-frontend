@@ -6,11 +6,15 @@ void showCreateOrJoinBottomSheet(
   required VoidCallback onCreate,
   required VoidCallback onJoin,
 }) {
+  final colors = AppColors.of(context);
+
   showModalBottomSheet(
     context: context,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
     builder: (context) {
+      final colors = AppColors.of(context);
+
       return SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
@@ -19,14 +23,14 @@ void showCreateOrJoinBottomSheet(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Container(width: 36, height: 4, decoration: BoxDecoration(color: AppColors.border, borderRadius: BorderRadius.circular(10))),
+                child: Container(width: 36, height: 4, decoration: BoxDecoration(color: colors.border, borderRadius: BorderRadius.circular(10))),
               ),
               const SizedBox(height: 24),
-              const Text('Configura tu espacio', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.4)),
+              Text('Configura tu espacio', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.4)),
               const SizedBox(height: 4),
-              const Text('Elige el método de aprovisionamiento de tu espacio.', style: TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+              Text('Elige el método de aprovisionamiento de tu espacio.', style: TextStyle(fontSize: 13, color: colors.textSecondary)),
               const SizedBox(height: 24),
-              _buildOption(context, Icons.business_rounded, AppColors.primary, 'Crear nueva organización', 'Configura la estructura para un nuevo entorno corporativo.', onCreate),
+              _buildOption(context, Icons.business_rounded, colors.primary, 'Crear nueva organización', 'Configura la estructura para un nuevo entorno corporativo.', onCreate),
               const SizedBox(height: 12),
               _buildOption(context, Icons.vpn_key_outlined, const Color(0xFF3B82F6), 'Unirse mediante invitación', 'Introduce un token válido otorgado por tu administrador.', onJoin),
             ],
@@ -38,6 +42,8 @@ void showCreateOrJoinBottomSheet(
 }
 
 Widget _buildOption(BuildContext context, IconData icon, Color color, String title, String sub, VoidCallback action) {
+  final colors = AppColors.of(context);
+
   return InkWell(
     onTap: () {
       Navigator.pop(context);
@@ -46,7 +52,7 @@ Widget _buildOption(BuildContext context, IconData icon, Color color, String tit
     borderRadius: BorderRadius.circular(14),
     child: Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(border: Border.all(color: AppColors.border), borderRadius: BorderRadius.circular(14)),
+      decoration: BoxDecoration(border: Border.all(color: colors.border), borderRadius: BorderRadius.circular(14)),
       child: Row(
         children: [
           Container(
@@ -59,13 +65,13 @@ Widget _buildOption(BuildContext context, IconData icon, Color color, String tit
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary)),
                 const SizedBox(height: 2),
-                Text(sub, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(sub, style: TextStyle(fontSize: 12, color: colors.textSecondary), maxLines: 1, overflow: TextOverflow.ellipsis),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary)
+          Icon(Icons.chevron_right_rounded, color: colors.textSecondary)
         ],
       ),
     ),

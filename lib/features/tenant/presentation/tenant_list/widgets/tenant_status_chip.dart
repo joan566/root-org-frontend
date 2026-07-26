@@ -7,20 +7,22 @@ class TenantStatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color dotColor = AppColors.textSecondary;
+    final colors = AppColors.of(context);
+
+    Color dotColor = colors.textSecondary;
     Color bg = const Color(0xFFF1F5F9);
     Color text = const Color(0xFF475569);
 
     if (status.toLowerCase() == 'activo' || status.toLowerCase() == 'activa') {
-      dotColor = AppColors.success;
+      dotColor = colors.success;
       bg = const Color(0xFFDCFCE7);
       text = const Color(0xFF15803D);
     } else if (status.toLowerCase() == 'pendiente') {
-      dotColor = AppColors.warning;
+      dotColor = colors.warning;
       bg = const Color(0xFFFEF3C7);
       text = const Color(0xFFB45309);
     } else if (status.toLowerCase() == 'suspendido') {
-      dotColor = AppColors.error;
+      dotColor = colors.error;
       bg = const Color(0xFFFEE2E2);
       text = const Color(0xFFB91C1C);
     }

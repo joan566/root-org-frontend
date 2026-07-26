@@ -7,8 +7,10 @@ class ErrorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return AlertDialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       contentPadding: const EdgeInsets.all(28),
       content: Column(
@@ -16,13 +18,13 @@ class ErrorDialog extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(color: AppColors.error.withOpacity(0.1), shape: BoxShape.circle),
-            child: const Icon(Icons.gpp_bad_rounded, color: AppColors.error, size: 36),
+            decoration: BoxDecoration(color: colors.error.withOpacity(0.1), shape: BoxShape.circle),
+            child: Icon(Icons.gpp_bad_rounded, color: colors.error, size: 36),
           ),
           const SizedBox(height: 20),
-          const Text('Error de vinculación', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary, letterSpacing: -0.4)),
+          Text('Error de vinculación', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary, letterSpacing: -0.4)),
           const SizedBox(height: 10),
-          Text(errorMessage, textAlign: TextAlign.center, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.4)),
+          Text(errorMessage, textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: colors.textSecondary, height: 1.4)),
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
@@ -30,10 +32,10 @@ class ErrorDialog extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () => Navigator.of(context).pop(),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppColors.border),
+                side: BorderSide(color: colors.border),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text('Entendido', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+              child: Text('Entendido', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.textPrimary)),
             ),
           )
         ],

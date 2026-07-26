@@ -17,6 +17,8 @@ class SuccessWorkspaceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -27,37 +29,37 @@ class SuccessWorkspaceView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(40),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: AppColors.border),
-                  boxShadow: AppColors.premiumShadow(),
+                  border: Border.all(color: colors.border),
+                  boxShadow: colors.premiumShadow(),
                 ),
                 child: Column(
                   children: [
                     Container(
                       padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(color: AppColors.primaryLight, shape: BoxShape.circle),
-                      child: const Icon(Icons.auto_awesome_rounded, color: AppColors.primary, size: 36),
+                      decoration: BoxDecoration(color: colors.primaryLight, shape: BoxShape.circle),
+                      child: Icon(Icons.auto_awesome_rounded, color: colors.primary, size: 36),
                     ),
                     const SizedBox(height: 20),
-                    const Text('¡Espacio corporativo listo!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.5)),
+                    Text('¡Espacio corporativo listo!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5)),
                     const SizedBox(height: 6),
-                    Text('La organización "$organizationName" se ha estructurado con éxito en el backend global.', textAlign: TextAlign.center, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+                    Text('La organización "$organizationName" se ha estructurado con éxito en el backend global.', textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: colors.textSecondary)),
                     const SizedBox(height: 24),
 
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: colors.background,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: colors.border),
                       ),
                       child: Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text('CÓDIGO DE INVITACIÓN REAL', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.textSecondary, letterSpacing: 0.5)),
+                              Text('CÓDIGO DE INVITACIÓN REAL', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: colors.textSecondary, letterSpacing: 0.5)),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(color: const Color(0xFFDCFCE7), borderRadius: BorderRadius.circular(6)),
@@ -71,11 +73,11 @@ class SuccessWorkspaceView extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   invitationCode,
-                                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppColors.textPrimary, letterSpacing: 2.0),
+                                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: colors.textPrimary, letterSpacing: 2.0),
                                 ),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.copy_rounded, size: 20, color: AppColors.textSecondary),
+                                icon: Icon(Icons.copy_rounded, size: 20, color: colors.textSecondary),
                                 onPressed: () {
                                   Clipboard.setData(ClipboardData(text: invitationCode));
                                   HapticFeedback.lightImpact();
@@ -84,15 +86,15 @@ class SuccessWorkspaceView extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Divider(height: 24, color: AppColors.border),
-                          const Row(
+                          Divider(height: 24, color: colors.border),
+                          Row(
                             children: [
-                              Icon(Icons.info_outline_rounded, size: 14, color: AppColors.textSecondary),
-                              SizedBox(width: 8),
+                              Icon(Icons.info_outline_rounded, size: 14, color: colors.textSecondary),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   'Comparte este código con tu equipo de trabajo para permitirles unirse de manera directa.',
-                                  style: TextStyle(fontSize: 11, color: AppColors.textSecondary, height: 1.3),
+                                  style: TextStyle(fontSize: 11, color: colors.textSecondary, height: 1.3),
                                 ),
                               )
                             ],
@@ -110,7 +112,7 @@ class SuccessWorkspaceView extends StatelessWidget {
                       height: 48,
                       child: FilledButton(
                         onPressed: onContinue,
-                        style: FilledButton.styleFrom(backgroundColor: AppColors.textPrimary, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                        style: FilledButton.styleFrom(backgroundColor: colors.textPrimary, foregroundColor: colors.surface, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                         child: const Text('Acceder al Dashboard Principal', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       ),
                     )

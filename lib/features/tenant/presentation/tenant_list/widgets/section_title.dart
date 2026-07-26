@@ -9,16 +9,18 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           isFiltered ? 'Resultados encontrados' : 'Tus organizaciones asignadas',
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: colors.textPrimary),
         ),
         Text(
           '$count en total',
-          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w500),
         ),
       ],
     );

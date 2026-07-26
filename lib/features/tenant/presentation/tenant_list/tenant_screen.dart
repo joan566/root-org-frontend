@@ -78,7 +78,7 @@ class _TenantScreenState extends State<TenantScreen> {
         : 'Miembro';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).background,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [

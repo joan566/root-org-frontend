@@ -6,33 +6,35 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 2.0),
-            child: Icon(Icons.info_outline_rounded, size: 18, color: AppColors.textSecondary),
+            padding: const EdgeInsets.only(top: 2.0),
+            child: Icon(Icons.info_outline_rounded, size: 18, color: colors.textSecondary),
           ),
-          SizedBox(width: 14),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   '¿No tienes un código?',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.textPrimary),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   'Solicítalo al administrador de la organización. Cada código identifica de forma única la organización a la que deseas pertenecer.',
-                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary, height: 1.4),
+                  style: TextStyle(fontSize: 12, color: colors.textSecondary, height: 1.4),
                 ),
               ],
             ),

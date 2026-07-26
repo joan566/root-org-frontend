@@ -6,16 +6,18 @@ class MobileBrandHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(color: AppColors.slateDark, borderRadius: BorderRadius.circular(8)),
-          child: const Icon(Icons.blur_on_rounded, color: AppColors.primary, size: 14),
+          decoration: BoxDecoration(color: colors.slateDark, borderRadius: BorderRadius.circular(8)),
+          child: Icon(Icons.blur_on_rounded, color: colors.primary, size: 14),
         ),
         const SizedBox(width: 8),
-        const Text('SUMKEYA OS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppColors.textPrimary, letterSpacing: 0.5)),
+        Text('SUMKEYA OS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: colors.textPrimary, letterSpacing: 0.5)),
       ],
     );
   }

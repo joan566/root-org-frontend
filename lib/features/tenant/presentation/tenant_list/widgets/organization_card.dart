@@ -48,6 +48,7 @@ class _OrganizationCardState extends State<OrganizationCard> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final String initials = _getInitials(widget.org.tenant.name);
     final Color brandColor = _getDeterministicColor(widget.org.tenant.name);
 
@@ -60,11 +61,11 @@ class _OrganizationCardState extends State<OrganizationCard> {
         duration: const Duration(milliseconds: 100),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(22),
-            boxShadow: AppColors.subtleShadow(),
+            boxShadow: colors.subtleShadow(),
             border: Border.all(
-              color: widget.isRecent ? AppColors.primary.withOpacity(0.5) : AppColors.border,
+              color: widget.isRecent ? colors.primary.withOpacity(0.5) : colors.border,
               width: widget.isRecent ? 1.5 : 1.0,
             ),
           ),
@@ -72,7 +73,7 @@ class _OrganizationCardState extends State<OrganizationCard> {
             borderRadius: BorderRadius.circular(22),
             child: InkWell(
               onTap: widget.onTap,
-              splashColor: AppColors.primary.withOpacity(0.04),
+              splashColor: colors.primary.withOpacity(0.04),
               highlightColor: Colors.transparent,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -115,7 +116,7 @@ class _OrganizationCardState extends State<OrganizationCard> {
                             children: [
                               Text(
                                 widget.org.tenant.name,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.textPrimary, letterSpacing: -0.3),
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: colors.textPrimary, letterSpacing: -0.3),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -132,30 +133,30 @@ class _OrganizationCardState extends State<OrganizationCard> {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: Divider(color: AppColors.border, height: 1),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Divider(color: colors.border, height: 1),
                     ),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Row(
+                        Row(
                           children: [
-                            Icon(Icons.access_time_rounded, size: 12, color: AppColors.textSecondary),
-                            SizedBox(width: 4),
+                            Icon(Icons.access_time_rounded, size: 12, color: colors.textSecondary),
+                            const SizedBox(width: 4),
                             Text(
                               'Último acceso reciente',
-                              style: TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w400),
+                              style: TextStyle(fontSize: 11, color: colors.textSecondary, fontWeight: FontWeight.w400),
                             ),
                           ],
                         ),
-                        const Row(
+                        Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Entrar', style: TextStyle(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.bold)),
-                            SizedBox(width: 2),
-                            Icon(Icons.arrow_forward_rounded, size: 14, color: AppColors.primary),
+                            Text('Entrar', style: TextStyle(color: colors.primary, fontSize: 13, fontWeight: FontWeight.bold)),
+                            const SizedBox(width: 2),
+                            Icon(Icons.arrow_forward_rounded, size: 14, color: colors.primary),
                           ],
                         )
                       ],
@@ -180,20 +181,22 @@ class _TagBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isPrimary ? AppColors.primary.withOpacity(0.1) : const Color(0xFFE0F2FE),
+        color: isPrimary ? colors.primary.withOpacity(0.1) : const Color(0xFFE0F2FE),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: isPrimary ? AppColors.primary : const Color(0xFF0369A1)),
+          Icon(icon, size: 12, color: isPrimary ? colors.primary : const Color(0xFF0369A1)),
           const SizedBox(width: 4),
           Text(
             text,
-            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: isPrimary ? AppColors.primary : const Color(0xFF0369A1)),
+            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: isPrimary ? colors.primary : const Color(0xFF0369A1)),
           ),
         ],
       ),

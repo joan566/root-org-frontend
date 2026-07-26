@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 class LeftIdentityWorkspacePanel extends StatelessWidget {
   const LeftIdentityWorkspacePanel({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
-      color: AppColors.slateDark,
+      color: colors.slateDark,
       child: Stack(
         children: [
           Positioned.fill(child: Opacity(opacity: 0.02, child: CustomPaint(painter: _GridPainter()))),
@@ -21,8 +24,8 @@ class LeftIdentityWorkspacePanel extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                      child: const Icon(Icons.blur_on_rounded, color: AppColors.primary, size: 20),
+                      decoration: BoxDecoration(color: colors.primary.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+                      child: Icon(Icons.blur_on_rounded, color: colors.primary, size: 20),
                     ),
                     const SizedBox(width: 12),
                     const Text('SUMKEYA OS', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.0)),
@@ -35,10 +38,10 @@ class LeftIdentityWorkspacePanel extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text('Las organizaciones actúan como espacios aislados e independientes (multi-tenant) donde podrás gestionar flujos de trabajo, asignar roles e integrar módulos de control.', style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 13, height: 1.5)),
                     const SizedBox(height: 32),
-                    _buildFeatureRow('Administración centralizada avanzada'),
-                    _buildFeatureRow('Miembros con granularidad de roles jerárquicos'),
-                    _buildFeatureRow('Aprovisionamiento de módulos bajo demanda'),
-                    _buildFeatureRow('Aislamiento lógico estricto de bases de datos'),
+                    _buildFeatureRow(colors, 'Administración centralizada avanzada'),
+                    _buildFeatureRow(colors, 'Miembros con granularidad de roles jerárquicos'),
+                    _buildFeatureRow(colors, 'Aprovisionamiento de módulos bajo demanda'),
+                    _buildFeatureRow(colors, 'Aislamiento lógico estricto de bases de datos'),
                   ],
                 ),
                 Container(
@@ -63,12 +66,12 @@ class LeftIdentityWorkspacePanel extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureRow(String text) {
+  Widget _buildFeatureRow(AppPalette colors, String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_outline_rounded, color: AppColors.primary, size: 16),
+          Icon(Icons.check_circle_outline_rounded, color: colors.primary, size: 16),
           const SizedBox(width: 12),
           Text(text, style: const TextStyle(color: Color(0xFFE2E8F0), fontSize: 13, fontWeight: FontWeight.w500)),
         ],

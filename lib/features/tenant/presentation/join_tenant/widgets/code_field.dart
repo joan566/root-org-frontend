@@ -45,6 +45,7 @@ class _CodeFieldState extends State<CodeField> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final length = widget.controller.text.trim().length;
     final bool hasInput = length > 0;
     final bool isValid = length >= 6;
@@ -52,12 +53,12 @@ class _CodeFieldState extends State<CodeField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "CÓDIGO DE INVITACIÓN",
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
             letterSpacing: 0.5,
           ),
         ),
@@ -66,20 +67,20 @@ class _CodeFieldState extends State<CodeField> {
           duration: const Duration(milliseconds: 200),
           height: 60,
           decoration: BoxDecoration(
-            color: widget.enabled ? AppColors.surface : AppColors.background,
+            color: widget.enabled ? colors.surface : colors.background,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: !widget.enabled
-                  ? AppColors.border
+                  ? colors.border
                   : (_isFocused
-                  ? (isValid ? AppColors.primary : AppColors.textPrimary)
-                  : AppColors.border),
+                  ? (isValid ? colors.primary : colors.textPrimary)
+                  : colors.border),
               width: _isFocused ? 1.75 : 1.0,
             ),
             boxShadow: _isFocused
                 ? [
               BoxShadow(
-                color: (isValid ? AppColors.primary : AppColors.textPrimary).withOpacity(0.04),
+                color: (isValid ? colors.primary : colors.textPrimary).withOpacity(0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               )
@@ -95,10 +96,10 @@ class _CodeFieldState extends State<CodeField> {
               textInputAction: TextInputAction.done,
               onFieldSubmitted: widget.onSubmitted,
               onChanged: widget.onChanged,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
                 letterSpacing: 1.5,
               ),
               inputFormatters: [
@@ -112,13 +113,13 @@ class _CodeFieldState extends State<CodeField> {
               ],
               decoration: InputDecoration(
                 hintText: "Código de invitación",
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.textMuted,
+                  color: colors.textMuted,
                   letterSpacing: 0.5,
                 ),
-                prefixIcon: const Icon(Icons.key_rounded, size: 20, color: AppColors.textSecondary),
+                prefixIcon: Icon(Icons.key_rounded, size: 20, color: colors.textSecondary),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Row(
@@ -126,14 +127,14 @@ class _CodeFieldState extends State<CodeField> {
                     children: [
                       if (hasInput)
                         IconButton(
-                          icon: const Icon(Icons.clear_rounded, size: 18, color: AppColors.textMuted),
+                          icon: Icon(Icons.clear_rounded, size: 18, color: colors.textMuted),
                           onPressed: () {
                             widget.controller.clear();
                             widget.onChanged('');
                           },
                         ),
                       IconButton(
-                        icon: const Icon(Icons.content_paste_rounded, size: 18, color: AppColors.textSecondary),
+                        icon: Icon(Icons.content_paste_rounded, size: 18, color: colors.textSecondary),
                         onPressed: widget.enabled ? widget.onPaste : null,
                         constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
                         tooltip: 'Pegar código',
@@ -153,20 +154,20 @@ class _CodeFieldState extends State<CodeField> {
           child: !hasInput
               ? const SizedBox(height: 18)
               : (!isValid
-              ? const Row(
-            key: ValueKey("error_len"),
+              ? Row(
+            key: const ValueKey("error_len"),
             children: [
-              Icon(Icons.error_outline_rounded, size: 14, color: AppColors.error),
-              SizedBox(width: 6),
-              Text('Código demasiado corto', style: TextStyle(fontSize: 12, color: AppColors.error, fontWeight: FontWeight.w500)),
+              Icon(Icons.error_outline_rounded, size: 14, color: colors.error),
+              const SizedBox(width: 6),
+              Text('Código demasiado corto', style: TextStyle(fontSize: 12, color: colors.error, fontWeight: FontWeight.w500)),
             ],
           )
-              : const Row(
-            key: ValueKey("ok_len"),
+              : Row(
+            key: const ValueKey("ok_len"),
             children: [
-              Icon(Icons.check_circle_outline_rounded, size: 14, color: AppColors.primary),
-              SizedBox(width: 6),
-              Text('Formato válido', style: TextStyle(fontSize: 12, color: AppColors.primary, fontWeight: FontWeight.w600)),
+              Icon(Icons.check_circle_outline_rounded, size: 14, color: colors.primary),
+              const SizedBox(width: 6),
+              Text('Formato válido', style: TextStyle(fontSize: 12, color: colors.primary, fontWeight: FontWeight.w600)),
             ],
           )),
         ),

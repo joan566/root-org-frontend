@@ -15,14 +15,16 @@ class LoadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       height: 56,
       child: FilledButton(
         onPressed: (isLoading || !isValid) ? null : onPressed,
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: colors.primary,
           foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.textMuted.withOpacity(0.3),
+          disabledBackgroundColor: colors.textMuted.withOpacity(0.3),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           elevation: 0,
         ),

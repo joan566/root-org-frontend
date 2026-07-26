@@ -11,15 +11,17 @@ class TenantFloatingActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return FloatingActionButton.extended(
       onPressed: () {
         HapticFeedback.mediumImpact();
         showCreateOrJoinBottomSheet(context, onCreate: onCreate, onJoin: onJoin);
       },
-      backgroundColor: AppColors.textPrimary,
-      foregroundColor: Colors.white,
+      backgroundColor: colors.textPrimary,
+      foregroundColor: colors.surface,
       elevation: 4,
-      icon: const Icon(Icons.add_circle_outline_rounded, size: 18, color: AppColors.primary),
+      icon: Icon(Icons.add_circle_outline_rounded, size: 18, color: colors.primary),
       label: const Text('Nueva organización', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
     );
   }

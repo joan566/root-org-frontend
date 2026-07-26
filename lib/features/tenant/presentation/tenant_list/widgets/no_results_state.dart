@@ -7,22 +7,24 @@ class NoResultsState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
       child: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-            child: const Icon(Icons.search_off_rounded, size: 36, color: AppColors.textSecondary),
+            decoration: BoxDecoration(color: colors.surface, shape: BoxShape.circle),
+            child: Icon(Icons.search_off_rounded, size: 36, color: colors.textSecondary),
           ),
           const SizedBox(height: 16),
-          const Text('Sin resultados', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+          Text('Sin resultados', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: colors.textPrimary)),
           const SizedBox(height: 4),
           Text(
             'No encontramos ninguna organización que coincida con "$query".',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            style: TextStyle(fontSize: 13, color: colors.textSecondary),
           ),
         ],
       ),
