@@ -4,11 +4,11 @@ import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 import '../state/auth_injection.dart';
 import 'state/register_controller.dart';
-import '../widgets/login_utils.dart' show FieldLabel;
+import 'package:savings_api_frontend/shared/widgets/field_label.dart';
+import 'package:savings_api_frontend/shared/widgets/backend_error_card.dart';
 import 'widgets/password_strength_indicator.dart';
 import 'widgets/success_confirmation_view.dart';
 import 'widgets/register_form_header.dart';
-import 'widgets/register_backend_error_card.dart';
 import 'widgets/login_redirect_bottom_card.dart';
 import 'widgets/register_form_divider.dart';
 import 'widgets/register_social_logins_grid.dart';
@@ -134,7 +134,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (_backendErrorMessage != null) ...[
-          RegisterBackendErrorCard(
+          BackendErrorCard(
+            title: 'Error al procesar registro',
             message: _backendErrorMessage!,
             onClose: () => setState(() => _backendErrorMessage = null),
           ),

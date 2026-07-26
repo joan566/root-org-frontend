@@ -10,8 +10,8 @@ import 'widgets/success_workspace_view.dart';
 import 'widgets/live_workspace_preview_card.dart';
 import 'widgets/workspace_form_header.dart';
 import 'widgets/future_organization_type_selector.dart';
-import 'widgets/workspace_backend_error_card.dart';
-import 'widgets/workspace_field_label.dart';
+import 'package:savings_api_frontend/shared/widgets/backend_error_card.dart';
+import 'package:savings_api_frontend/shared/widgets/field_label.dart';
 import 'mobile/create_tenant_mobile_view.dart';
 import 'desktop/create_tenant_desktop_view.dart';
 
@@ -150,9 +150,11 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (_backendErrorMessage != null) ...[
-          WorkspaceBackendErrorCard(
+          BackendErrorCard(
+            title: 'Excepción de aprovisionamiento',
             message: _backendErrorMessage!,
             onClose: () => setState(() => _backendErrorMessage = null),
+            borderOpacity: 0.2,
           ),
           const SizedBox(height: 16),
         ],
@@ -178,7 +180,7 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
                       const WorkspaceFormHeader(),
                       const SizedBox(height: 24),
 
-                      const WorkspaceFieldLabel(label: 'Nombre de la organización'),
+                      const FieldLabel(fontWeight: FontWeight.w700, label: 'Nombre de la organización'),
                       const SizedBox(height: 6),
                       _buildNameField(),
                       const SizedBox(height: 18),
@@ -186,7 +188,7 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const WorkspaceFieldLabel(label: 'Descripción o propósito'),
+                          const FieldLabel(fontWeight: FontWeight.w700, label: 'Descripción o propósito'),
                           Text(
                             '${descriptionController.text.length}/200',
                             style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.bold),
@@ -197,7 +199,7 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
                       _buildDescriptionField(),
                       const SizedBox(height: 20),
 
-                      const WorkspaceFieldLabel(label: 'Tipo de organización (Opcional)'),
+                      const FieldLabel(fontWeight: FontWeight.w700, label: 'Tipo de organización (Opcional)'),
                       const SizedBox(height: 6),
                       const FutureOrganizationTypeSelector(),
                       const SizedBox(height: 28),

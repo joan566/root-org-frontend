@@ -4,10 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 // Widgets refactorizados
-import '../widgets/backend_error_card.dart';
+import 'package:savings_api_frontend/shared/widgets/backend_error_card.dart';
+import 'package:savings_api_frontend/shared/widgets/field_label.dart';
 import 'widgets/create_account_card.dart';
 import 'widgets/login_form_header.dart';
-import '../widgets/login_utils.dart' show FieldLabel, FormDivider;
+import '../widgets/login_utils.dart' show FormDivider;
 import 'widgets/social_logins_grid.dart';
 import '../forgot_password/forgot_password_screen.dart';
 

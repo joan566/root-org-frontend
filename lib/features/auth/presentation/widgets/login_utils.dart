@@ -2,16 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
-class FieldLabel extends StatelessWidget {
-  final String label;
-  const FieldLabel({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textPrimary));
-  }
-}
-
 class FormDivider extends StatelessWidget {
   const FormDivider({super.key});
 

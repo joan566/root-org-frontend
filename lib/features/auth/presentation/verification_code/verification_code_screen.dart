@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import '../state/auth_injection.dart';
 import '../state/forgot_password_controller.dart';
-import '../widgets/backend_error_card.dart';
+import 'package:savings_api_frontend/shared/widgets/backend_error_card.dart';
 import '../reset_password/reset_password_screen.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
