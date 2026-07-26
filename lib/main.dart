@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/shell/presentation/pages/main_layout.dart';
 
-import 'features/auth/presentation/pages/login_screen.dart';
-import 'features/auth/presentation/pages/register_screen.dart';
+import 'features/auth/presentation/login/login_screen.dart';
+import 'features/auth/presentation/register/register_screen.dart';
 import 'features/auth/presentation/provider/auth_provider.dart';
 import 'core/routing/app_routes.dart';
 
