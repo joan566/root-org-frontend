@@ -7,6 +7,7 @@ import 'package:savings_api_frontend/features/user/presentation/change_password/
 import 'package:savings_api_frontend/features/user/presentation/profile/profile_screen.dart';
 import 'package:savings_api_frontend/features/dashboard/presentation/personal_dashboard/personal_dashboard_screen.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -102,6 +103,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -112,7 +115,7 @@ class _MainLayoutState extends State<MainLayout> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: colors.background,
 
         body: Navigator(
           key: _innerNavigatorKey,
@@ -122,7 +125,7 @@ class _MainLayoutState extends State<MainLayout> {
         ),
 
         floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.primary,
+          backgroundColor: colors.primary,
           foregroundColor: Colors.white,
           elevation: 3,
           shape: const CircleBorder(),
@@ -147,7 +150,7 @@ class _MainLayoutState extends State<MainLayout> {
             child: Container(
               height: 70,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(22),
                 boxShadow: [
                   BoxShadow(
@@ -160,11 +163,11 @@ class _MainLayoutState extends State<MainLayout> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildItem(0, Icons.dashboard_rounded, "Inicio"),
-                  _buildItem(1, Icons.groups_rounded, "Organizaciones"),
+                  _buildItem(colors, 0, Icons.dashboard_rounded, "Inicio"),
+                  _buildItem(colors, 1, Icons.groups_rounded, "Organizaciones"),
                   const SizedBox(width: 35),
-                  _buildItem(2, Icons.people_alt_rounded, "Usuarios"),
-                  _buildItem(3, Icons.person_rounded, "Perfil"),
+                  _buildItem(colors, 2, Icons.people_alt_rounded, "Usuarios"),
+                  _buildItem(colors, 3, Icons.person_rounded, "Perfil"),
                 ],
               ),
             ),
@@ -174,7 +177,7 @@ class _MainLayoutState extends State<MainLayout> {
     );
   }
 
-  Widget _buildItem(int index, IconData icon, String label) {
+  Widget _buildItem(AppPalette colors, int index, IconData icon, String label) {
     final selected = selectedIndex == index;
 
     return InkWell(
@@ -190,13 +193,13 @@ class _MainLayoutState extends State<MainLayout> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: selected
-                    ? AppColors.primary.withOpacity(.12)
+                    ? colors.primary.withOpacity(.12)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                color: selected ? AppColors.primary : AppColors.textSecondary,
+                color: selected ? colors.primary : colors.textSecondary,
               ),
             ),
             const SizedBox(height: 4),
@@ -206,7 +209,7 @@ class _MainLayoutState extends State<MainLayout> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
-                color: selected ? AppColors.primary : AppColors.textSecondary,
+                color: selected ? colors.primary : colors.textSecondary,
               ),
             ),
           ],
