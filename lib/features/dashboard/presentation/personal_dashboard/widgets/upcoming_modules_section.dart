@@ -7,19 +7,21 @@ class UpcomingModulesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     final List<Map<String, dynamic>> modules = [
-      {'icon': '🏦', 'title': 'Finance Core', 'desc': 'Administra aportes, préstamos y flujos.', 'badge': 'Disponible', 'color': AppColors.success},
-      {'icon': '👥', 'title': 'Human Resources', 'desc': 'Nóminas, contratos y onboarding.', 'badge': 'Muy pronto', 'color': AppColors.warning},
-      {'icon': '📊', 'title': 'Advanced Analytics', 'desc': 'Visualiza indicadores financieros.', 'badge': 'Beta Pública', 'color': AppColors.borderFocus},
-      {'icon': '📅', 'title': 'Smart Scheduling', 'desc': 'Calendarios y flujos automatizados.', 'badge': 'Próximamente', 'color': AppColors.textMuted},
+      {'icon': '🏦', 'title': 'Finance Core', 'desc': 'Administra aportes, préstamos y flujos.', 'badge': 'Disponible', 'color': colors.success},
+      {'icon': '👥', 'title': 'Human Resources', 'desc': 'Nóminas, contratos y onboarding.', 'badge': 'Muy pronto', 'color': colors.warning},
+      {'icon': '📊', 'title': 'Advanced Analytics', 'desc': 'Visualiza indicadores financieros.', 'badge': 'Beta Pública', 'color': colors.borderFocus},
+      {'icon': '📅', 'title': 'Smart Scheduling', 'desc': 'Calendarios y flujos automatizados.', 'badge': 'Próximamente', 'color': colors.textMuted},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 4.0, bottom: 12),
-          child: Text('Módulos del ecosistema global', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0, bottom: 12),
+          child: Text('Módulos del ecosistema global', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: colors.textPrimary)),
         ),
         SizedBox(
           height: 140,
@@ -33,7 +35,7 @@ class UpcomingModulesSection extends StatelessWidget {
                 width: 240,
                 margin: const EdgeInsets.only(right: 12),
                 padding: const EdgeInsets.all(16),
-                decoration: AppColors.translucentCardDecoration(radius: 20), // Corregido[cite: 1]
+                decoration: colors.translucentCardDecoration(radius: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,9 +57,9 @@ class UpcomingModulesSection extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(mod['title'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                        Text(mod['title'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.textPrimary)),
                         const SizedBox(height: 3),
-                        Text(mod['desc'], style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, height: 1.3), maxLines: 2, overflow: TextOverflow.ellipsis),
+                        Text(mod['desc'], style: TextStyle(fontSize: 11, color: colors.textSecondary, height: 1.3), maxLines: 2, overflow: TextOverflow.ellipsis),
                       ],
                     )
                   ],

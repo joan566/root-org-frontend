@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 import 'package:savings_api_frontend/core/routing/app_routes.dart';
 
 // Widgets refactorizados
@@ -119,7 +120,7 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).background,
       drawer: _buildProfessionalDrawer(context, currentUser),
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
@@ -227,8 +228,10 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
   }
 
   Widget _buildProfessionalDrawer(BuildContext context, User? user) {
+    final colors = AppColors.of(context);
+
     return Drawer(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,33 +243,33 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
                 children: [
                   Text(
                     user?.name ?? 'Usuario',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
                   ),
                   Text(
                     user?.email ?? 'correo@enterprise.com',
-                    style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                    style: TextStyle(fontSize: 12, color: colors.textSecondary),
                   ),
                 ],
               ),
             ),
-            const Divider(color: Colors.white12, height: 1),
+            Divider(color: colors.border, height: 1),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                 children: [
-                  _drawerItem(Icons.dashboard_rounded, 'Dashboard', () => Navigator.pop(context)),
-                  _drawerItem(Icons.corporate_fare_rounded, 'Organizaciones', () {
+                  _drawerItem(colors, Icons.dashboard_rounded, 'Dashboard', () => Navigator.pop(context)),
+                  _drawerItem(colors, Icons.corporate_fare_rounded, 'Organizaciones', () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, AppRoutes.tenants);
                   }),
-                  _drawerItem(Icons.person_rounded, 'Mi Perfil', () {
+                  _drawerItem(colors, Icons.person_rounded, 'Mi Perfil', () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, AppRoutes.profile);
                   }),
                 ],
               ),
             ),
-            const Divider(color: Colors.white12, height: 1),
+            Divider(color: colors.border, height: 1),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ListTile(
@@ -284,10 +287,10 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
     );
   }
 
-  Widget _drawerItem(IconData icon, String title, VoidCallback onTap) {
+  Widget _drawerItem(AppPalette colors, IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.textPrimary.withOpacity(0.8), size: 22),
-      title: Text(title, style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
+      leading: Icon(icon, color: colors.textPrimary.withOpacity(0.8), size: 22),
+      title: Text(title, style: TextStyle(color: colors.textPrimary, fontWeight: FontWeight.w600)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       onTap: () {
         HapticFeedback.lightImpact();

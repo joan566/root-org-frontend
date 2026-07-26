@@ -117,7 +117,7 @@ class _NoActiveOrganizationViewState extends State<NoActiveOrganizationView>
           icon: const Icon(Icons.add_circle_outline_rounded),
           label: const Text("Crear organización"),
           style: FilledButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.of(context).primary,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),

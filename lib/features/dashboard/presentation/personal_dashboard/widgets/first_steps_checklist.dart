@@ -14,34 +14,36 @@ class FirstStepsChecklist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     // Cálculo en tiempo real de tareas completadas
     final int completedCount = items.where((item) => item['isDone'] == true).length;
     final double progressValue = items.isNotEmpty ? completedCount / items.length : 0.0;
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: AppColors.translucentCardDecoration(radius: 24),
+      decoration: colors.translucentCardDecoration(radius: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Primeros pasos',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary),
           ),
           const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Progreso del entorno',
-                style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                style: TextStyle(fontSize: 12, color: colors.textSecondary),
               ),
               Text(
                 '$completedCount de ${items.length}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary, // Se alinea a la paleta corporativa
+                  color: colors.textPrimary, // Se alinea a la paleta corporativa
                 ),
               ),
             ],
@@ -58,8 +60,8 @@ class FirstStepsChecklist extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: value,
                   minHeight: 6,
-                  backgroundColor: AppColors.background,
-                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                  backgroundColor: colors.background,
+                  valueColor: AlwaysStoppedAnimation<Color>(colors.primary),
                 ),
               );
             },
@@ -88,7 +90,7 @@ class FirstStepsChecklist extends StatelessWidget {
                         child: Icon(
                           isDone ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
                           key: ValueKey<bool>(isDone),
-                          color: isDone ? AppColors.success : AppColors.textMuted,
+                          color: isDone ? colors.success : colors.textMuted,
                           size: 18,
                         ),
                       ),
@@ -99,7 +101,7 @@ class FirstStepsChecklist extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: isDone ? FontWeight.normal : FontWeight.w500,
-                            color: isDone ? AppColors.textMuted : AppColors.textPrimary,
+                            color: isDone ? colors.textMuted : colors.textPrimary,
                             decoration: isDone ? TextDecoration.lineThrough : TextDecoration.none,
                           ),
                           child: Text(item['text']),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 class MetricsSummaryBlock extends StatelessWidget {
   final int totalOrganizations; // REAL: Cantidad de tenants del usuario
@@ -15,6 +16,8 @@ class MetricsSummaryBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -24,16 +27,19 @@ class MetricsSummaryBlock extends StatelessWidget {
       childAspectRatio: 1.4,
       children: [
         _buildMetricItem(
+          colors,
           Icons.corporate_fare_rounded,
           '$totalOrganizations',
           'Organizaciones',
         ),
         _buildMetricItem(
+          colors,
           Icons.badge_outlined,
           activeRole,
           'Rol activo',
         ),
         _buildMetricItem(
+          colors,
           Icons.widgets_outlined,
           '$activeModules',
           'Módulos listos',
@@ -42,27 +48,27 @@ class MetricsSummaryBlock extends StatelessWidget {
     );
   }
 
-  Widget _buildMetricItem(IconData icon, String value, String label) {
+  Widget _buildMetricItem(AppPalette colors, IconData icon, String value, String label) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: AppColors.translucentCardDecoration(radius: 16),
+      decoration: colors.translucentCardDecoration(radius: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(icon, size: 16, color: AppColors.textSecondary),
+          Icon(icon, size: 16, color: colors.textSecondary),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 value,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
                 label,
-                style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                style: TextStyle(fontSize: 11, color: colors.textSecondary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 import '../../../../auth/presentation/provider/auth_provider.dart';
 
@@ -40,35 +41,37 @@ class AccountStateCard extends StatelessWidget {
         ? 'Hace un momento'
         : 'Activa';
 
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: AppColors.translucentCardDecoration(radius: 24),
+      decoration: colors.translucentCardDecoration(radius: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Estado de la cuenta',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary),
           ),
           const SizedBox(height: 14),
-          _buildStateRow('Correo electrónico', maskedEmail, isEmailVerified),
-          _buildStateRow('Teléfono vinculado', maskedPhone, phone != 'No disponible'),
-          _buildStateRow('Estado del perfil', _translateProfileStatus(currentUser?.profileStatus), currentUser?.profileStatus == 'COMPLETED'),
-          _buildStateRow('Sincronización cloud', syncStatus, true),
-          _buildStateRow('Idioma de entorno', 'Español ($deviceCountry)', false),
-          _buildStateRow('Zona horaria', timeZoneOffset, false),
+          _buildStateRow(colors, 'Correo electrónico', maskedEmail, isEmailVerified),
+          _buildStateRow(colors, 'Teléfono vinculado', maskedPhone, phone != 'No disponible'),
+          _buildStateRow(colors, 'Estado del perfil', _translateProfileStatus(currentUser?.profileStatus), currentUser?.profileStatus == 'COMPLETED'),
+          _buildStateRow(colors, 'Sincronización cloud', syncStatus, true),
+          _buildStateRow(colors, 'Idioma de entorno', 'Español ($deviceCountry)', false),
+          _buildStateRow(colors, 'Zona horaria', timeZoneOffset, false),
         ],
       ),
     );
   }
 
-  Widget _buildStateRow(String label, String value, bool isSuccess) {
+  Widget _buildStateRow(AppPalette colors, String label, String value, bool isSuccess) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+          Text(label, style: TextStyle(fontSize: 12, color: colors.textSecondary)),
           Row(
             children: [
               if (isSuccess)
@@ -76,11 +79,11 @@ class AccountStateCard extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 6),
                   width: 6,
                   height: 6,
-                  decoration: const BoxDecoration(color: AppColors.success, shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: colors.success, shape: BoxShape.circle),
                 ),
               Text(
                 value,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.textPrimary),
               ),
             ],
           ),

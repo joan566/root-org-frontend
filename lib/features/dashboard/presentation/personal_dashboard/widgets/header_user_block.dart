@@ -8,9 +8,10 @@ class HeaderUserBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isScrolledDark ? AppColors.textPrimary : Colors.white;
-    final subColor = isScrolledDark ? AppColors.textSecondary : Colors.white.withOpacity(0.6);
-    final avatarBorder = isScrolledDark ? AppColors.border : Colors.white24;
+    final colors = AppColors.of(context);
+    final textColor = isScrolledDark ? colors.textPrimary : Colors.white;
+    final subColor = isScrolledDark ? colors.textSecondary : Colors.white.withOpacity(0.6);
+    final avatarBorder = isScrolledDark ? colors.border : Colors.white24;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
@@ -64,11 +65,11 @@ class HeaderUserBlock extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 28,
-                  backgroundColor: AppColors.primary.withOpacity(0.2),
-                  child: const Text(
+                  backgroundColor: colors.primary.withOpacity(0.2),
+                  child: Text(
                     'JV',
                     style: TextStyle(
-                      color: AppColors.primary,
+                      color: colors.primary,
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
                     ),
@@ -82,9 +83,9 @@ class HeaderUserBlock extends StatelessWidget {
                   width: 14,
                   height: 14,
                   decoration: BoxDecoration(
-                    color: AppColors.success,
+                    color: colors.success,
                     shape: BoxShape.circle,
-                    border: Border.all(color: isScrolledDark ? Colors.white : AppColors.slateDark, width: 2.5),
+                    border: Border.all(color: isScrolledDark ? Colors.white : colors.slateDark, width: 2.5),
                   ),
                 ),
               )

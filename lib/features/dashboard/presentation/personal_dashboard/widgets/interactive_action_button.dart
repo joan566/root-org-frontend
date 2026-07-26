@@ -23,6 +23,8 @@ class _InteractiveActionButtonState extends State<InteractiveActionButton> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -34,34 +36,34 @@ class _InteractiveActionButtonState extends State<InteractiveActionButton> {
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
             color: widget.isHighlight
-                ? (_isHovered ? AppColors.primaryDark : AppColors.primary)
-                : (_isHovered ? AppColors.primaryLight.withOpacity(0.5) : AppColors.surface),
+                ? (_isHovered ? colors.primaryDark : colors.primary)
+                : (_isHovered ? colors.primaryLight.withOpacity(0.5) : colors.surface),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: widget.isHighlight ? Colors.transparent : (_isHovered ? AppColors.primary : AppColors.border),
+              color: widget.isHighlight ? Colors.transparent : (_isHovered ? colors.primary : colors.border),
               width: 1,
             ),
-            boxShadow: _isHovered ? AppColors.subtleShadow() : [],
+            boxShadow: _isHovered ? colors.subtleShadow() : [],
           ),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: widget.onTap,
               borderRadius: BorderRadius.circular(16),
-              splashColor: widget.isHighlight ? Colors.white24 : AppColors.primary.withOpacity(0.1),
+              splashColor: widget.isHighlight ? Colors.white24 : colors.primary.withOpacity(0.1),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(widget.icon, size: 22, color: widget.isHighlight ? Colors.white : AppColors.textPrimary),
+                    Icon(widget.icon, size: 22, color: widget.isHighlight ? Colors.white : colors.textPrimary),
                     Text(
                       widget.title,
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: widget.isHighlight ? Colors.white : AppColors.textPrimary,
+                          color: widget.isHighlight ? Colors.white : colors.textPrimary,
                           letterSpacing: -0.3
                       ),
                     ),

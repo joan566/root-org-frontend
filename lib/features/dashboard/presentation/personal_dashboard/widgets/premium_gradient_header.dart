@@ -8,6 +8,8 @@ class PremiumGradientHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       height: 400,
       width: double.infinity,
@@ -58,7 +60,7 @@ class PremiumGradientHeader extends StatelessWidget {
               height: 180,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primaryLight.withOpacity(0.45),
+                color: colors.primaryLight.withOpacity(0.45),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(

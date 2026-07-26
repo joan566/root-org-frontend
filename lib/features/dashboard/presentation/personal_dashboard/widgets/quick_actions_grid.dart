@@ -21,9 +21,9 @@ class QuickActionsGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 4.0, bottom: 12),
-          child: Text('Acciones directas de control', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textPrimary, letterSpacing: -0.2)),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0, bottom: 12),
+          child: Text('Acciones directas de control', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.of(context).textPrimary, letterSpacing: -0.2)),
         ),
         GridView.builder(
           shrinkWrap: true,

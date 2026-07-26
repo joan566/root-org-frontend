@@ -17,19 +17,20 @@ class RecentOrganizationsList extends StatelessWidget {
 
     // 2. Obtener la lista de UserTenants reales
     final List<UserTenant> userTenants = currentUser?.tenants ?? [];
+    final colors = AppColors.of(context);
 
     if (userTenants.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(24),
-        decoration: AppColors.translucentCardDecoration(radius: 24),
-        child: const Center(
+        decoration: colors.translucentCardDecoration(radius: 24),
+        child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Text(
               'No tienes organizaciones vinculadas todavía.',
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -40,20 +41,20 @@ class RecentOrganizationsList extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: AppColors.translucentCardDecoration(radius: 24),
+      decoration: colors.translucentCardDecoration(radius: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Organizaciones vinculadas',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary),
               ),
               Text(
                 'Ver todas (${userTenants.length})',
-                style: const TextStyle(fontSize: 12, color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -63,7 +64,7 @@ class RecentOrganizationsList extends StatelessWidget {
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: userTenants.length,
-            separatorBuilder: (context, index) => const Divider(color: AppColors.border, height: 1),
+            separatorBuilder: (context, index) => Divider(color: colors.border, height: 1),
             itemBuilder: (context, index) {
               final userTenant = userTenants[index];
               final tenant = userTenant.tenant;
@@ -82,10 +83,10 @@ class RecentOrganizationsList extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 18,
-                      backgroundColor: AppColors.background,
+                      backgroundColor: colors.background,
                       child: Text(
                         initialLetter,
-                        style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(width: 14),
@@ -95,7 +96,7 @@ class RecentOrganizationsList extends StatelessWidget {
                         children: [
                           Text(
                             tenant.name,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary),
                           ),
                           const SizedBox(height: 3),
                           Row(
@@ -103,19 +104,19 @@ class RecentOrganizationsList extends StatelessWidget {
                               // Muestra los roles reales del usuario dentro del tenant (ej: ADMIN, MEMBER)
                               Text(
                                 _translateRoles(userTenant.roles),
-                                style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                                style: TextStyle(fontSize: 11, color: colors.textSecondary),
                               ),
                               const SizedBox(width: 8),
                               Container(
                                 width: 3,
                                 height: 3,
-                                decoration: const BoxDecoration(color: AppColors.textMuted, shape: BoxShape.circle),
+                                decoration: BoxDecoration(color: colors.textMuted, shape: BoxShape.circle),
                               ),
                               const SizedBox(width: 8),
                               // Código único de organización
                               Text(
                                 'Code: ${tenant.code}',
-                                style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+                                style: TextStyle(fontSize: 11, color: colors.textMuted),
                               ),
                             ],
                           )
@@ -125,13 +126,13 @@ class RecentOrganizationsList extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                        color: isActive ? AppColors.primaryLight : const Color(0xFFFFF7ED),
+                        color: isActive ? colors.primaryLight : const Color(0xFFFFF7ED),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         isActive ? 'Activo' : 'Inactivo',
                         style: TextStyle(
-                          color: isActive ? AppColors.primaryDark : const Color(0xFFC2410C),
+                          color: isActive ? colors.primaryDark : const Color(0xFFC2410C),
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -142,9 +143,9 @@ class RecentOrganizationsList extends StatelessWidget {
                       onPressed: () {
                         // Navegar al detalle de esta organización específica si lo requieres
                       },
-                      icon: const Icon(Icons.arrow_forward_rounded, size: 16, color: AppColors.textSecondary),
+                      icon: Icon(Icons.arrow_forward_rounded, size: 16, color: colors.textSecondary),
                       style: IconButton.styleFrom(
-                        backgroundColor: AppColors.background,
+                        backgroundColor: colors.background,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
                     )

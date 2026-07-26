@@ -6,26 +6,28 @@ class RecentActivityTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     final List<Map<String, dynamic>> activities = [
-      {'icon': Icons.login_rounded, 'title': 'Inicio de sesión', 'time': 'Hace 5 min', 'desc': 'Chrome • Windows', 'color': AppColors.success},
-      {'icon': Icons.edit_outlined, 'title': 'Perfil actualizado', 'time': 'Ayer', 'desc': 'Número telefónico agregado', 'color': AppColors.borderFocus},
-      {'icon': Icons.add_business_rounded, 'title': 'Organización creada', 'time': 'Hace 3 días', 'desc': 'Colegio San José', 'color': AppColors.primary},
+      {'icon': Icons.login_rounded, 'title': 'Inicio de sesión', 'time': 'Hace 5 min', 'desc': 'Chrome • Windows', 'color': colors.success},
+      {'icon': Icons.edit_outlined, 'title': 'Perfil actualizado', 'time': 'Ayer', 'desc': 'Número telefónico agregado', 'color': colors.borderFocus},
+      {'icon': Icons.add_business_rounded, 'title': 'Organización creada', 'time': 'Hace 3 días', 'desc': 'Colegio San José', 'color': colors.primary},
     ];
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: AppColors.translucentCardDecoration(radius: 24), // Corregido[cite: 1]
+      decoration: colors.translucentCardDecoration(radius: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Actividad reciente', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+              Text('Actividad reciente', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary)),
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size.zero),
-                child: const Text('Ver todo', style: TextStyle(fontSize: 12, color: AppColors.primary, fontWeight: FontWeight.bold)),
+                child: Text('Ver todo', style: TextStyle(fontSize: 12, color: colors.primary, fontWeight: FontWeight.bold)),
               )
             ],
           ),
@@ -56,7 +58,7 @@ class RecentActivityTimeline extends StatelessWidget {
                         Container(
                           width: 2,
                           height: 34,
-                          color: AppColors.border,
+                          color: colors.border,
                         ),
                     ],
                   ),
@@ -68,12 +70,12 @@ class RecentActivityTimeline extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(act['title'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                            Text(act['time'], style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),
+                            Text(act['title'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.textPrimary)),
+                            Text(act['time'], style: TextStyle(fontSize: 10, color: colors.textMuted)),
                           ],
                         ),
                         const SizedBox(height: 2),
-                        Text(act['desc'], style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                        Text(act['desc'], style: TextStyle(fontSize: 12, color: colors.textSecondary)),
                         const SizedBox(height: 12),
                       ],
                     ),

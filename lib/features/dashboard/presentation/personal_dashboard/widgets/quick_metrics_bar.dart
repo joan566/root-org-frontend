@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 class QuickMetricsBar extends StatelessWidget {
   final bool hasOrganizations;
@@ -23,6 +24,8 @@ class QuickMetricsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         double spacing = 12.0;
@@ -34,6 +37,7 @@ class QuickMetricsBar extends StatelessWidget {
 
         List<Widget> cards = [
           _buildQuickCard(
+            colors,
             width: useVertical ? double.infinity : availableWidth / 3,
             icon: Icons.corporate_fare_rounded,
             title: 'Organización activa',
@@ -44,9 +48,10 @@ class QuickMetricsBar extends StatelessWidget {
             actionLabel: 'Simular cambio',
             onTap: onSimulationToggle,
             badgeIndicator: true,
-            badgeColor: hasOrganizations ? AppColors.success : AppColors.warning,
+            badgeColor: hasOrganizations ? colors.success : colors.warning,
           ),
           _buildQuickCard(
+            colors,
             width: useVertical ? double.infinity : availableWidth / 3,
             icon: Icons.donut_large_rounded,
             title: 'Estado del perfil',
@@ -57,6 +62,7 @@ class QuickMetricsBar extends StatelessWidget {
             onTap: onCompleteProfile ?? () {},
           ),
           _buildQuickCard(
+            colors,
             width: useVertical ? double.infinity : availableWidth / 3,
             icon: Icons.devices_rounded,
             title: 'Último acceso',
@@ -73,7 +79,8 @@ class QuickMetricsBar extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickCard({
+  Widget _buildQuickCard(
+    AppPalette colors, {
     required double width,
     required IconData icon,
     required String title,
@@ -89,23 +96,23 @@ class QuickMetricsBar extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.border,
+          color: colors.border,
           width: 1,
         ),
-        boxShadow: AppColors.subtleShadow(),
+        boxShadow: colors.subtleShadow(),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.background,
+              color: colors.background,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, size: 18, color: AppColors.textSecondary),
+            child: Icon(icon, size: 18, color: colors.textSecondary),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -113,7 +120,7 @@ class QuickMetricsBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(title, style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
+                Text(title, style: TextStyle(fontSize: 11, color: colors.textSecondary, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 2),
                 if (!isProgress)
                   Row(
@@ -128,7 +135,7 @@ class QuickMetricsBar extends StatelessWidget {
                       Expanded(
                         child: Text(
                             subtitle,
-                            style: const TextStyle(fontSize: 13, color: AppColors.textPrimary, fontWeight: FontWeight.w700),
+                            style: TextStyle(fontSize: 13, color: colors.textPrimary, fontWeight: FontWeight.w700),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis
                         ),
@@ -142,7 +149,7 @@ class QuickMetricsBar extends StatelessWidget {
                       // Mostramos el porcentaje dinámico encima de la barra
                       Text(
                         subtitle,
-                        style: const TextStyle(fontSize: 13, color: AppColors.textPrimary, fontWeight: FontWeight.w700),
+                        style: TextStyle(fontSize: 13, color: colors.textPrimary, fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(height: 4),
                       ClipRRect(
@@ -150,8 +157,8 @@ class QuickMetricsBar extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: progressValue,
                           minHeight: 5,
-                          backgroundColor: AppColors.border,
-                          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                          backgroundColor: colors.border,
+                          valueColor: AlwaysStoppedAnimation<Color>(colors.primary),
                         ),
                       ),
                     ],
@@ -169,7 +176,7 @@ class QuickMetricsBar extends StatelessWidget {
             ),
             child: Text(
               actionLabel,
-              style: const TextStyle(fontSize: 11, color: AppColors.primary, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 11, color: colors.primary, fontWeight: FontWeight.bold),
             ),
           )
         ],
