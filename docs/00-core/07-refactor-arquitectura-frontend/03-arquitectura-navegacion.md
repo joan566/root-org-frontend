@@ -1,6 +1,8 @@
 # Documento de Arquitectura de Navegación (ADR-012, Fase 1)
 
 > Entregable de Fase 1 de [ADR-012](./ADR-012-refactor-arquitectura-frontend.md).
+>
+> **Actualización 2026-07-26:** §3.1 (`route_registry.dart`, rutas registradas por feature) y §3.2 (bottom nav/sidebar ↔ grupos de rutas declarados, no hardcodeados) se implementaron como parte de la Fase 1 del rediseño de navegación — ver [docs/frontend-navigation-redesign.md](../../frontend-navigation-redesign.md) y [docs/01-features/shell-y-navegacion.md](../../01-features/shell-y-navegacion.md). El resto de este documento (esquema de dos Navigators, `AppNavigator`, cuidado con `useRootNavigator`) sigue vigente sin cambios.
 
 ## 1. Estado actual (línea base)
 

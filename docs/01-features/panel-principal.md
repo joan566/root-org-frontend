@@ -8,7 +8,7 @@ Vista de inicio tras el login: resumen del estado de la cuenta, checklist de pri
 
 | Pantalla | Estado | Descripción |
 |---|---|---|
-| `PersonalDashboardScreen` | **Activa**, ruta `/` del navigator interno de `MainLayout` | Panel real, conectado a `AuthProvider` |
+| `PersonalDashboardScreen` | **Activa**, `AppRoutes.dashboard` (`initialRoute` del navigator interno de `MainShellScreen`, antes `MainLayout` — ver [shell-y-navegacion.md](./shell-y-navegacion.md)) | Panel real, conectado a `AuthProvider`. Se evolucionará a `DashboardGeneralScreen` en la Fase 2 del rediseño de navegación (ver [docs/frontend-navigation-redesign.md](../frontend-navigation-redesign.md)) |
 
 > **Actualización 2026-07-26:** `AdminDashboardPage` y `MemberDashboardPage` (mockups estáticos sin controllers ni conexión a `AuthProvider`, no enrutados) se confirmaron como no vigentes y se **eliminaron** del proyecto (ver [ADR-012-plan-migracion.md](../00-core/07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md)). El futuro módulo de Gestión Financiera y el dashboard de miembro/admin se reconstruirán desde cero con la estructura objetivo de ADR-012 cuando el negocio defina su diseño vigente.
 

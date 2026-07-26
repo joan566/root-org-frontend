@@ -8,9 +8,12 @@ Crear organizaciones, unirse a ellas por código de invitación, y listarlas. El
 
 | Pantalla | Ruta de acceso | Descripción |
 |---|---|---|
-| `TenantScreen` | `AppRoutes.tenants` (tab "Organizaciones") | Lista de organizaciones del usuario, con búsqueda |
-| `CreateTenantScreen` | `AppRoutes.createTenant` (FAB de `MainLayout`, accesos rápidos) | Formulario de creación + vista de éxito con código de invitación |
+| `TenantScreen` | `AppRoutes.tenants` (accesos rápidos del Dashboard) | Lista de organizaciones del usuario, con búsqueda |
+| `CreateTenantScreen` | `AppRoutes.createTenant` (accesos rápidos) | Formulario de creación + vista de éxito con código de invitación |
 | `JoinTenantScreen` | `AppRoutes.joinTenant` (accesos rápidos) | Formulario de código de invitación + diálogo de bienvenida |
+| `SelectTenantScreen` | `presentation/select_tenant/` — se muestra antes del shell, no tiene ruta nombrada | **Nuevo (Fase 1 del rediseño de navegación, 2026-07-26).** Paso "Selección de Tenant" del login: aparece solo cuando el usuario pertenece a 2+ organizaciones y ninguna fue elegida como activa (`TenantSessionController.resolveActive`). Reutiliza `OrganizationCard`; al tocar una organización, la marca como activa y navega a `MainShellScreen`. Ver [shell-y-navegacion.md](./shell-y-navegacion.md). |
+
+> **Nota:** desde ADR-012, el tab "Organizaciones" del bottom nav ya no existe (reemplazado por las 5 secciones del nuevo shell — ver [shell-y-navegacion.md](./shell-y-navegacion.md)). `TenantScreen` sigue activa y registrada, alcanzable desde los accesos rápidos del Dashboard General, pero no es uno de los 5 destinos principales del nav.
 
 ## Estado
 
