@@ -2,6 +2,8 @@
 
 > Entregable de Fase 1 de [ADR-012](./ADR-012-refactor-arquitectura-frontend.md).
 
+> **Actualización 2026-07-26 (Fase 5 ejecutada):** se creó `core/design_system/breakpoints/breakpoints.dart` (`Breakpoints`, valores mobileMax=600/desktopMin=1024, estándar para pantallas nuevas) y se dividieron en `*MobileView`/`*DesktopView` las 3 pantallas que ya tenían una composición Desktop/Mobile genuinamente distinta: `LoginScreen`, `RegisterScreen`, `CreateTenantScreen`. **Cada una mantuvo su umbral histórico propio** (950/950/1050 respectivamente) en vez de migrar a los valores de `Breakpoints` — unificarlos habría movido el punto de corte visual de cada pantalla sin aprobación explícita (riesgo ya señalado en §5 más abajo). El resto de pantallas (`TenantScreen`, `JoinTenantScreen`, `ChangePasswordScreen`, `ProfileScreen`, `PersonalDashboardScreen`, etc.) no tenían una composición Desktop alternativa real — solo ajustes de padding/ancho sobre una única columna — y quedan en el estado transitorio válido de §7 (una sola vista) hasta que haya una necesidad de negocio concreta de un layout Desktop distinto para ellas. Detalle de cada extracción en `ADR-012-plan-migracion.md` y en los mensajes de commit correspondientes.
+
 ## 1. Estado actual
 
 El proyecto es Flutter multiplataforma (Android, iOS, Web, Linux, Windows, macOS — targets ya presentes en el repo: `android/`, `ios/`, `web/`, `linux/`, `macos/`, `windows/`), pero la capa de presentación fue construida asumiendo un único layout tipo Mobile (bottom nav fijo, FAB centrado, pantallas de ancho único). El inventario de usos de `MediaQuery`/`LayoutBuilder`/breakpoints existentes se documenta en [ADR-012-plan-migracion.md](./ADR-012-plan-migracion.md).

@@ -84,10 +84,10 @@ Estos son los únicos candidatos **confirmados** (2+ implementaciones reales del
 
 ## 6. Orden recomendado de ejecución (Fases 2-8)
 
-1. **Fase 2** (renombrado `Page`→`Screen`) sobre las 14 pantallas, aprovechando para unificar navegación en `AppNavigator` y eliminar rutas-string sueltas (mitiga 2 riesgos con un solo pase).
-2. **Fase 3** (nueva estructura de carpetas) creada vacía, sin mover código todavía.
+1. **Fase 2** ✅ ejecutada — renombrado `Page`→`Screen` sobre las 12 pantallas activas.
+2. **Fase 3** ✅ ejecutada — `lib/core/`, `lib/shared/` y estructura `presentation/<screen>/` creadas.
 3. **Fase 4** ✅ ejecutada (2026-07-26) para las 6 pantallas que la requerían (ver tabla actualizada en §1). `LoginScreen` se evaluó como piloto y no necesitó división. El módulo dashboard admin/member se reconstruye desde cero con la estructura objetivo cuando el negocio defina su diseño vigente (los mocks anteriores fueron eliminados).
-4. **Fase 5** (responsive) sobre las pantallas ya divididas en Fase 4, empezando por Login/Dashboard/Register/CreateTenant/JoinTenant como indica [04-estrategia-responsive.md](./04-estrategia-responsive.md).
+4. **Fase 5** ✅ ejecutada (2026-07-26) — `Breakpoints` creado en `core/design_system/breakpoints/`; `LoginScreen`, `RegisterScreen` y `CreateTenantScreen` (las únicas 3 con composición Desktop/Mobile genuinamente distinta) divididas en `*MobileView`/`*DesktopView`, cada una preservando su umbral histórico propio (950/950/1050) — ver detalle en [04-estrategia-responsive.md](./04-estrategia-responsive.md). El resto de pantallas queda en vista única (estado transitorio válido) hasta que haya necesidad real de un layout Desktop distinto.
 5. **Fase 6** (shared) unificando los 7 componentes confirmados en §3.
-6. **Fase 7** (design system) formalizando `AppColors` existente + agregando typography/spacing/radius/breakpoints que hoy no existen.
+6. **Fase 7** (design system) formalizando `AppColors` existente + agregando typography/spacing/radius que hoy no existen (`breakpoints/` ya se implementó en Fase 5).
 7. **Fase 8** validación final, incluyendo dejar `flutter test` en verde real antes de cerrar el ADR.
