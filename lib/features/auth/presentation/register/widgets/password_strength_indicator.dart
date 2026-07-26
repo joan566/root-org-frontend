@@ -9,17 +9,19 @@ class PasswordStrengthIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     if (password.isEmpty) return const SizedBox.shrink();
 
+    final colors = AppColors.of(context);
+
     int points = 0;
     if (password.length >= 8) points++;
     if (password.contains(RegExp(r'[A-Z]'))) points++;
     if (password.contains(RegExp(r'[0-9]'))) points++;
     if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) points++;
 
-    Color color = AppColors.error;
+    Color color = colors.error;
     String label = 'Fuerte debilidad';
     if (points == 2) { color = Colors.orange; label = 'Aceptable'; }
     if (points == 3) { color = Colors.amber; label = 'Media-Alta'; }
-    if (points == 4) { color = AppColors.primary; label = 'Altamente Segura'; }
+    if (points == 4) { color = colors.primary; label = 'Altamente Segura'; }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +32,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
-                color: index < points ? color : AppColors.border,
+                color: index < points ? color : colors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

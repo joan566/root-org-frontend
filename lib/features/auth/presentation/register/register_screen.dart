@@ -104,8 +104,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       body: LayoutBuilder(
         builder: (context, constraints) {
           bool isDesktop = constraints.maxWidth > 950;
@@ -129,6 +131,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildFormCard() {
+    final colors = AppColors.of(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -148,10 +152,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Container(
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.border),
-                boxShadow: AppColors.premiumShadow(),
+                border: Border.all(color: colors.border),
+                boxShadow: colors.premiumShadow(),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,13 +207,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildNameField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _nameController,
       focusNode: _nameFocusNode,
       enabled: !_isLoading,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.name,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       decoration: _inputDecoration(hint: 'Ej. Juan Pérez', icon: Icons.person_outline_rounded),
       validator: (v) => (v == null || v.isEmpty) ? "El nombre es requerido" : null,
       onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_phoneFocusNode),
@@ -217,13 +223,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPhoneField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _phoneController,
       focusNode: _phoneFocusNode,
       enabled: !_isLoading,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       decoration: _inputDecoration(hint: '+1 (555) 000-0000', icon: Icons.phone_android_outlined),
       validator: (v) => (v == null || v.isEmpty) ? "El teléfono es requerido" : null,
       onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_emailFocusNode),
@@ -231,13 +239,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildEmailField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _emailController,
       focusNode: _emailFocusNode,
       enabled: !_isLoading,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       decoration: _inputDecoration(hint: 'nombre@empresa.com', icon: Icons.mail_outline_rounded),
       validator: (v) => (v == null || v.isEmpty) ? "El correo electrónico es requerido" : null,
       onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordFocusNode),
@@ -245,28 +255,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildPasswordField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       enabled: !_isLoading,
       obscureText: _obscurePassword,
       textInputAction: TextInputAction.done,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       onChanged: (value) => setState(() {}),
       decoration: InputDecoration(
         hintText: 'Crea una contraseña robusta',
-        prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18, color: AppColors.textSecondary),
+        prefixIcon: Icon(Icons.lock_outline_rounded, size: 18, color: colors.textSecondary),
         suffixIcon: IconButton(
-          icon: Icon(_obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18, color: AppColors.textSecondary),
+          icon: Icon(_obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18, color: colors.textSecondary),
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
           splashRadius: 20,
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         filled: true,
-        fillColor: _isLoading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+        fillColor: _isLoading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
       ),
       validator: (v) => (v == null || v.isEmpty) ? "La contraseña es requerida" : null,
       onFieldSubmitted: (_) => _register(),
@@ -274,6 +286,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildTermsCheckbox() {
+    final colors = AppColors.of(context);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -282,16 +296,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 24,
           child: Checkbox(
             value: _acceptTerms,
-            activeColor: AppColors.primary,
+            activeColor: colors.primary,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             onChanged: _isLoading ? null : (value) => setState(() => _acceptTerms = value ?? false),
           ),
         ),
         const SizedBox(width: 10),
-        const Expanded(
+        Expanded(
           child: Text(
             'He leído y acepto los Términos y Condiciones junto con las Políticas de Privacidad corporativas.',
-            style: TextStyle(fontSize: 12, color: AppColors.textSecondary, height: 1.4, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 12, color: colors.textSecondary, height: 1.4, fontWeight: FontWeight.w500),
           ),
         ),
       ],
@@ -299,15 +313,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildSubmitButton() {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: FilledButton(
         onPressed: _isLoading ? null : _register,
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.textPrimary,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.textMuted.withOpacity(0.4),
+          backgroundColor: colors.textPrimary,
+          foregroundColor: colors.surface,
+          disabledBackgroundColor: colors.textMuted.withOpacity(0.4),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 0,
         ),
@@ -336,15 +352,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   InputDecoration _inputDecoration({required String hint, required IconData icon}) {
+    final colors = AppColors.of(context);
+
     return InputDecoration(
       hintText: hint,
-      prefixIcon: Icon(icon, size: 18, color: AppColors.textSecondary),
+      prefixIcon: Icon(icon, size: 18, color: colors.textSecondary),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       filled: true,
-      fillColor: _isLoading ? AppColors.background : Colors.white,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+      fillColor: _isLoading ? colors.background : colors.surface,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
     );
   }
 }

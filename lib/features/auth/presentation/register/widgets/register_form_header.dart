@@ -6,6 +6,8 @@ class RegisterFormHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -14,20 +16,20 @@ class RegisterFormHeader extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.border)),
-              child: const Icon(Icons.domain_add_rounded, color: AppColors.primary, size: 24),
+              decoration: BoxDecoration(color: colors.background, borderRadius: BorderRadius.circular(12), border: Border.all(color: colors.border)),
+              child: Icon(Icons.domain_add_rounded, color: colors.primary, size: 24),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(30), border: Border.all(color: AppColors.border)),
-              child: const Text('Paso 1 de 1', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
+              decoration: BoxDecoration(color: colors.background, borderRadius: BorderRadius.circular(30), border: Border.all(color: colors.border)),
+              child: Text('Paso 1 de 1', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: colors.textSecondary)),
             )
           ],
         ),
         const SizedBox(height: 16),
-        const Text('Crear una cuenta', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.5)),
+        Text('Crear una cuenta', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5)),
         const SizedBox(height: 4),
-        const Text('Comienza a administrar tus organizaciones de forma segura.', style: TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+        Text('Comienza a administrar tus organizaciones de forma segura.', style: TextStyle(fontSize: 13, color: colors.textSecondary)),
       ],
     );
   }

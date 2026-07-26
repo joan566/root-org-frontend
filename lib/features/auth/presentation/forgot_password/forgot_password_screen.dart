@@ -78,13 +78,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.textPrimary, size: 20),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: colors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -106,10 +108,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Container(
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: colors.surface,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppColors.border),
-                    boxShadow: AppColors.premiumShadow(),
+                    border: Border.all(color: colors.border),
+                    boxShadow: colors.premiumShadow(),
                   ),
                   child: Form(
                     key: _formKey,
@@ -136,48 +138,52 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Widget _buildHeader() {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: colors.background,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: colors.border),
           ),
-          child: const Icon(Icons.key_rounded, color: AppColors.primary, size: 24),
+          child: Icon(Icons.key_rounded, color: colors.primary, size: 24),
         ),
         const SizedBox(height: 16),
-        const Text(
+        Text(
           '¿Olvidaste tu contraseña?',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.5),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5),
         ),
         const SizedBox(height: 4),
-        const Text(
+        Text(
           'No te preocupes, te enviaremos un código para restablecerla.',
-          style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 13, color: colors.textSecondary),
         ),
       ],
     );
   }
 
   Widget _buildEmailField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _emailController,
       focusNode: _emailFocusNode,
       enabled: !_isLoading,
       keyboardType: TextInputType.emailAddress,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         hintText: 'nombre@empresa.com',
-        prefixIcon: const Icon(Icons.mail_outline_rounded, size: 18, color: AppColors.textSecondary),
+        prefixIcon: Icon(Icons.mail_outline_rounded, size: 18, color: colors.textSecondary),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         filled: true,
-        fillColor: _isLoading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+        fillColor: _isLoading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
       ),
       validator: (v) => (v == null || v.isEmpty) ? "El correo electrónico es requerido" : null,
       onFieldSubmitted: (_) => _sendCode(),
@@ -185,14 +191,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Widget _buildSubmitButton() {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: FilledButton(
         onPressed: _isLoading ? null : _sendCode,
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.textPrimary,
-          foregroundColor: Colors.white,
+          backgroundColor: colors.textPrimary,
+          foregroundColor: colors.surface,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 0,
         ),

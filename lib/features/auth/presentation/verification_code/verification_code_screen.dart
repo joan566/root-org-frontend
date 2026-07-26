@@ -105,13 +105,15 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.textPrimary, size: 20),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: colors.textPrimary, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -133,10 +135,10 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 Container(
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: colors.surface,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppColors.border),
-                    boxShadow: AppColors.premiumShadow(),
+                    border: Border.all(color: colors.border),
+                    boxShadow: colors.premiumShadow(),
                   ),
                   child: Form(
                     key: _formKey,
@@ -163,49 +165,53 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   }
 
   Widget _buildHeader() {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: colors.background,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: colors.border),
           ),
-          child: const Icon(Icons.mark_email_read_rounded, color: AppColors.primary, size: 24),
+          child: Icon(Icons.mark_email_read_rounded, color: colors.primary, size: 24),
         ),
         const SizedBox(height: 16),
-        const Text(
+        Text(
           'Verifica tu correo',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.5),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5),
         ),
         const SizedBox(height: 4),
         Text(
           'Hemos enviado un código a ${widget.email}',
-          style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 13, color: colors.textSecondary),
         ),
       ],
     );
   }
 
   Widget _buildCodeField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _codeController,
       focusNode: _codeFocusNode,
       enabled: !_isLoading,
       keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
-      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 8, color: AppColors.textPrimary),
+      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 8, color: colors.textPrimary),
       decoration: InputDecoration(
         hintText: '000000',
-        hintStyle: TextStyle(color: AppColors.textMuted.withOpacity(0.5), letterSpacing: 8),
+        hintStyle: TextStyle(color: colors.textMuted.withOpacity(0.5), letterSpacing: 8),
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
         filled: true,
-        fillColor: _isLoading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+        fillColor: _isLoading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
       ),
       validator: (v) => (v == null || v.isEmpty) ? "Ingresa el código" : null,
       onFieldSubmitted: (_) => _verifyCode(),
@@ -213,14 +219,16 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   }
 
   Widget _buildSubmitButton() {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: FilledButton(
         onPressed: _isLoading ? null : _verifyCode,
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.textPrimary,
-          foregroundColor: Colors.white,
+          backgroundColor: colors.textPrimary,
+          foregroundColor: colors.surface,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 0,
         ),
@@ -236,12 +244,14 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   }
 
   Widget _buildResendAction() {
+    final colors = AppColors.of(context);
+
     return Center(
       child: TextButton(
         onPressed: _isLoading ? null : _resendCode,
-        child: const Text(
+        child: Text(
           '¿No recibiste el código? Reenviar',
-          style: TextStyle(fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 13, color: colors.primary, fontWeight: FontWeight.bold),
         ),
       ),
     );

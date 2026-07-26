@@ -7,6 +7,8 @@ class SuccessConfirmationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(32),
@@ -15,26 +17,26 @@ class SuccessConfirmationView extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(40),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: colors.surface,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: AppColors.border),
-              boxShadow: AppColors.premiumShadow(),
+              border: Border.all(color: colors.border),
+              boxShadow: colors.premiumShadow(),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: colors.primary, shape: BoxShape.circle),
                   child: const Icon(Icons.check_circle_rounded, color: Colors.white, size: 48),
                 ),
                 const SizedBox(height: 24),
-                const Text('¡Registro exitoso!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.5)),
+                Text('¡Registro exitoso!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5)),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Tu cuenta ha sido creada correctamente en el ecosistema corporativo. Ahora puedes iniciar sesión con tus credenciales asignadas.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: AppColors.textSecondary, height: 1.5),
+                  style: TextStyle(fontSize: 14, color: colors.textSecondary, height: 1.5),
                 ),
                 const SizedBox(height: 32),
                 SizedBox(
@@ -42,7 +44,7 @@ class SuccessConfirmationView extends StatelessWidget {
                   height: 48,
                   child: FilledButton(
                     onPressed: onActionPressed,
-                    style: FilledButton.styleFrom(backgroundColor: AppColors.textPrimary, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                    style: FilledButton.styleFrom(backgroundColor: colors.textPrimary, foregroundColor: colors.surface, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                     child: const Text('Ir al inicio de sesión', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                   ),
                 ),

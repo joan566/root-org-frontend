@@ -6,27 +6,29 @@ class LoginFormHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: colors.background,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: colors.border),
           ),
-          child: const Icon(Icons.groups_rounded, color: AppColors.primary, size: 24),
+          child: Icon(Icons.groups_rounded, color: colors.primary, size: 24),
         ),
         const SizedBox(height: 16),
-        const Text(
+        Text(
           'Bienvenido nuevamente',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.5),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5),
         ),
         const SizedBox(height: 4),
-        const Text(
+        Text(
           'Inicia sesión para acceder a tu espacio de trabajo.',
-          style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 13, color: colors.textSecondary),
         ),
       ],
     );

@@ -6,18 +6,20 @@ class LoginRedirectBottomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: AppColors.border)),
+      decoration: BoxDecoration(color: colors.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: colors.border)),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('¿Ya tienes una cuenta?', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                SizedBox(height: 2),
-                Text('Puedes iniciar sesión en tu entorno de trabajo.', style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
+                Text('¿Ya tienes una cuenta?', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.textPrimary)),
+                const SizedBox(height: 2),
+                Text('Puedes iniciar sesión en tu entorno de trabajo.', style: TextStyle(fontSize: 11, color: colors.textSecondary)),
               ],
             ),
           ),
@@ -25,11 +27,11 @@ class LoginRedirectBottomCard extends StatelessWidget {
           OutlinedButton(
             onPressed: () => Navigator.pop(context),
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: AppColors.border),
+              side: BorderSide(color: colors.border),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             ),
-            child: const Text('Iniciar sesión', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            child: Text('Iniciar sesión', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: colors.textPrimary)),
           )
         ],
       ),

@@ -1,14 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 class LeftRegisterIdentityPanel extends StatelessWidget {
   const LeftRegisterIdentityPanel({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
-      color: AppColors.slateDark,
+      color: colors.slateDark,
       child: Stack(
         children: [
           Positioned.fill(child: Opacity(opacity: 0.02, child: CustomPaint(painter: _GridPatternPainter()))),
@@ -18,7 +21,7 @@ class LeftRegisterIdentityPanel extends StatelessWidget {
             child: Container(
               width: 320,
               height: 320,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary.withOpacity(0.12)),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: colors.primary.withOpacity(0.12)),
               child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80), child: Container(color: Colors.transparent)),
             ),
           ),
@@ -32,8 +35,8 @@ class LeftRegisterIdentityPanel extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                      child: const Icon(Icons.blur_on_rounded, color: AppColors.primary, size: 22),
+                      decoration: BoxDecoration(color: colors.primary.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+                      child: Icon(Icons.blur_on_rounded, color: colors.primary, size: 22),
                     ),
                     const SizedBox(width: 12),
                     const Text('SUMKEYA', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
@@ -46,10 +49,10 @@ class LeftRegisterIdentityPanel extends StatelessWidget {
                     const SizedBox(height: 12),
                     const Text('Una plataforma global para administrar organizaciones, equipos y módulos funcionales desde un solo lugar centralizado.', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 14, height: 1.5)),
                     const SizedBox(height: 32),
-                    _buildBenefitItem('Gestión multi-organización integrada'),
-                    _buildBenefitItem('Arquitectura modular escalable'),
-                    _buildBenefitItem('Plataforma altamente disponible'),
-                    _buildBenefitItem('Seguridad empresarial punta a punta'),
+                    _buildBenefitItem(colors, 'Gestión multi-organización integrada'),
+                    _buildBenefitItem(colors, 'Arquitectura modular escalable'),
+                    _buildBenefitItem(colors, 'Plataforma altamente disponible'),
+                    _buildBenefitItem(colors, 'Seguridad empresarial punta a punta'),
                   ],
                 ),
                 Column(
@@ -74,12 +77,12 @@ class LeftRegisterIdentityPanel extends StatelessWidget {
     );
   }
 
-  Widget _buildBenefitItem(String text) {
+  Widget _buildBenefitItem(AppPalette colors, String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_outline_rounded, color: AppColors.primary, size: 16),
+          Icon(Icons.check_circle_outline_rounded, color: colors.primary, size: 16),
           const SizedBox(width: 12),
           Text(text, style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 13, fontWeight: FontWeight.w500)),
         ],

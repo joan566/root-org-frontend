@@ -96,8 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       body: LayoutBuilder(
         builder: (context, constraints) {
           bool isDesktop = constraints.maxWidth > 950;
@@ -114,6 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildFormCard() {
+    final colors = AppColors.of(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -132,10 +136,10 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.border),
-                boxShadow: AppColors.premiumShadow(),
+                border: Border.all(color: colors.border),
+                boxShadow: colors.premiumShadow(),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,22 +186,24 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildEmailField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _emailController,
       focusNode: _emailFocusNode,
       enabled: !_isLoading,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         hintText: 'nombre@empresa.com',
-        prefixIcon: const Icon(Icons.mail_outline_rounded, size: 18, color: AppColors.textSecondary),
+        prefixIcon: Icon(Icons.mail_outline_rounded, size: 18, color: colors.textSecondary),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         filled: true,
-        fillColor: _isLoading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+        fillColor: _isLoading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
       ),
       validator: (v) => (v == null || v.isEmpty) ? "El correo electrónico es requerido" : null,
       onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordFocusNode),
@@ -205,27 +211,29 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildPasswordField() {
+    final colors = AppColors.of(context);
+
     return TextFormField(
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       enabled: !_isLoading,
       obscureText: _obscurePassword,
       textInputAction: TextInputAction.done,
-      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+      style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         hintText: '••••••••••••',
-        prefixIcon: const Icon(Icons.lock_outline_rounded, size: 18, color: AppColors.textSecondary),
+        prefixIcon: Icon(Icons.lock_outline_rounded, size: 18, color: colors.textSecondary),
         suffixIcon: IconButton(
-          icon: Icon(_obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18, color: AppColors.textSecondary),
+          icon: Icon(_obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 18, color: colors.textSecondary),
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
           splashRadius: 20,
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         filled: true,
-        fillColor: _isLoading ? AppColors.background : Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.borderFocus, width: 1.5)),
+        fillColor: _isLoading ? colors.background : colors.surface,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.border)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colors.borderFocus, width: 1.5)),
       ),
       validator: (v) => (v == null || v.isEmpty) ? "La contraseña es requerida" : null,
       onFieldSubmitted: (_) => _login(),
@@ -233,6 +241,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildForgotPasswordAction() {
+    final colors = AppColors.of(context);
+
     return InkWell(
       onTap: _isLoading
           ? null
@@ -244,17 +254,19 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             },
       borderRadius: BorderRadius.circular(4),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         child: Text(
           '¿Olvidaste tu contraseña?',
-          style: TextStyle(fontSize: 12, color: AppColors.primary, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 12, color: colors.primary, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 
   Widget _buildRememberMeCheckbox() {
+    final colors = AppColors.of(context);
+
     return Row(
       children: [
         SizedBox(
@@ -262,30 +274,32 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 24,
           child: Checkbox(
             value: _rememberMe,
-            activeColor: AppColors.primary,
+            activeColor: colors.primary,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             onChanged: _isLoading ? null : (value) => setState(() => _rememberMe = value ?? false),
           ),
         ),
         const SizedBox(width: 8),
-        const Text(
+        Text(
           'Mantener sesión iniciada',
-          style: TextStyle(fontSize: 13, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 13, color: colors.textSecondary, fontWeight: FontWeight.w500),
         ),
       ],
     );
   }
 
   Widget _buildSubmitButton() {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: FilledButton(
         onPressed: _isLoading ? null : _login,
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.textPrimary,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.textMuted.withOpacity(0.4),
+          backgroundColor: colors.textPrimary,
+          foregroundColor: colors.surface,
+          disabledBackgroundColor: colors.textMuted.withOpacity(0.4),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 0,
         ),

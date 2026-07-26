@@ -1,14 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 
 class LeftIdentityPanel extends StatelessWidget {
   const LeftIdentityPanel({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
-      color: AppColors.slateDark,
+      color: colors.slateDark,
       child: Stack(
         children: [
           Positioned.fill(
@@ -25,7 +28,7 @@ class LeftIdentityPanel extends StatelessWidget {
               height: 320,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primary.withOpacity(0.15),
+                color: colors.primary.withOpacity(0.15),
               ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
@@ -44,11 +47,11 @@ class LeftIdentityPanel extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.15),
+                        color: colors.primary.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                        border: Border.all(color: colors.primary.withOpacity(0.3)),
                       ),
-                      child: const Icon(Icons.blur_on_rounded, color: AppColors.primary, size: 22),
+                      child: Icon(Icons.blur_on_rounded, color: colors.primary, size: 22),
                     ),
                     const SizedBox(width: 12),
                     const Text(
@@ -70,12 +73,12 @@ class LeftIdentityPanel extends StatelessWidget {
                       style: TextStyle(color: Color(0xFF94A3B8), fontSize: 15, height: 1.5),
                     ),
                     const SizedBox(height: 36),
-                    _buildBenefitItem('Administración multi-organización'),
-                    _buildBenefitItem('Seguridad empresarial'),
-                    _buildBenefitItem('Arquitectura modular'),
-                    _buildBenefitItem('Escalable'),
-                    _buildBenefitItem('Información centralizada'),
-                    _buildBenefitItem('Acceso desde cualquier dispositivo'),
+                    _buildBenefitItem(colors, 'Administración multi-organización'),
+                    _buildBenefitItem(colors, 'Seguridad empresarial'),
+                    _buildBenefitItem(colors, 'Arquitectura modular'),
+                    _buildBenefitItem(colors, 'Escalable'),
+                    _buildBenefitItem(colors, 'Información centralizada'),
+                    _buildBenefitItem(colors, 'Acceso desde cualquier dispositivo'),
                   ],
                 ),
                 const Row(
@@ -94,12 +97,12 @@ class LeftIdentityPanel extends StatelessWidget {
     );
   }
 
-  Widget _buildBenefitItem(String text) {
+  Widget _buildBenefitItem(AppPalette colors, String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_outline_rounded, color: AppColors.primary, size: 16),
+          Icon(Icons.check_circle_outline_rounded, color: colors.primary, size: 16),
           const SizedBox(width: 12),
           Text(text, style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 13, fontWeight: FontWeight.w500)),
         ],

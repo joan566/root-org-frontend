@@ -7,6 +7,8 @@ class RegisterBackgroundDecoration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Positioned.fill(
       child: Stack(
         children: [
@@ -16,7 +18,7 @@ class RegisterBackgroundDecoration extends StatelessWidget {
             child: Container(
               width: 360,
               height: 360,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary.withOpacity(0.015)),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: colors.primary.withOpacity(0.015)),
               child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 90, sigmaY: 90), child: Container(color: Colors.transparent)),
             ),
           ),
