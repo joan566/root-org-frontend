@@ -1,6 +1,6 @@
 # Arquitectura del Frontend
 
-> **En refactor (ADR-012).** Este documento describe el estado **actual** del código (Fases 1-3 de [ADR-012](../07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md) ya aplicadas: pantallas renombradas a `*Screen`, `core/`/`shared/` creados). Las Fases 4-8 (dividir pantallas grandes, vistas Desktop/Mobile, unificar `shared/`, design system) siguen pendientes — ver el [plan de migración](../07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md) para el detalle de lo que falta.
+> **En refactor (ADR-012).** Este documento describe el estado **actual** del código. Fases 1-7 de [ADR-012](../07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md) ya están aplicadas: pantallas renombradas a `*Screen`, `core/`/`shared/` creados, las 6 pantallas que superaban 300 líneas divididas, vistas Desktop/Mobile para las 3 pantallas con layout dual real, 2 componentes unificados en `shared/`, y tokens de design system (`typography`/`spacing`/`radius`/`breakpoints`). Solo queda la Fase 8 (validación final) — ver el [plan de migración](../07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md) para el detalle.
 
 ## Visión general
 
@@ -11,12 +11,16 @@ lib/
   core/          # infraestructura transversal, sin UI de negocio
     routing/       # AppRoutes, AppNavigator
     errors/        # ApiException
-    design_system/ # colors/ (poblado); typography, spacing, radius, elevation,
-                   # shadows, breakpoints, buttons, cards, dialogs, inputs,
-                   # tables, navigation (esqueleto vacio, Fases 6-7)
+    design_system/ # colors/, typography/, spacing/, radius/, breakpoints/ (poblados);
+                   # elevacion/sombras viven en AppColors (premiumShadow/etc), no en
+                   # carpeta propia; buttons/cards/dialogs/inputs/tables/navigation
+                   # (esqueleto vacio - construirlos sin consumidor concreto seria
+                   # abstraccion prematura)
     networking/ services/ storage/ constants/ extensions/ utils/  # esqueleto vacio
   shared/        # reutilizable entre 2+ FEATURES (no solo 2+ pantallas de una feature)
-    widgets/       # AppBackButton, HeaderClipper (poblado); resto vacio, Fase 6
+    widgets/       # AppBackButton, HeaderClipper, BackendErrorCard, FieldLabel (poblado);
+                   # resto vacio - la mayoria de los "duplicados" candidatos resultaron
+                   # ser decisiones de diseno distintas, no duplicacion real (Fase 6)
     dialogs/ layouts/ navigation/ forms/ tables/  # esqueleto vacio
   features/
     auth/        # login, registro, recuperación de contraseña, sesión global
