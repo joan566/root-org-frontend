@@ -1,0 +1,25 @@
+# Tareas de Refactorización de Capa de Presentación
+
+- [x] **Infraestructura Core**
+    - [x] Crear directorio `lib/features/core/presentation/styles/`
+    - [x] Mover/Unificar `AppColors` y `SumkeyaTheme` en `core/presentation/styles/app_colors.dart`
+- [x] **Feature: Auth**
+    - [x] Crear directorio `lib/features/auth/presentation/widgets/login/`
+    - [x] Extraer widgets de `login_page.dart` a archivos individuales en `widgets/login/`
+    - [x] Limpiar `login_page.dart` y actualizar imports
+- [x] **Feature: Dashboard**
+    - [x] Crear directorio `lib/features/dashboard/presentation/widgets/personal/`
+    - [x] Mover widgets de `pages/personal/` a `widgets/personal/`
+    - [x] Mover `no_active_organization_card.dart` a `widgets/`
+    - [x] Actualizar `personal_dashboard_page.dart` e imports
+- [x] **Feature: User**
+    - [x] Crear directorio `lib/features/user/presentation/widgets/profile/`
+    - [x] Mover widgets de `pages/profile/` a `widgets/profile/`
+    - [x] Actualizar `profile_page.dart` e imports
+- [x] **Feature: Shell**
+    - [x] Crear directorio `lib/features/shell/presentation/widgets/`
+    - [x] Mover `header_clipper.dart` y `app_back_button.dart` a `widgets/`
+    - [x] Actualizar `main_layout.dart` e imports
+- [x] **Verificación Final**
+    - [x] Comprobar compilación
+    - [x] Verificar consistencia visual
