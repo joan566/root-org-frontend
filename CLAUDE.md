@@ -18,7 +18,7 @@ flutter run                        # run the app (lib/main.dart is the entry poi
 
 There is no CI config, no formatting/build script beyond the standard Flutter toolchain, and no `.env`/flavor setup — see "Backend URL" below.
 
-**Known issue:** `test/widget_test.dart` is still the default Flutter counter-app template and does not match this app (`MainApp` renders `LoginScreen`/`MainLayout`, not a counter). It currently fails (`flutter test` returns exit 1). Don't treat this as a regression you introduced; if you touch tests, this one needs rewriting to match real app behavior first.
+`test/widget_test.dart` was rewritten (ADR-012 Fase 8, 2026-07-26) to a real smoke test: pumps `MainApp` wrapped in `ChangeNotifierProvider<AuthProvider>` and asserts `LoginScreen` renders. It suppresses `RenderFlex overflowed` errors specifically — `flutter test` measures text with a fallback test font whose glyphs are wider than the real fonts used at runtime, so a couple of tightly-fit rows (the disabled "Próximamente" social login buttons) report an overflow there that doesn't reproduce in an actual browser render at the same width (verified manually). `flutter test` passes.
 
 ## Architecture
 
