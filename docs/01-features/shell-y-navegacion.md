@@ -17,7 +17,9 @@ El layout de la app una vez autenticado: navegación principal (sidebar/bottom n
 
 ## Secciones sin feature propia todavía
 
-Módulos y Administración no tienen backend/dominio propio hoy (ver [frontend-navigation-redesign.md](../frontend-navigation-redesign.md) §1). Sus rutas se registran directamente en `shell/presentation/shell_routes.dart`, apuntando a `ComingSoonScreen` (`shared/layouts/coming_soon_screen.dart`) — un placeholder reutilizable que explica qué falta y por qué, en vez de crear features vacías por adelantado. Cuando cada una tenga su propia feature (Fase 4 para los módulos), su propio `<feature>_routes.dart` reemplaza esa entrada — mismo patrón que ya se aplicó a Organización en la Fase 3 (ver [organizacion.md](./organizacion.md)).
+Módulos y Administración no tienen backend/dominio propio hoy (ver [frontend-navigation-redesign.md](../frontend-navigation-redesign.md) §1). Sus rutas se registran directamente en `shell/presentation/shell_routes.dart`, apuntando a `ComingSoonScreen` (`shared/layouts/coming_soon_screen.dart`) — un placeholder reutilizable que explica qué falta y por qué, en vez de crear features vacías por adelantado.
+
+**Fase 4 (2026-07-26):** se reservaron los directorios `lib/features/{financial_management,inventory,activities,administration,settings}/presentation/.gitkeep` — mismo patrón que las carpetas de `core/design_system/` que ADR-012 dejó reservadas (ver [ADR-012-plan-migracion.md](../00-core/07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md)). **No tienen pantalla, ruta ni ningún código todavía** — a diferencia de Organización (Fase 3), que sí ganó una feature real porque su pestaña "Información" tenía datos existentes que mostrar; ninguno de estos 5 tiene ni eso. `AppRoutes.modules`/`AppRoutes.administration` siguen sirviendo el `ComingSoonScreen` genérico de Fase 1 sin cambios. Cuando alguno de estos módulos tenga trabajo real (backend + necesidad de UI propia), su propio `<feature>_routes.dart` reemplaza la entrada correspondiente en `shell_routes.dart` — mismo mecanismo ya usado para Organización.
 
 ## Selección de organización activa
 

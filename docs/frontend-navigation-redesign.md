@@ -1,6 +1,6 @@
 # Rediseño del flujo de navegación — Fase 0 (análisis y propuesta)
 
-> **Estado: 🟡 Propuesta, pendiente de aprobación.** Este documento no modifica código. Es el entregable de la Fase 0 solicitada: analizar el flujo actual y proponer el nuevo mapa de navegación antes de tocar nada.
+> **Estado: 🟢 Implementado (Fases 1-4).** Fase 0 fue el entregable de análisis/propuesta (este documento); Fases 1-4 ya se ejecutaron — ver [shell-y-navegacion.md](./01-features/shell-y-navegacion.md), [panel-principal.md](./01-features/panel-principal.md) y [organizacion.md](./01-features/organizacion.md) para el estado final de cada pieza.
 >
 > **Alcance explícito:** esto es una reorganización de navegación/presentación sobre la arquitectura ya vigente de [ADR-012](./00-core/07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md). No se modifica `domain/`, `data/` ni casos de uso existentes, y no se rehace ADR-012.
 >
@@ -156,12 +156,12 @@ Uso de `roles` en la navegación (punto 4 de la propuesta original — "navegaci
 
 ## 10. Fases de ejecución propuestas (ajustadas con los hallazgos de arriba)
 
-1. **Fase 0 (este documento)** — sin cambios de código.
-2. **Fase 1 — Shell**: `MainShellScreen`, sidebar desktop, bottom nav adaptativa mobile, `route_registry.dart` + rutas por feature.
-3. **Fase 2 — Dashboard General**: recomponer `PersonalDashboardScreen` → `DashboardGeneralScreen`, agregar header de organización activa y tarjetas de módulos reales (a partir de `UpcomingModulesSection`).
-4. **Fase 3 — Organización**: `organization/` con `OrganizationInfoScreen` (real) + 3 placeholders.
-5. **Fase 4 — Placeholders de módulos**: `financial_management/`, `inventory/`, `activities/`, `administration/`, `settings/` — solo estructura + pantalla placeholder, sin `domain`/`data`.
-6. **Estado global**: `TenantSessionController` + `SelectTenantScreen` — puede hacerse en paralelo a la Fase 1, ya que el shell y el dashboard dependen de que exista "tenant activo".
+1. **Fase 0 (este documento)** — sin cambios de código. ✅
+2. **Fase 1 — Shell**: `MainShellScreen`, sidebar desktop, bottom nav adaptativa mobile, `route_registry.dart` + rutas por feature. ✅
+3. **Fase 2 — Dashboard General**: recomponer `PersonalDashboardScreen` → `DashboardGeneralScreen`, agregar header de organización activa y tarjetas de módulos reales (a partir de `UpcomingModulesSection`). ✅
+4. **Fase 3 — Organización**: `organization/` con `OrganizationInfoScreen` (real) + 3 placeholders. ✅
+5. **Fase 4 — Placeholders de módulos**: `financial_management/`, `inventory/`, `activities/`, `administration/`, `settings/`. ✅ — cada una es solo `lib/features/<nombre>/presentation/.gitkeep` (mismo patrón que las carpetas de `core/design_system/` que ADR-012 dejó reservadas), **sin pantalla ni ruta propia**: agregar una pantalla, aunque fuera un placeholder, ya es "implementar" algo — la sección "Módulos" del nav sigue sirviendo el `ComingSoonScreen` genérico registrado en Fase 1 hasta que cada módulo tenga trabajo real que justifique separarlo.
+6. **Estado global**: `TenantSessionController` + `SelectTenantScreen` — hecho en paralelo a la Fase 1. ✅
 
 ## 11. Puntos abiertos (no bloquean escribir este documento, sí bloquean empezar la Fase 1)
 
