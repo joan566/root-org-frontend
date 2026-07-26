@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
-import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 import 'package:savings_api_frontend/core/routing/app_routes.dart';
 import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
 
@@ -15,17 +14,19 @@ import 'widgets/no_active_organization_card.dart';
 
 import '../../../auth/domain/entities/user.dart';
 import '../../../auth/presentation/provider/auth_provider.dart';
+import '../../../tenant/presentation/select_tenant/select_tenant_screen.dart';
 
-class PersonalDashboardScreen extends StatefulWidget {
-  const PersonalDashboardScreen({super.key});
+/// Centro de control de la organización activa (ver
+/// docs/frontend-navigation-redesign.md — Fase 2). Antes `PersonalDashboardScreen`.
+class DashboardGeneralScreen extends StatefulWidget {
+  const DashboardGeneralScreen({super.key});
 
   @override
-  State<PersonalDashboardScreen> createState() => _PersonalDashboardScreenState();
+  State<DashboardGeneralScreen> createState() => _DashboardGeneralScreenState();
 }
 
-class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
+class _DashboardGeneralScreenState extends State<DashboardGeneralScreen> {
   final ValueNotifier<bool> _isScrolledPastHeader = ValueNotifier<bool>(false);
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late List<Map<String, String>> _smartRecommendations;
   bool _initializedRecommendations = false;
@@ -85,19 +86,24 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
     }).join(', ');
   }
 
+  void _openOrganizationSwitcher(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const SelectTenantScreen(isInitialSelection: false)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     final currentUser = authProvider.session?.user;
+    final tenantSession = context.watch<TenantSessionController>();
 
     final bool hasOrganizations = authProvider.session?.hasTenant ?? false;
     final tenantsList = currentUser?.tenants ?? [];
     final int totalOrgs = tenantsList.length;
+    final activeTenant = tenantSession.resolveActive(tenantsList);
 
-    final List<String> rawRoles = (hasOrganizations && tenantsList.isNotEmpty)
-        ? tenantsList.first.roles
-        : const [];
-    final String activeRoleFormatted = _formatRoles(rawRoles);
+    final String activeRoleFormatted = _formatRoles(activeTenant?.roles ?? const []);
 
     _initRecommendations(currentUser);
 
@@ -120,9 +126,7 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
     ];
 
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: AppColors.of(context).background,
-      drawer: _buildProfessionalDrawer(context, currentUser),
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           if (scrollNotification is ScrollUpdateNotification) {
@@ -148,7 +152,13 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
                       builder: (context, isScrolled, child) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                          child: HeaderUserBlock(isScrolledDark: isScrolled),
+                          child: HeaderUserBlock(
+                            isScrolledDark: isScrolled,
+                            userName: currentUser?.name ?? 'Usuario',
+                            activeOrganizationName: activeTenant?.tenant.name,
+                            canSwitchOrganization: totalOrgs > 1,
+                            onTapOrganization: () => _openOrganizationSwitcher(context),
+                          ),
                         );
                       },
                     ),
@@ -190,7 +200,7 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
                                         onToggleCheck: (index) => HapticFeedback.lightImpact(),
                                         totalOrganizations: totalOrgs,
                                         activeRole: activeRoleFormatted,
-                                        activeModules: 4,
+                                        activeModules: 0,
                                       )),
                                 ],
                               );
@@ -209,7 +219,7 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
                                   onToggleCheck: (index) => HapticFeedback.lightImpact(),
                                   totalOrganizations: totalOrgs,
                                   activeRole: activeRoleFormatted,
-                                  activeModules: 4,
+                                  activeModules: 0,
                                 )
                               ],
                             );
@@ -225,79 +235,6 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildProfessionalDrawer(BuildContext context, User? user) {
-    final colors = AppColors.of(context);
-
-    return Drawer(
-      backgroundColor: colors.background,
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user?.name ?? 'Usuario',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary),
-                  ),
-                  Text(
-                    user?.email ?? 'correo@enterprise.com',
-                    style: TextStyle(fontSize: 12, color: colors.textSecondary),
-                  ),
-                ],
-              ),
-            ),
-            Divider(color: colors.border, height: 1),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                children: [
-                  _drawerItem(colors, Icons.dashboard_rounded, 'Dashboard', () => Navigator.pop(context)),
-                  _drawerItem(colors, Icons.corporate_fare_rounded, 'Organizaciones', () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, AppRoutes.tenants);
-                  }),
-                  _drawerItem(colors, Icons.person_rounded, 'Mi Perfil', () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, AppRoutes.profile);
-                  }),
-                ],
-              ),
-            ),
-            Divider(color: colors.border, height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListTile(
-                leading: const Icon(Icons.logout_rounded, color: Colors.redAccent),
-                title: const Text('Cerrar sesión', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w600)),
-                onTap: () {
-                  HapticFeedback.heavyImpact();
-                  context.read<TenantSessionController>().clear();
-                  context.read<AuthProvider>().logout();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _drawerItem(AppPalette colors, IconData icon, String title, VoidCallback onTap) {
-    return ListTile(
-      leading: Icon(icon, color: colors.textPrimary.withOpacity(0.8), size: 22),
-      title: Text(title, style: TextStyle(color: colors.textPrimary, fontWeight: FontWeight.w600)),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      onTap: () {
-        HapticFeedback.lightImpact();
-        onTap();
-      },
     );
   }
 }

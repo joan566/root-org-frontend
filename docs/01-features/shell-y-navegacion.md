@@ -26,7 +26,11 @@ Organización, Módulos y Administración no tienen backend/dominio propio hoy (
 - 0 organizaciones o 1 organización → se resuelve automáticamente, entra directo a `MainShellScreen`.
 - 2+ organizaciones sin elección explícita → `SelectTenantScreen` (`features/tenant/presentation/select_tenant/`), reutiliza `OrganizationCard`.
 
-Al cerrar sesión (`LogoutCard`, drawer del dashboard) se llama `TenantSessionController.clear()` además de `AuthProvider.logout()`, para no arrastrar la organización activa a la siguiente sesión.
+`SelectTenantScreen` tiene dos modos, controlados por `isInitialSelection` (default `true`):
+- **Inicial** (login, sin sesión de shell todavía): sin `AppBar`, con botón "Cerrar sesión"; al elegir, `pushAndRemoveUntil` reemplaza toda la pila por un `MainShellScreen` nuevo — mismo comportamiento que si acabara de iniciar sesión.
+- **Cambio a mitad de sesión** (`isInitialSelection: false`, abierta desde el chip de organización en `HeaderUserBlock` del Dashboard General — ver [panel-principal.md](./panel-principal.md)): con `AppBar`/botón de retroceso, sin "Cerrar sesión"; al elegir, solo hace `pop()` — se empujó sobre el navigator interno del shell, así que el Dashboard (que ya escucha `TenantSessionController`) se actualiza solo al volver.
+
+Al cerrar sesión (`LogoutCard` en `ProfileScreen`, o desde `SelectTenantScreen` inicial) se llama `TenantSessionController.clear()` además de `AuthProvider.logout()`, para no arrastrar la organización activa a la siguiente sesión.
 
 ## Widgets
 
