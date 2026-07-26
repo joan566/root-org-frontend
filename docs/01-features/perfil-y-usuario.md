@@ -4,14 +4,14 @@
 
 Consulta y edición del perfil del usuario autenticado, y cambio de contraseña. No maneja login/registro (eso es `auth/`) ni organizaciones (eso es `tenant/`), aunque muestra las organizaciones del usuario (leídas desde `User.tenants`, provisto por `auth/`).
 
-## Pantallas (`presentation/pages/`)
+## Pantallas (`presentation/<screen>/`)
 
 | Pantalla | Ruta de acceso | Descripción |
 |---|---|---|
 | `ProfileScreen` | `AppRoutes.profile` (navigator interno de `MainLayout`, tab "Perfil") | Vista principal del perfil |
 | `ChangePasswordScreen` | `AppRoutes.changePassword` | Cambio de contraseña |
 
-## Widgets de perfil (`presentation/widgets/profile/`)
+## Widgets de perfil (`presentation/profile/widgets/`)
 
 Composición de `ProfileScreen`: `ProfileHeader` + `ProfileAvatar` (con anillo de progreso, `AvatarProgressPainter`), `ProfileStats`, `ProfileCompletionCard`, `PersonalInfoCard`, `ContactInfoCard`, `OrganizationsSection` (lista de `UserTenant` con `RoleChip` — un chip por rol — y `StatusChip`), `SecurityCard`, `RecentActivityCard`, `PreferencesCard`, `LogoutCard`. La edición se hace en una hoja inferior modal, `EditProfileBottomSheet`.
 

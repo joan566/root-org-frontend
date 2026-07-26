@@ -4,7 +4,7 @@
 
 Crear organizaciones, unirse a ellas por código de invitación, y listarlas. El concepto de "tenant" es la unidad multi-organización de SUMKEYA (ver [vision-frontend.md](../00-core/01-vision/vision-frontend.md)).
 
-## Pantallas (`presentation/pages/`)
+## Pantallas (`presentation/<screen>/`)
 
 | Pantalla | Ruta de acceso | Descripción |
 |---|---|---|

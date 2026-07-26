@@ -11,10 +11,12 @@ El layout de la app una vez autenticado: bottom navigation, botón flotante de a
 - Un `NavigatorObserver` interno (`_InnerRouteObserver`) escucha los cambios de ruta de ese navigator y sincroniza el índice resaltado del bottom nav.
 - `PopScope(canPop: false, ...)` intercepta el botón de retroceso del sistema para delegarlo al navigator interno (`navigator.pop()`) en vez de dejar que cierre `MainLayout` completo — importante: esta protección cubre el back del sistema/`maybePop`, **no** un `Navigator.of(context).pop()` imperativo llamado directamente sobre el navigator raíz desde código de la app.
 
-## Widgets (`presentation/widgets/`)
+## Widgets
 
-- `AppBackButton`: botón de retroceso reutilizable, usa `AppNavigator.pop(context)` por defecto (configurable con `onPressed`).
-- `HeaderClipper`: clipper custom para las cabeceras con forma curva usadas en varias pantallas.
+> **Actualización 2026-07-26:** `AppBackButton` y `HeaderClipper` se movieron de `shell/presentation/widgets/` a `shared/widgets/` — ya eran consumidos por las features `tenant` y `user` además de `shell`, cumpliendo el criterio de promoción a `shared/` de [ADR-012](../00-core/07-refactor-arquitectura-frontend/02-arquitectura-objetivo.md).
+
+- `AppBackButton` (`shared/widgets/app_back_button.dart`): botón de retroceso reutilizable, usa `AppNavigator.pop(context)` por defecto (configurable con `onPressed`).
+- `HeaderClipper` (`shared/widgets/header_clipper.dart`): clipper custom para las cabeceras con forma curva usadas en varias pantallas.
 
 ## Puntos de atención
 

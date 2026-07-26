@@ -22,7 +22,9 @@ There is no CI config, no formatting/build script beyond the standard Flutter to
 
 ## Architecture
 
-The app follows **Clean Architecture**, organized as one module per business feature under `lib/features/`: `auth`, `user`, `tenant`, `dashboard`, `shell`, `core`. Every feature (except `shell`/`core`, which are cross-cutting) follows the same three-layer internal structure:
+**Mid-refactor (ADR-012):** the frontend is being restructured per [ADR-012](docs/00-core/07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md). Fases 1-3 are done (docs, `*Page`→`*Screen` rename, new folder skeleton below). Fases 4-8 (splitting oversized screens, Desktop/Mobile views, `shared/` unification, design system) are still pending — see the plan doc for what's left.
+
+The app follows **Clean Architecture**, organized as one module per business feature under `lib/features/`: `auth`, `user`, `tenant`, `dashboard`, `shell`. Cross-cutting infrastructure lives outside `features/`, in `lib/core/` and `lib/shared/`. Every business feature follows the same three-layer internal structure:
 
 ```
 features/<feature>/
@@ -36,23 +38,38 @@ features/<feature>/
     repositories/  # abstract *RepositoryPort interfaces (the contract data/ must fulfill)
     usecases/      # one class per action, holds a RepositoryPort, exposes execute(...)
   presentation/
-    controllers/   # plain (non-ChangeNotifier) classes that call a UseCase; also *Injection static factories
-    pages/         # StatefulWidget/StatelessWidget screens, own their local loading/error state
-    widgets/       # page-local UI pieces
-    provider/      # ChangeNotifier state, currently only auth/presentation/provider/auth_provider.dart
+    <screen>/      # one folder per Screen, e.g. login/, register/, profile/, create_tenant/
+      <screen>_screen.dart   # StatefulWidget/StatelessWidget, owns its local loading/error state
+      mobile/       # <Screen>MobileView (Fase 5, mostly not implemented yet)
+      desktop/      # <Screen>DesktopView (Fase 5, mostly not implemented yet)
+      widgets/      # UI pieces exclusive to this screen
+      dialogs/      # dialogs exclusive to this screen
+      bottom_sheets/ # bottom sheets exclusive to this screen
+      forms/        # large forms extracted from this screen (mostly not done yet, Fase 4)
+      state/        # controller(s)/injection exclusive to this screen
+    state/          # controller/injection SHARED by 2+ screens of this feature (e.g. AuthInjection, TenantInjection, UsersInjection)
+    widgets/        # widgets SHARED by 2+ screens of this feature (e.g. auth's BackendErrorCard)
+    provider/       # ChangeNotifier state, currently only auth/presentation/provider/auth_provider.dart
 ```
 
-Data flows one way: `Api` (JSON map) → `Model.fromJson` → `Mapper.toDomain` → `Entity` → `RepositoryAdapter` (implements `RepositoryPort`) → `UseCase.execute` → `Controller` → `Page`.
+`shell` and the future `core`-adjacent modules don't follow the per-screen split above: `shell/presentation/pages/main_layout.dart` is the persistent app shell (bottom nav + inner `Navigator`), not a routed Screen.
+
+Data flows one way: `Api` (JSON map) → `Model.fromJson` → `Mapper.toDomain` → `Entity` → `RepositoryAdapter` (implements `RepositoryPort`) → `UseCase.execute` → `Controller` → `Screen`.
+
+### `lib/core/` and `lib/shared/`
+
+- `core/` holds cross-cutting infrastructure with no UI: `routing/` (`AppRoutes`, `AppNavigator`), `errors/` (`ApiException`), `design_system/colors/` (`AppColors`). The other `design_system/` subfolders (`typography`, `spacing`, `radius`, `elevation`, `shadows`, `breakpoints`, `buttons`, `cards`, `dialogs`, `inputs`, `tables`, `navigation`) and the other core subfolders (`networking`, `services`, `storage`, `constants`, `extensions`, `utils`) exist as empty scaffolding for Fases 6-7 — don't assume they're populated yet.
+- `shared/` holds widgets/dialogs/layouts/navigation/forms/tables reused by **2+ features** (not just 2+ screens of the same feature — that case stays at the feature's own `presentation/widgets/`). Currently only `shared/widgets/app_back_button.dart` and `shared/widgets/header_clipper.dart` are populated (moved out of `shell/` because `tenant` and `user` already depended on them); the rest are empty, reserved for Fase 6 once the duplicated components identified in [ADR-012-plan-migracion.md](docs/00-core/07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md) get unified.
 
 ### Dependency wiring
 
-There is no DI framework (no `get_it`, no `injectable`, no Riverpod). Each feature has an `*Injection` class (e.g. `AuthInjection`, `TenantInjection`, `UsersInjection`) with static factory methods that manually construct the chain from scratch: `Api()` → `RepositoryAdapter(api)` → `UseCase(repository)` → `Controller(useCase)`. Pages call these factories directly (e.g. `AuthInjection.login()`) rather than receiving controllers via a provider/injector — a new instance is built per call.
+There is no DI framework (no `get_it`, no `injectable`, no Riverpod). Each feature has an `*Injection` class (e.g. `AuthInjection`, `TenantInjection`, `UsersInjection`) with static factory methods that manually construct the chain from scratch: `Api()` → `RepositoryAdapter(api)` → `UseCase(repository)` → `Controller(useCase)`. Screens call these factories directly (e.g. `AuthInjection.login()`) rather than receiving controllers via a provider/injector — a new instance is built per call.
 
 ### State management
 
 Two different mechanisms coexist, used for different things:
 - **`AuthProvider`** (`ChangeNotifier`, wired via `provider` package at the app root in `main.dart`) holds the *only* global state: the current `LoginSesion` (token, `hasTenant`, `User`). Session is in-memory only — nothing is persisted to disk, so it resets on app restart. `MainApp` in `main.dart` decides `LoginScreen` vs `MainLayout` based on `auth.isLogged`.
-- **Everything else** (login/register forms, profile edits, tenant creation, etc.) uses plain non-reactive `Controller` classes instantiated per-page via the feature's `*Injection`. Pages manage their own loading/error/success UI state locally (typically `setState`), calling `await controller.someAction(...)` and catching exceptions thrown by the API layer.
+- **Everything else** (login/register forms, profile edits, tenant creation, etc.) uses plain non-reactive `Controller` classes instantiated per-screen via the feature's `*Injection`. Screens manage their own loading/error/success UI state locally (typically `setState`), calling `await controller.someAction(...)` and catching exceptions thrown by the API layer.
 
 ### Navigation
 
@@ -60,11 +77,11 @@ Two-tier routing:
 1. `MaterialApp` (in `main.dart`) only registers one named route (`AppRoutes.register`); its `home` is `LoginScreen` or `MainLayout`.
 2. `MainLayout` (`features/shell/presentation/pages/main_layout.dart`) owns its **own nested `Navigator`** (`_innerNavigatorKey`) with an `onGenerateRoute` switch over `AppRoutes` constants (tenants, profile, createTenant, joinTenant, changePassword, ...). A custom `NavigatorObserver` in the same file watches route changes on this inner navigator and syncs the bottom-nav `selectedIndex` accordingly.
 
-`AppRoutes` (`features/core/routes/app_routes.dart`) centralizes route-name string constants. `AppNavigator` (`features/core/routes/app_navigator.dart`) wraps `Navigator.pushNamed`/`pushReplacementNamed`/etc. Some call sites use `AppNavigator`, others call `Navigator.pushNamed(context, ...)` directly — both target the nearest `Navigator` in context, so calls inside `MainLayout`'s subtree hit the inner navigator.
+`AppRoutes` (`core/routing/app_routes.dart`) centralizes route-name string constants. `AppNavigator` (`core/routing/app_navigator.dart`) wraps `Navigator.pushNamed`/`pushReplacementNamed`/etc. Some call sites use `AppNavigator`, others call `Navigator.pushNamed(context, ...)` directly — both target the nearest `Navigator` in context, so calls inside `MainLayout`'s subtree hit the inner navigator. See [ADR-012's navigation plan](docs/00-core/07-refactor-arquitectura-frontend/03-arquitectura-navegacion.md) for where this is headed (routes registered per-feature instead of one central switch).
 
 ### Backend API
 
-Each feature's datasource (`AuthApi`, `UserApi`, `TenantApi` in `data/datasources/`) is a thin `package:http` wrapper with private `_post`/`_get` helpers that JSON-encode/decode and throw `Exception(message)` on non-2xx responses or malformed bodies. There is **no shared HTTP client, no interceptor, and no central API config**: each of the three files independently hardcodes `baseUrl = "http://192.168.0.104:8080"` (a LAN IP — `TenantApi` additionally appends `/tenant`). If the backend host/port changes, update all three files. Auth is a bare `Bearer <token>` header passed explicitly into each authenticated call (token comes from `AuthProvider.session`) — there's no auto-refresh or persistent token storage.
+Each feature's datasource (`AuthApi`, `UserApi`, `TenantApi` in `data/datasources/`) is a thin `package:http` wrapper with private `_post`/`_get` helpers that JSON-encode/decode responses. They throw plain `Exception(message)` for malformed/empty response bodies, and `ApiException` (`core/errors/api_exception.dart`, with `statusCode`/`errorCode`/`message`) for non-2xx responses — see [ADR-011](docs/00-core/06-api-integration/ADR-011-sistema-permisos.md). There is **no shared HTTP client, no interceptor, and no central API config**: each of the three files independently hardcodes `baseUrl = "http://192.168.0.104:8080"` (a LAN IP — `TenantApi` additionally appends `/tenant`). If the backend host/port changes, update all three files. Auth is a bare `Bearer <token>` header passed explicitly into each authenticated call (token comes from `AuthProvider.session`) — there's no auto-refresh or persistent token storage.
 
 ### Naming conventions worth knowing
 

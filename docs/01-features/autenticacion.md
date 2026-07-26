@@ -4,7 +4,7 @@
 
 Login, registro, recuperación de contraseña, y el estado de sesión global de toda la app (`AuthProvider`). Es la única feature que expone estado reactivo compartido — todas las demás lo consumen (`context.read/watch<AuthProvider>()`).
 
-## Pantallas (`presentation/pages/`)
+## Pantallas (`presentation/<screen>/`)
 
 | Pantalla | Ruta de acceso | Descripción |
 |---|---|---|

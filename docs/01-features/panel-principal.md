@@ -4,15 +4,15 @@
 
 Vista de inicio tras el login: resumen del estado de la cuenta, checklist de primeros pasos, accesos rápidos y actividad reciente. No tiene capa `domain`/`data` propia — es puramente `presentation`, consumidor de `AuthProvider` (feature `auth`) y de las rutas de `tenant`.
 
-## Pantallas (`presentation/pages/`)
+## Pantallas (`presentation/<screen>/`)
 
 | Pantalla | Estado | Descripción |
 |---|---|---|
 | `PersonalDashboardScreen` | **Activa**, ruta `/` del navigator interno de `MainLayout` | Panel real, conectado a `AuthProvider` |
-| `AdminDashboardPage` | **Mockup, no enrutada** | Vista estática con datos financieros de ejemplo (saldo del fondo, indicadores, gráfica de barras con `fl_chart`) — sin controllers, sin llamadas a API, sin conexión a `AuthProvider`. Previsualización del futuro módulo de Gestión Financiera. |
-| `MemberDashboardPage` | **Mockup, no enrutada** | Igual que la anterior mockup, con datos de ejemplo (ahorro personal, préstamo, liquidaciones, gráficas de línea/torta con `fl_chart`). Tampoco está referenciada desde ningún lugar de la app. |
 
-## `PersonalDashboardScreen` — composición (`presentation/widgets/personal/`)
+> **Actualización 2026-07-26:** `AdminDashboardPage` y `MemberDashboardPage` (mockups estáticos sin controllers ni conexión a `AuthProvider`, no enrutados) se confirmaron como no vigentes y se **eliminaron** del proyecto (ver [ADR-012-plan-migracion.md](../00-core/07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md)). El futuro módulo de Gestión Financiera y el dashboard de miembro/admin se reconstruirán desde cero con la estructura objetivo de ADR-012 cuando el negocio defina su diseño vigente.
+
+## `PersonalDashboardScreen` — composición (`presentation/personal_dashboard/widgets/`)
 
 `PremiumGradientHeader` + `HeaderUserBlock`, luego (según `hasOrganizations`):
 - **Sin organizaciones**: `NoActiveOrganizationCard` con acciones para crear/unirse.
