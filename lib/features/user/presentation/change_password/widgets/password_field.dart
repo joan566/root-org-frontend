@@ -26,15 +26,17 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
         ),
         const SizedBox(height: 8),
@@ -42,15 +44,15 @@ class _PasswordFieldState extends State<PasswordField> {
           controller: widget.controller,
           obscureText: _obscureText,
           validator: widget.validator,
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 15),
+          style: TextStyle(color: colors.textPrimary, fontSize: 15),
           decoration: InputDecoration(
             hintText: widget.placeholder,
-            hintStyle: const TextStyle(color: AppColors.textMuted, fontSize: 14),
-            prefixIcon: Icon(widget.prefixIcon, color: AppColors.textSecondary, size: 20),
+            hintStyle: TextStyle(color: colors.textMuted, fontSize: 14),
+            prefixIcon: Icon(widget.prefixIcon, color: colors.textSecondary, size: 20),
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
                 size: 20,
               ),
               onPressed: () {
@@ -58,25 +60,25 @@ class _PasswordFieldState extends State<PasswordField> {
               },
             ),
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: colors.surface,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.border, width: 1.5),
+              borderSide: BorderSide(color: colors.border, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: BorderSide(color: colors.primary, width: 1.5),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+              borderSide: BorderSide(color: colors.error, width: 1.5),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.error, width: 2.0),
+              borderSide: BorderSide(color: colors.error, width: 2.0),
             ),
-            errorStyle: const TextStyle(color: AppColors.error, fontSize: 12),
+            errorStyle: TextStyle(color: colors.error, fontSize: 12),
           ),
         ),
       ],

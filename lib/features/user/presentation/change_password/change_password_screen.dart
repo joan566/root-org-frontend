@@ -126,7 +126,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).background,
 
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -164,11 +164,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       const SizedBox(height: 32),
 
                       if (_errorMessage != null) ...[
-                        _buildStatusBanner(_errorMessage!, AppColors.error, Icons.error_outline),
+                        _buildStatusBanner(_errorMessage!, AppColors.of(context).error, Icons.error_outline),
                         const SizedBox(height: 16),
                       ],
                       if (_successMessage != null) ...[
-                        _buildStatusBanner(_successMessage!, AppColors.success, Icons.check_circle_outline),
+                        _buildStatusBanner(_successMessage!, AppColors.of(context).success, Icons.check_circle_outline),
                         const SizedBox(height: 16),
                       ],
 

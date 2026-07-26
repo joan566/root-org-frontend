@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 void showUpdateProfileErrorDialog(BuildContext context, String message) {
+  final colors = AppColors.of(context);
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -37,7 +39,7 @@ void showUpdateProfileErrorDialog(BuildContext context, String message) {
               Navigator.of(dialogContext).pop();
             },
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: colors.primary,
             ),
             child: const Text("Entendido"),
           ),

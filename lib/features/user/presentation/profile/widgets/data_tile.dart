@@ -11,24 +11,26 @@ class DataTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: AppColors.textSecondary),
+          Icon(icon, size: 16, color: colors.textSecondary),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
+                Text(label, style: TextStyle(fontSize: 11, color: colors.textSecondary, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 3),
                 Text(
                   value,
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: isPlaceholder ? AppColors.textSecondary.withOpacity(0.6) : AppColors.textPrimary
+                      color: isPlaceholder ? colors.textSecondary.withOpacity(0.6) : colors.textPrimary
                   ),
                 ),
               ],

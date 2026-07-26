@@ -90,13 +90,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().session?.user;
-    if (loading) return const Scaffold(body: Center(child: CircularProgressIndicator(color: AppColors.primary)));
+    final colors = AppColors.of(context);
+    if (loading) return Scaffold(body: Center(child: CircularProgressIndicator(color: colors.primary)));
     if (user == null) return const Scaffold(body: Center(child: Text("Perfil no disponible")));
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       body: RefreshIndicator(
-        color: AppColors.primary,
+        color: colors.primary,
         onRefresh: _loadProfile,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),

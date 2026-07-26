@@ -13,6 +13,7 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final String initials = '${name.isNotEmpty ? name[0] : ''}${lastName.isNotEmpty ? lastName[0] : ''}'.toUpperCase();
     final bool isComplete = percentage >= 1.0;
 
@@ -23,7 +24,7 @@ class ProfileAvatar extends StatelessWidget {
           size: const Size(84, 84),
           painter: AvatarProgressPainter(
             progress: percentage,
-            color: isComplete ? AppColors.success : AppColors.primary,
+            color: isComplete ? colors.success : colors.primary,
           ),
         ),
         CircleAvatar(
@@ -31,11 +32,11 @@ class ProfileAvatar extends StatelessWidget {
           backgroundColor: const Color(0xFF1E293B),
           child: CircleAvatar(
             radius: 34,
-            backgroundColor: AppColors.primary.withOpacity(0.15),
+            backgroundColor: colors.primary.withOpacity(0.15),
             child: Text(
               initials,
-              style: const TextStyle(
-                color: AppColors.primary,
+              style: TextStyle(
+                color: colors.primary,
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.5,

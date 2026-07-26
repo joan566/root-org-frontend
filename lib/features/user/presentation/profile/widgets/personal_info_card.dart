@@ -24,16 +24,18 @@ class PersonalInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return BaseContainerCard(
       title: 'Información personal',
       icon: Icons.person_outline_rounded,
       children: [
         DataTile(icon: Icons.badge_outlined, label: 'Nombre Completo', value: '$name $lastName'),
-        const Divider(color: AppColors.border, height: 1),
+        Divider(color: colors.border, height: 1),
         DataTile(icon: Icons.fingerprint_rounded, label: 'Documento / Identificación', value: document ?? "No  especificado"),
-        const Divider(color: AppColors.border, height: 1),
+        Divider(color: colors.border, height: 1),
         DataTile(icon: Icons.cake_outlined, label: 'Fecha de nacimiento', value: dateOfBirth ?? 'No especificado', isPlaceholder: true),
-        const Divider(color: AppColors.border, height: 1),
+        Divider(color: colors.border, height: 1),
         DataTile(icon: Icons.transgender_rounded, label: 'Género / Sexo', value: gender ?? "No especificado"),
       ],
     );

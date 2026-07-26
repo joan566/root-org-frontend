@@ -12,12 +12,14 @@ class SecurityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return BaseContainerCard(
       title: 'Seguridad y autenticación',
       icon: Icons.shield_outlined,
       children: [
         const DataTile(icon: Icons.password_rounded, label: 'Contraseña del sistema', value: '••••••••••••'),
-        const Divider(color: AppColors.border, height: 1),
+        Divider(color: colors.border, height: 1),
         const DataTile(icon: Icons.phonelink_lock_rounded, label: 'Verificación en dos pasos (2FA)', value: 'Desactivado', isPlaceholder: true),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -30,9 +32,9 @@ class SecurityCard extends StatelessWidget {
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: colors.border),
                   ),
-                  child: const Text('Cambiar contraseña', style: TextStyle(fontSize: 13, color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                  child: Text('Cambiar contraseña', style: TextStyle(fontSize: 13, color: colors.textPrimary, fontWeight: FontWeight.bold)),
                 ),
               ),
               const SizedBox(width: 12),
@@ -41,9 +43,9 @@ class SecurityCard extends StatelessWidget {
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    side: const BorderSide(color: AppColors.border),
+                    side: BorderSide(color: colors.border),
                   ),
-                  child: const Text('Cerrar otras sesiones', style: TextStyle(fontSize: 13, color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                  child: Text('Cerrar otras sesiones', style: TextStyle(fontSize: 13, color: colors.textPrimary, fontWeight: FontWeight.bold)),
                 ),
               ),
             ],

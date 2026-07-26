@@ -7,6 +7,7 @@ class PasswordHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final double iconSize = isDesktop ? 72 : 56;
 
     return Column(
@@ -14,36 +15,36 @@ class PasswordHeader extends StatelessWidget {
         Container(
           width: iconSize,
           height: iconSize,
-          decoration: const BoxDecoration(
-            color: AppColors.primaryLight,
+          decoration: BoxDecoration(
+            color: colors.primaryLight,
             shape: BoxShape.circle,
           ),
           child: Icon(
             Icons.shield_outlined,
-            color: AppColors.primary,
+            color: colors.primary,
             size: iconSize * 0.5,
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
+        Text(
           "Cambiar contraseña",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
             letterSpacing: -0.5,
           ),
         ),
         const SizedBox(height: 8),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
-          child: const Text(
+          child: Text(
             "Actualiza tu contraseña para mantener tu cuenta protegida. Asegúrate de utilizar una contraseña segura y fácil de recordar.",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: colors.textSecondary,
               height: 1.5,
             ),
           ),

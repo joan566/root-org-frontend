@@ -80,6 +80,7 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   /// Método encargado de desplegar el selector de fecha con estética Material Design
   Future<void> _selectDateOfBirth(BuildContext context) async {
+    final colors = AppColors.of(context);
     final DateTime today = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -89,13 +90,19 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.primary, // Color de cabecera y selección
+            colorScheme: ColorScheme(
+              brightness: colors.brightness,
+              primary: colors.primary, // Color de cabecera y selección
               onPrimary: Colors.white,
-              onSurface: AppColors.textPrimary,
+              secondary: colors.primary,
+              onSecondary: Colors.white,
+              error: colors.error,
+              onError: Colors.white,
+              surface: colors.surface,
+              onSurface: colors.textPrimary,
             ),
             textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+              style: TextButton.styleFrom(foregroundColor: colors.primary),
             ),
           ),
           child: child!,
@@ -114,14 +121,15 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     // Usamos MediaQuery de forma adaptativa para que el modal no sea cortado por el teclado en pantallas chicas
     final double maxModalHeight = MediaQuery.of(context).size.height * 0.85;
 
     return Container(
       height: maxModalHeight,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -130,7 +138,7 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
           Container(
               width: 40,
               height: 4,
-              decoration: BoxDecoration(color: AppColors.border, borderRadius: BorderRadius.circular(10))
+              decoration: BoxDecoration(color: colors.border, borderRadius: BorderRadius.circular(10))
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -142,7 +150,7 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Editar perfil de cuenta', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: -0.4)),
+                    Text('Editar perfil de cuenta', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.4)),
                     const SizedBox(height: 4),
 
                     _buildInputField('Nombre corporativo', _nameController, Icons.person_outline_rounded),
@@ -169,10 +177,10 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
                             onPressed: () => Navigator.pop(context),
                             style: OutlinedButton.styleFrom(
                               minimumSize: const Size(0, 48),
-                              side: const BorderSide(color: AppColors.border),
+                              side: BorderSide(color: colors.border),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
-                            child: const Text('Cancelar', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                            child: Text('Cancelar', style: TextStyle(color: colors.textPrimary, fontWeight: FontWeight.bold)),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -188,7 +196,7 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
                             },
                             style: FilledButton.styleFrom(
                               minimumSize: const Size(0, 48),
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: colors.primary,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                             child: loading
@@ -220,15 +228,17 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   /// Campo de texto regular para Strings
   Widget _buildInputField(String label, TextEditingController controller, IconData icon) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+        Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: colors.textPrimary)),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
           validator: (value) => value == null || value.trim().isEmpty ? 'Este campo es mandatario' : null,
-          style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
           decoration: _buildInputDecoration(icon),
         ),
       ],
@@ -237,20 +247,22 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   /// Campo de selección de fecha (Read Only para forzar uso del calendario)
   Widget _buildDatePickerField(String label, TextEditingController controller, IconData icon, VoidCallback onTap) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+        Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: colors.textPrimary)),
         const SizedBox(height: 6),
         TextFormField(
           controller: controller,
           readOnly: true, // Bloquea la escritura por teclado
           onTap: onTap,    // Invoca la apertura del DatePicker
           validator: (value) => value == null || value.isEmpty ? 'Por favor selecciona una fecha válida' : null,
-          style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 14, color: colors.textPrimary, fontWeight: FontWeight.w500),
           decoration: _buildInputDecoration(icon).copyWith(
             hintText: 'DD/MM/AAAA',
-            suffixIcon: const Icon(Icons.arrow_drop_down_rounded, color: AppColors.textSecondary),
+            suffixIcon: Icon(Icons.arrow_drop_down_rounded, color: colors.textSecondary),
           ),
         ),
       ],
@@ -259,15 +271,17 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   /// Dropdown adaptado al diseño limpio del ecosistema SaaS para control de género
   Widget _buildDropdownField(String label, IconData icon) {
+    final colors = AppColors.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
         ),
         const SizedBox(height: 6),
@@ -290,18 +304,18 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
           validator: (value) =>
           value == null ? 'Por favor selecciona un género' : null,
 
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
             fontWeight: FontWeight.w500,
           ),
 
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_drop_down_rounded,
-            color: AppColors.textSecondary,
+            color: colors.textSecondary,
           ),
 
-          dropdownColor: Colors.white,
+          dropdownColor: colors.surface,
           borderRadius: BorderRadius.circular(14),
           decoration: _buildInputDecoration(icon),
         ),
@@ -311,14 +325,16 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   /// Decoración base unificada para evitar duplicar código visual
   InputDecoration _buildInputDecoration(IconData icon) {
+    final colors = AppColors.of(context);
+
     return InputDecoration(
-      prefixIcon: Icon(icon, size: 18, color: AppColors.textSecondary),
+      prefixIcon: Icon(icon, size: 18, color: colors.textSecondary),
       filled: true,
-      fillColor: AppColors.background,
+      fillColor: colors.background,
       isDense: true,
       contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: AppColors.primary, width: 1.5)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: colors.primary, width: 1.5)),
       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.redAccent, width: 1.0)),
       focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Colors.redAccent, width: 1.5)),
     );

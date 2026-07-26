@@ -11,13 +11,15 @@ class ProfileCompletionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.subtleShadow(),
-        border: Border.all(color: AppColors.border),
+        boxShadow: colors.subtleShadow(),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,23 +31,23 @@ class ProfileCompletionCard extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: AppColors.primaryLight, shape: BoxShape.circle),
-                    child: const Icon(Icons.bolt_rounded, color: AppColors.primary, size: 18),
+                    decoration: BoxDecoration(color: colors.primaryLight, shape: BoxShape.circle),
+                    child: Icon(Icons.bolt_rounded, color: colors.primary, size: 18),
                   ),
                   const SizedBox(width: 12),
-                  const Text('Perfil Profesional', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+                  Text('Perfil Profesional', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: colors.textPrimary)),
                 ],
               ),
               Text(
                 '${(completionPercentage * 100).toInt()}% completo',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.primary),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: colors.primary),
               ),
             ],
           ),
           const SizedBox(height: 14),
-          const Text(
+          Text(
             'Completa la verificación corporativa para desbloquear herramientas avanzadas de administración multi-tenant.',
-            style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.4),
+            style: TextStyle(fontSize: 13, color: colors.textSecondary, height: 1.4),
           ),
           const SizedBox(height: 16),
           ClipRRect(
@@ -53,18 +55,18 @@ class ProfileCompletionCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: completionPercentage,
               minHeight: 8,
-              backgroundColor: AppColors.border,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+              backgroundColor: colors.border,
+              valueColor: AlwaysStoppedAnimation<Color>(colors.primary),
             ),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Container(width: 6, height: 6, decoration: const BoxDecoration(color: AppColors.warning, shape: BoxShape.circle)),
+              Container(width: 6, height: 6, decoration: BoxDecoration(color: colors.warning, shape: BoxShape.circle)),
               const SizedBox(width: 6),
               Text(
                 '$pendingCount requerimientos empresariales pendientes',
-                style: const TextStyle(fontSize: 12, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 12, color: colors.textSecondary, fontWeight: FontWeight.w500),
               ),
             ],
           )

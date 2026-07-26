@@ -12,12 +12,14 @@ class BaseContainerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border),
-        boxShadow: AppColors.subtleShadow(),
+        border: Border.all(color: colors.border),
+        boxShadow: colors.subtleShadow(),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,13 +28,13 @@ class BaseContainerCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 14),
             child: Row(
               children: [
-                Icon(icon, size: 18, color: AppColors.textPrimary),
+                Icon(icon, size: 18, color: colors.textPrimary),
                 const SizedBox(width: 10),
-                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary, letterSpacing: -0.2)),
+                Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary, letterSpacing: -0.2)),
               ],
             ),
           ),
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: colors.border, height: 1),
           ...children,
         ],
       ),

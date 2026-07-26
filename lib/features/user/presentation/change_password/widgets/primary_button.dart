@@ -15,26 +15,28 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return SizedBox(
       height: 54,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
-          foregroundColor: AppColors.surface,
+          backgroundColor: colors.primary,
+          disabledBackgroundColor: colors.primary.withOpacity(0.6),
+          foregroundColor: colors.surface,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
         ),
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
           height: 24,
           width: 24,
           child: CircularProgressIndicator(
             strokeWidth: 2.5,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.surface),
+            valueColor: AlwaysStoppedAnimation<Color>(colors.surface),
           ),
         )
             : Text(

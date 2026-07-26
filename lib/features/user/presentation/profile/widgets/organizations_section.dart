@@ -11,19 +11,21 @@ class OrganizationsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     if (tenants.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: colors.border),
         ),
         child: Column(
           children: [
-            const Icon(Icons.corporate_fare_rounded, size: 40, color: AppColors.textSecondary),
+            Icon(Icons.corporate_fare_rounded, size: 40, color: colors.textSecondary),
             const SizedBox(height: 12),
-            const Text('Sin organizaciones vinculadas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            Text('Sin organizaciones vinculadas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary)),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,14 +48,14 @@ class OrganizationsSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Ecosistema de organizaciones', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+              Text('Ecosistema de organizaciones', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: colors.textPrimary)),
               if (tenants.length > 1)
                 TextButton(
                   onPressed: () {},
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Text('Ver todas', style: TextStyle(fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.bold)),
-                      Icon(Icons.chevron_right_rounded, size: 16, color: AppColors.primary),
+                      Text('Ver todas', style: TextStyle(fontSize: 13, color: colors.primary, fontWeight: FontWeight.bold)),
+                      Icon(Icons.chevron_right_rounded, size: 16, color: colors.primary),
                     ],
                   ),
                 )
@@ -73,19 +75,19 @@ class OrganizationsSection extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: colors.surface,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: isActiveWorkspace ? AppColors.primary.withOpacity(0.4) : AppColors.border, width: isActiveWorkspace ? 1.5 : 1.0),
-                boxShadow: AppColors.subtleShadow(),
+                border: Border.all(color: isActiveWorkspace ? colors.primary.withOpacity(0.4) : colors.border, width: isActiveWorkspace ? 1.5 : 1.0),
+                boxShadow: colors.subtleShadow(),
               ),
               child: Row(
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundColor: AppColors.primary.withOpacity(0.1),
+                    backgroundColor: colors.primary.withOpacity(0.1),
                     child: Text(
                       org.tenant.name.substring(0, math.min(2, org.tenant.name.length)).toUpperCase(),
-                      style: const TextStyle(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: colors.primary, fontSize: 13, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(width: 14),
@@ -94,17 +96,17 @@ class OrganizationsSection extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (isActiveWorkspace)
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 4.0),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4.0),
                             child: Row(
                               children: [
-                                Icon(Icons.check_circle_rounded, size: 12, color: AppColors.primary),
-                                SizedBox(width: 4),
-                                Text('Espacio de trabajo activo', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primary)),
+                                Icon(Icons.check_circle_rounded, size: 12, color: colors.primary),
+                                const SizedBox(width: 4),
+                                Text('Espacio de trabajo activo', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: colors.primary)),
                               ],
                             ),
                           ),
-                        Text(org.tenant.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                        Text(org.tenant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary)),
                         const SizedBox(height: 4),
                         Row(
                           children: [
@@ -116,7 +118,7 @@ class OrganizationsSection extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Icon(Icons.arrow_forward_rounded, size: 16, color: isActiveWorkspace ? AppColors.primary : AppColors.textSecondary),
+                  Icon(Icons.arrow_forward_rounded, size: 16, color: isActiveWorkspace ? colors.primary : colors.textSecondary),
                 ],
               ),
             );

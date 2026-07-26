@@ -21,6 +21,7 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Stack(
@@ -92,13 +93,13 @@ class ProfileHeader extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.2),
+                                  color: colors.primary.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                                  border: Border.all(color: colors.primary.withOpacity(0.3)),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Administrador',
-                                  style: TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.w700),
+                                  style: TextStyle(color: colors.primary, fontSize: 11, fontWeight: FontWeight.w700),
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -121,7 +122,7 @@ class ProfileHeader extends StatelessWidget {
                     icon: const Icon(Icons.edit_note_rounded, size: 18),
                     label: const Text('Editar perfil', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.primary,
+                      backgroundColor: colors.primary,
                       foregroundColor: Colors.white,
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

@@ -13,12 +13,14 @@ class PasswordFormCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: AppColors.premiumShadow(),
-        border: Border.all(color: AppColors.border),
+        boxShadow: colors.premiumShadow(),
+        border: Border.all(color: colors.border),
       ),
       padding: const EdgeInsets.all(28),
       child: Form(

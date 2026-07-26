@@ -11,12 +11,14 @@ class LogoutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border),
-        boxShadow: AppColors.subtleShadow(),
+        border: Border.all(color: colors.border),
+        boxShadow: colors.subtleShadow(),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -30,26 +32,26 @@ class LogoutCard extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: AppColors.danger.withOpacity(0.08), shape: BoxShape.circle),
-                      child: const Icon(Icons.logout_rounded, color: AppColors.danger, size: 20),
+                      decoration: BoxDecoration(color: colors.danger.withOpacity(0.08), shape: BoxShape.circle),
+                      child: Icon(Icons.logout_rounded, color: colors.danger, size: 20),
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Cerrar sesión', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.danger)),
-                          SizedBox(height: 2),
-                          Text('Se finalizará el token de sesión en este terminal.', style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                          Text('Cerrar sesión', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.danger)),
+                          const SizedBox(height: 2),
+                          Text('Se finalizará el token de sesión en este terminal.', style: TextStyle(fontSize: 12, color: colors.textSecondary)),
                         ],
                       ),
                     ),
-                    const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
+                    Icon(Icons.chevron_right_rounded, color: colors.textSecondary),
                   ],
                 ),
               ),
             ),
-            const Divider(color: AppColors.border, height: 1),
+            Divider(color: colors.border, height: 1),
             InkWell(
               onTap: () {
                 HapticFeedback.heavyImpact();
@@ -61,17 +63,17 @@ class LogoutCard extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: AppColors.textSecondary.withOpacity(0.08), shape: BoxShape.circle),
-                      child: const Icon(Icons.delete_forever_rounded, color: AppColors.textSecondary, size: 20),
+                      decoration: BoxDecoration(color: colors.textSecondary.withOpacity(0.08), shape: BoxShape.circle),
+                      child: Icon(Icons.delete_forever_rounded, color: colors.textSecondary, size: 20),
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Solicitar eliminación de cuenta', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                          SizedBox(height: 2),
-                          Text('Inicia el protocolo legal de borrado de datos (GDPR/ARCO).', style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                          Text('Solicitar eliminación de cuenta', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary)),
+                          const SizedBox(height: 2),
+                          Text('Inicia el protocolo legal de borrado de datos (GDPR/ARCO).', style: TextStyle(fontSize: 12, color: colors.textSecondary)),
                         ],
                       ),
                     ),
