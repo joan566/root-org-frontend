@@ -22,7 +22,7 @@ There is no CI config, no formatting/build script beyond the standard Flutter to
 
 ## Architecture
 
-**Mid-refactor (ADR-012):** the frontend is being restructured per [ADR-012](docs/00-core/07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md). Fases 1-7 are done (docs, `*Page`→`*Screen` rename, folder skeleton, splitting the 6 oversized screens, Desktop/Mobile views for the 3 screens that had a genuinely distinct layout, `shared/` unification for the 2 components that were true duplicates, and design-system tokens). Only Fase 8 (final validation) is still pending — see `ADR-012-plan-migracion.md` for what's left.
+**ADR-012 implemented (2026-07-26):** the frontend was restructured per [ADR-012](docs/00-core/07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md) — all 8 phases done: docs, `*Page`→`*Screen` rename, folder skeleton, splitting the 6 oversized screens, Desktop/Mobile views for the 3 screens with a genuinely distinct layout, `shared/` unification for the 2 components that were true duplicates, design-system tokens, and final validation (real browser screenshots at mobile/desktop widths, `flutter analyze` 0 errors, `flutter test` passing). A handful of risks were deliberately left open (inconsistent `AppNavigator` usage, hardcoded colors outside `AppColors`, an unimplemented bottom-nav tab) — see `ADR-012-plan-migracion.md` §5 for why each is out of scope.
 
 The app follows **Clean Architecture**, organized as one module per business feature under `lib/features/`: `auth`, `user`, `tenant`, `dashboard`, `shell`. Cross-cutting infrastructure lives outside `features/`, in `lib/core/` and `lib/shared/`. Every business feature follows the same three-layer internal structure:
 

@@ -1,6 +1,6 @@
 # ADR-012 — Refactorización de la Arquitectura Frontend (Flutter)
 
-**Estado:** 🟡 Propuesto
+**Estado:** 🟢 Implementado (2026-07-26). Verificado con `flutter analyze` (0 errores) y `flutter test` (1/1 passed). Ver [ADR-012-plan-migracion.md](./ADR-012-plan-migracion.md) para el detalle completo de las 8 fases.
 **Fecha:** 2026-07-26
 **Prioridad:** Alta
 **Impacto:** Alto (Todo el Frontend)

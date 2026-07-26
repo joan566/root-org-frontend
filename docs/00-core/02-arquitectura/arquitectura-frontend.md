@@ -1,6 +1,6 @@
 # Arquitectura del Frontend
 
-> **En refactor (ADR-012).** Este documento describe el estado **actual** del código. Fases 1-7 de [ADR-012](../07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md) ya están aplicadas: pantallas renombradas a `*Screen`, `core/`/`shared/` creados, las 6 pantallas que superaban 300 líneas divididas, vistas Desktop/Mobile para las 3 pantallas con layout dual real, 2 componentes unificados en `shared/`, y tokens de design system (`typography`/`spacing`/`radius`/`breakpoints`). Solo queda la Fase 8 (validación final) — ver el [plan de migración](../07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md) para el detalle.
+> **ADR-012 implementado (2026-07-26).** Este documento describe el estado **actual** del código tras completar las 8 fases de [ADR-012](../07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md): pantallas renombradas a `*Screen`, `core/`/`shared/` creados, las 6 pantallas que superaban 300 líneas divididas, vistas Desktop/Mobile para las 3 pantallas con layout dual real, 2 componentes unificados en `shared/`, tokens de design system, y validación final (incluye un bug preexistente de layout encontrado y corregido durante la validación visual). Ver el [plan de migración](../07-refactor-arquitectura-frontend/ADR-012-plan-migracion.md) para el detalle completo y los riesgos que quedaron deliberadamente abiertos.
 
 ## Visión general
 
