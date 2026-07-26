@@ -1,4 +1,5 @@
 import 'package:savings_api_frontend/features/dashboard/presentation/dashboard_routes.dart';
+import 'package:savings_api_frontend/features/organization/presentation/organization_routes.dart';
 import 'package:savings_api_frontend/features/shell/presentation/shell_routes.dart';
 import 'package:savings_api_frontend/features/tenant/presentation/tenant_routes.dart';
 import 'package:savings_api_frontend/features/user/presentation/user_routes.dart';
@@ -9,5 +10,6 @@ void registerAllRoutes() {
   registerDashboardRoutes();
   registerTenantRoutes();
   registerUserRoutes();
+  registerOrganizationRoutes();
   registerShellPlaceholderRoutes();
 }

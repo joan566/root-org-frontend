@@ -17,7 +17,7 @@ El layout de la app una vez autenticado: navegación principal (sidebar/bottom n
 
 ## Secciones sin feature propia todavía
 
-Organización, Módulos y Administración no tienen backend/dominio propio hoy (ver [frontend-navigation-redesign.md](../frontend-navigation-redesign.md) §1). Sus rutas se registran directamente en `shell/presentation/shell_routes.dart`, apuntando a `ComingSoonScreen` (`shared/layouts/coming_soon_screen.dart`) — un placeholder reutilizable que explica qué falta y por qué, en vez de crear features vacías por adelantado. Cuando cada una tenga su propia feature (Organización en Fase 3, los módulos en Fase 4), su propio `<feature>_routes.dart` reemplaza esa entrada.
+Módulos y Administración no tienen backend/dominio propio hoy (ver [frontend-navigation-redesign.md](../frontend-navigation-redesign.md) §1). Sus rutas se registran directamente en `shell/presentation/shell_routes.dart`, apuntando a `ComingSoonScreen` (`shared/layouts/coming_soon_screen.dart`) — un placeholder reutilizable que explica qué falta y por qué, en vez de crear features vacías por adelantado. Cuando cada una tenga su propia feature (Fase 4 para los módulos), su propio `<feature>_routes.dart` reemplaza esa entrada — mismo patrón que ya se aplicó a Organización en la Fase 3 (ver [organizacion.md](./organizacion.md)).
 
 ## Selección de organización activa
 

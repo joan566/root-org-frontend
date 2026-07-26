@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
-import 'base_container_card.dart';
+import 'package:savings_api_frontend/shared/widgets/base_container_card.dart';
 import 'data_tile.dart';
 
 class PersonalInfoCard extends StatelessWidget {

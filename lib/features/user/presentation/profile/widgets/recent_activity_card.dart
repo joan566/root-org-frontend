@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
-import 'base_container_card.dart';
+import 'package:savings_api_frontend/shared/widgets/base_container_card.dart';
 
 class RecentActivityCard extends StatelessWidget {
   const RecentActivityCard();
