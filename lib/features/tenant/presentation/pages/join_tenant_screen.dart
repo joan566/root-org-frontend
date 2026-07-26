@@ -8,14 +8,14 @@ import 'package:savings_api_frontend/features/shell/presentation/widgets/app_bac
 import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
 import '../controller/tenant_injection.dart';
 
-class JoinTenantPage extends StatefulWidget {
-  const JoinTenantPage({super.key});
+class JoinTenantScreen extends StatefulWidget {
+  const JoinTenantScreen({super.key});
 
   @override
-  State<JoinTenantPage> createState() => _JoinTenantPageState();
+  State<JoinTenantScreen> createState() => _JoinTenantScreenState();
 }
 
-class _JoinTenantPageState extends State<JoinTenantPage> with SingleTickerProviderStateMixin {
+class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController codeController = TextEditingController();
   final FocusNode _focusNode = FocusNode();

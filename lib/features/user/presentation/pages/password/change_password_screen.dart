@@ -6,14 +6,14 @@ import 'package:savings_api_frontend/features/auth/presentation/provider/auth_pr
 import 'package:savings_api_frontend/features/shell/presentation/widgets/app_back_button.dart';
 import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
 
-class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key});
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({super.key});
 
   @override
-  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _currentPasswordController = TextEditingController();

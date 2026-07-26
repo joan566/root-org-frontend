@@ -10,21 +10,21 @@ import '../widgets/login/left_identity_panel.dart';
 import '../widgets/login/login_form_header.dart';
 import '../widgets/login/login_utils.dart';
 import '../widgets/login/social_logins_grid.dart';
-import 'forgot_password_page.dart';
+import 'forgot_password_screen.dart';
 
 // Controladores e Inyección
 import '../controllers/auth_injection.dart';
 import '../controllers/login_controller.dart';
 import '../provider/auth_provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -264,7 +264,7 @@ class _LoginPageState extends State<LoginPage> {
               HapticFeedback.lightImpact();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
               );
             },
       borderRadius: BorderRadius.circular(4),

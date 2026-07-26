@@ -6,15 +6,15 @@ import '../controllers/forgot_password_controller.dart';
 import '../widgets/login/backend_error_card.dart';
 import '../widgets/login/login_utils.dart';
 
-class ResetPasswordPage extends StatefulWidget {
+class ResetPasswordScreen extends StatefulWidget {
   final String resetToken;
-  const ResetPasswordPage({super.key, required this.resetToken});
+  const ResetPasswordScreen({super.key, required this.resetToken});
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();

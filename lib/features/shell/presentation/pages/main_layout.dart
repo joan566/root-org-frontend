@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/features/core/routes/app_routes.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/pages/create_tenant_page.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/pages/join_tenant_page.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/pages/tenant_page.dart';
-import 'package:savings_api_frontend/features/user/presentation/pages/password/change_password_page.dart';
-import 'package:savings_api_frontend/features/user/presentation/pages/profile/profile_page.dart';
-import 'package:savings_api_frontend/features/dashboard/presentation/pages/personal/personal_dashboard_page.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/pages/create_tenant_screen.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/pages/join_tenant_screen.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/pages/tenant_screen.dart';
+import 'package:savings_api_frontend/features/user/presentation/pages/password/change_password_screen.dart';
+import 'package:savings_api_frontend/features/user/presentation/pages/profile/profile_screen.dart';
+import 'package:savings_api_frontend/features/dashboard/presentation/pages/personal/personal_dashboard_screen.dart';
 import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
 
 class MainLayout extends StatefulWidget {
@@ -73,25 +73,25 @@ class _MainLayoutState extends State<MainLayout> {
 
     switch (settings.name) {
       case '/':
-        page = const PersonalDashboardPage();
+        page = const PersonalDashboardScreen();
         break;
       case AppRoutes.tenants:
-        page = const TenantPage();
+        page = const TenantScreen();
         break;
       case AppRoutes.profile:
-        page = const ProfilePage();
+        page = const ProfileScreen();
         break;
       case AppRoutes.createTenant:
-        page = const CreateTenantPage();
+        page = const CreateTenantScreen();
         break;
       case AppRoutes.joinTenant:
-        page = const JoinTenantPage();
+        page = const JoinTenantScreen();
         break;
       case AppRoutes.changePassword:
-        page = const ChangePasswordPage();
+        page = const ChangePasswordScreen();
         break;
       default:
-        page = const PersonalDashboardPage();
+        page = const PersonalDashboardScreen();
     }
 
     return MaterialPageRoute(

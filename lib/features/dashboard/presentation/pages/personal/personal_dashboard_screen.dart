@@ -14,14 +14,14 @@ import '../../widgets/no_active_organization_card.dart';
 import '../../../../auth/domain/entities/user.dart';
 import '../../../../auth/presentation/provider/auth_provider.dart';
 
-class PersonalDashboardPage extends StatefulWidget {
-  const PersonalDashboardPage({super.key});
+class PersonalDashboardScreen extends StatefulWidget {
+  const PersonalDashboardScreen({super.key});
 
   @override
-  State<PersonalDashboardPage> createState() => _PersonalDashboardPageState();
+  State<PersonalDashboardScreen> createState() => _PersonalDashboardScreenState();
 }
 
-class _PersonalDashboardPageState extends State<PersonalDashboardPage> {
+class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
   final ValueNotifier<bool> _isScrolledPastHeader = ValueNotifier<bool>(false);
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

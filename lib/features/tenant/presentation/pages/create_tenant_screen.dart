@@ -8,14 +8,14 @@ import 'package:savings_api_frontend/features/shell/presentation/widgets/app_bac
 import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
 import '../controller/tenant_injection.dart';
 
-class CreateTenantPage extends StatefulWidget {
-  const CreateTenantPage({super.key});
+class CreateTenantScreen extends StatefulWidget {
+  const CreateTenantScreen({super.key});
 
   @override
-  State<CreateTenantPage> createState() => _CreateTenantPageState();
+  State<CreateTenantScreen> createState() => _CreateTenantScreenState();
 }
 
-class _CreateTenantPageState extends State<CreateTenantPage> {
+class _CreateTenantScreenState extends State<CreateTenantScreen> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();

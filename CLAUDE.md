@@ -18,7 +18,7 @@ flutter run                        # run the app (lib/main.dart is the entry poi
 
 There is no CI config, no formatting/build script beyond the standard Flutter toolchain, and no `.env`/flavor setup — see "Backend URL" below.
 
-**Known issue:** `test/widget_test.dart` is still the default Flutter counter-app template and does not match this app (`MainApp` renders `LoginPage`/`MainLayout`, not a counter). It currently fails (`flutter test` returns exit 1). Don't treat this as a regression you introduced; if you touch tests, this one needs rewriting to match real app behavior first.
+**Known issue:** `test/widget_test.dart` is still the default Flutter counter-app template and does not match this app (`MainApp` renders `LoginScreen`/`MainLayout`, not a counter). It currently fails (`flutter test` returns exit 1). Don't treat this as a regression you introduced; if you touch tests, this one needs rewriting to match real app behavior first.
 
 ## Architecture
 
@@ -51,13 +51,13 @@ There is no DI framework (no `get_it`, no `injectable`, no Riverpod). Each featu
 ### State management
 
 Two different mechanisms coexist, used for different things:
-- **`AuthProvider`** (`ChangeNotifier`, wired via `provider` package at the app root in `main.dart`) holds the *only* global state: the current `LoginSesion` (token, `hasTenant`, `User`). Session is in-memory only — nothing is persisted to disk, so it resets on app restart. `MainApp` in `main.dart` decides `LoginPage` vs `MainLayout` based on `auth.isLogged`.
+- **`AuthProvider`** (`ChangeNotifier`, wired via `provider` package at the app root in `main.dart`) holds the *only* global state: the current `LoginSesion` (token, `hasTenant`, `User`). Session is in-memory only — nothing is persisted to disk, so it resets on app restart. `MainApp` in `main.dart` decides `LoginScreen` vs `MainLayout` based on `auth.isLogged`.
 - **Everything else** (login/register forms, profile edits, tenant creation, etc.) uses plain non-reactive `Controller` classes instantiated per-page via the feature's `*Injection`. Pages manage their own loading/error/success UI state locally (typically `setState`), calling `await controller.someAction(...)` and catching exceptions thrown by the API layer.
 
 ### Navigation
 
 Two-tier routing:
-1. `MaterialApp` (in `main.dart`) only registers one named route (`AppRoutes.register`); its `home` is `LoginPage` or `MainLayout`.
+1. `MaterialApp` (in `main.dart`) only registers one named route (`AppRoutes.register`); its `home` is `LoginScreen` or `MainLayout`.
 2. `MainLayout` (`features/shell/presentation/pages/main_layout.dart`) owns its **own nested `Navigator`** (`_innerNavigatorKey`) with an `onGenerateRoute` switch over `AppRoutes` constants (tenants, profile, createTenant, joinTenant, changePassword, ...). A custom `NavigatorObserver` in the same file watches route changes on this inner navigator and syncs the bottom-nav `selectedIndex` accordingly.
 
 `AppRoutes` (`features/core/routes/app_routes.dart`) centralizes route-name string constants. `AppNavigator` (`features/core/routes/app_navigator.dart`) wraps `Navigator.pushNamed`/`pushReplacementNamed`/etc. Some call sites use `AppNavigator`, others call `Navigator.pushNamed(context, ...)` directly — both target the nearest `Navigator` in context, so calls inside `MainLayout`'s subtree hit the inner navigator.

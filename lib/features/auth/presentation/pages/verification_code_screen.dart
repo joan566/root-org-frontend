@@ -4,17 +4,17 @@ import 'package:savings_api_frontend/features/core/presentation/styles/app_color
 import '../controllers/auth_injection.dart';
 import '../controllers/forgot_password_controller.dart';
 import '../widgets/login/backend_error_card.dart';
-import 'reset_password_page.dart';
+import 'reset_password_screen.dart';
 
-class VerificationCodePage extends StatefulWidget {
+class VerificationCodeScreen extends StatefulWidget {
   final String email;
-  const VerificationCodePage({super.key, required this.email});
+  const VerificationCodeScreen({super.key, required this.email});
 
   @override
-  State<VerificationCodePage> createState() => _VerificationCodePageState();
+  State<VerificationCodeScreen> createState() => _VerificationCodeScreenState();
 }
 
-class _VerificationCodePageState extends State<VerificationCodePage> {
+class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   final _codeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _codeFocusNode = FocusNode();
@@ -61,7 +61,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ResetPasswordPage(resetToken: resetToken),
+          builder: (context) => ResetPasswordScreen(resetToken: resetToken),
         ),
       );
     } catch (e) {

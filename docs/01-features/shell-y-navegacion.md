@@ -6,8 +6,8 @@ El layout de la app una vez autenticado: bottom navigation, botón flotante de a
 
 ## `MainLayout` (`presentation/pages/main_layout.dart`)
 
-- `Scaffold` con `bottomNavigationBar` (4 posiciones: Inicio, Organizaciones, Usuarios [reservado, sin pantalla], Perfil) y un `FloatingActionButton` que abre directamente `CreateTenantPage`.
-- Contiene un `Navigator` propio (`_innerNavigatorKey`), con `initialRoute: '/'` y su propio `onGenerateRoute`, que resuelve: `/` → `PersonalDashboardPage`, `AppRoutes.tenants` → `TenantPage`, `AppRoutes.profile` → `ProfilePage`, `AppRoutes.createTenant` → `CreateTenantPage`, `AppRoutes.joinTenant` → `JoinTenantPage`, `AppRoutes.changePassword` → `ChangePasswordPage`; cualquier otro nombre (incluido `/dashboard`) cae en `default` → `PersonalDashboardPage`.
+- `Scaffold` con `bottomNavigationBar` (4 posiciones: Inicio, Organizaciones, Usuarios [reservado, sin pantalla], Perfil) y un `FloatingActionButton` que abre directamente `CreateTenantScreen`.
+- Contiene un `Navigator` propio (`_innerNavigatorKey`), con `initialRoute: '/'` y su propio `onGenerateRoute`, que resuelve: `/` → `PersonalDashboardScreen`, `AppRoutes.tenants` → `TenantScreen`, `AppRoutes.profile` → `ProfileScreen`, `AppRoutes.createTenant` → `CreateTenantScreen`, `AppRoutes.joinTenant` → `JoinTenantScreen`, `AppRoutes.changePassword` → `ChangePasswordScreen`; cualquier otro nombre (incluido `/dashboard`) cae en `default` → `PersonalDashboardScreen`.
 - Un `NavigatorObserver` interno (`_InnerRouteObserver`) escucha los cambios de ruta de ese navigator y sincroniza el índice resaltado del bottom nav.
 - `PopScope(canPop: false, ...)` intercepta el botón de retroceso del sistema para delegarlo al navigator interno (`navigator.pop()`) en vez de dejar que cierre `MainLayout` completo — importante: esta protección cubre el back del sistema/`maybePop`, **no** un `Navigator.of(context).pop()` imperativo llamado directamente sobre el navigator raíz desde código de la app.
 
@@ -18,5 +18,5 @@ El layout de la app una vez autenticado: bottom navigation, botón flotante de a
 
 ## Puntos de atención
 
-- Diálogos abiertos con `showGeneralDialog`/`showDialog` desde una pantalla que vive en el navigator interno se montan, por defecto, en el navigator **raíz** (`useRootNavigator: true`). Si el flujo necesita cerrar el diálogo y además volver una pantalla atrás, hay que capturar `Navigator.of(context)` de la página *antes* de abrir el diálogo (ver el caso de `JoinTenantPage` en [organizaciones.md](./organizaciones.md)) — reusar el mismo `context` para ambos `pop()` puede terminar sacando la única ruta del navigator raíz (`MainLayout`), dejando la pantalla en negro.
+- Diálogos abiertos con `showGeneralDialog`/`showDialog` desde una pantalla que vive en el navigator interno se montan, por defecto, en el navigator **raíz** (`useRootNavigator: true`). Si el flujo necesita cerrar el diálogo y además volver una pantalla atrás, hay que capturar `Navigator.of(context)` de la página *antes* de abrir el diálogo (ver el caso de `JoinTenantScreen` en [organizaciones.md](./organizaciones.md)) — reusar el mismo `context` para ambos `pop()` puede terminar sacando la única ruta del navigator raíz (`MainLayout`), dejando la pantalla en negro.
 - No hay pantalla asignada todavía al espacio "Usuarios" del bottom nav (`index == 2` en `_onItemTapped` no hace nada).

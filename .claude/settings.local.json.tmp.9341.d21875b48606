@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(git mv *)",
+      "Bash(sed -i \"s/_PersonalDashboardPageState/_PersonalDashboardScreenState/g\" lib/features/dashboard/presentation/pages/personal/personal_dashboard_screen.dart)",
+      "Bash(sed -i \"s/_RegisterPageState/_RegisterScreenState/g\" lib/features/auth/presentation/pages/register_screen.dart)",
+      "Bash(sed -i \"s/_ProfilePageState/_ProfileScreenState/g\" lib/features/user/presentation/pages/profile/profile_screen.dart)",
+      "Bash(sed -i \"s/_LoginPageState/_LoginScreenState/g\" lib/features/auth/presentation/pages/login_screen.dart)",
+      "Bash(sed -i \"s/_ResetPasswordPageState/_ResetPasswordScreenState/g\" lib/features/auth/presentation/pages/reset_password_screen.dart)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}

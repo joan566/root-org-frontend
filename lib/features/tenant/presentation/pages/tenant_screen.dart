@@ -8,14 +8,14 @@ import 'package:savings_api_frontend/features/core/presentation/styles/app_color
 import 'package:savings_api_frontend/features/shell/presentation/widgets/header_clipper.dart';
 import '../../../auth/domain/entities/user_tenant.dart';
 
-class TenantPage extends StatefulWidget {
-  const TenantPage({super.key});
+class TenantScreen extends StatefulWidget {
+  const TenantScreen({super.key});
 
   @override
-  State<TenantPage> createState() => _TenantPageState();
+  State<TenantScreen> createState() => _TenantScreenState();
 }
 
-class _TenantPageState extends State<TenantPage> {
+class _TenantScreenState extends State<TenantScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   List<UserTenant> _organizations = [];

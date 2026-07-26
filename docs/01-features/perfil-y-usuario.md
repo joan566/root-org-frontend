@@ -8,16 +8,16 @@ Consulta y edición del perfil del usuario autenticado, y cambio de contraseña.
 
 | Pantalla | Ruta de acceso | Descripción |
 |---|---|---|
-| `ProfilePage` | `AppRoutes.profile` (navigator interno de `MainLayout`, tab "Perfil") | Vista principal del perfil |
-| `ChangePasswordPage` | `AppRoutes.changePassword` | Cambio de contraseña |
+| `ProfileScreen` | `AppRoutes.profile` (navigator interno de `MainLayout`, tab "Perfil") | Vista principal del perfil |
+| `ChangePasswordScreen` | `AppRoutes.changePassword` | Cambio de contraseña |
 
 ## Widgets de perfil (`presentation/widgets/profile/`)
 
-Composición de `ProfilePage`: `ProfileHeader` + `ProfileAvatar` (con anillo de progreso, `AvatarProgressPainter`), `ProfileStats`, `ProfileCompletionCard`, `PersonalInfoCard`, `ContactInfoCard`, `OrganizationsSection` (lista de `UserTenant` con `RoleChip` — un chip por rol — y `StatusChip`), `SecurityCard`, `RecentActivityCard`, `PreferencesCard`, `LogoutCard`. La edición se hace en una hoja inferior modal, `EditProfileBottomSheet`.
+Composición de `ProfileScreen`: `ProfileHeader` + `ProfileAvatar` (con anillo de progreso, `AvatarProgressPainter`), `ProfileStats`, `ProfileCompletionCard`, `PersonalInfoCard`, `ContactInfoCard`, `OrganizationsSection` (lista de `UserTenant` con `RoleChip` — un chip por rol — y `StatusChip`), `SecurityCard`, `RecentActivityCard`, `PreferencesCard`, `LogoutCard`. La edición se hace en una hoja inferior modal, `EditProfileBottomSheet`.
 
 ## Estado
 
-Sin `ChangeNotifier` propio — `ProfilePage` es `StatefulWidget` con `loading`/error local, y sincroniza los cambios hacia el estado global llamando `context.read<AuthProvider>().updateUser(...)` después de cada operación exitosa (ver perfil, editar perfil).
+Sin `ChangeNotifier` propio — `ProfileScreen` es `StatefulWidget` con `loading`/error local, y sincroniza los cambios hacia el estado global llamando `context.read<AuthProvider>().updateUser(...)` después de cada operación exitosa (ver perfil, editar perfil).
 
 Controllers (vía `UsersInjection`): `GetUserController`, `UpdateProfileController`, `ChangePasswordController`.
 

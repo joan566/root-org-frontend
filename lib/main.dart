@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/shell/presentation/pages/main_layout.dart';
 
-import 'features/auth/presentation/pages/login_page.dart';
-import 'features/auth/presentation/pages/register_page.dart';
+import 'features/auth/presentation/pages/login_screen.dart';
+import 'features/auth/presentation/pages/register_screen.dart';
 import 'features/auth/presentation/provider/auth_provider.dart';
 import 'features/core/routes/app_routes.dart';
 
@@ -27,9 +27,9 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: auth.isLogged
               ? const MainLayout()
-              : const LoginPage(),
+              : const LoginScreen(),
           routes: {
-            AppRoutes.register: (_) => const RegisterPage(),
+            AppRoutes.register: (_) => const RegisterScreen(),
           },
         );
       },

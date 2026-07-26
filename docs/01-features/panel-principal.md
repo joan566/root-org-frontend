@@ -8,11 +8,11 @@ Vista de inicio tras el login: resumen del estado de la cuenta, checklist de pri
 
 | Pantalla | Estado | Descripción |
 |---|---|---|
-| `PersonalDashboardPage` | **Activa**, ruta `/` del navigator interno de `MainLayout` | Panel real, conectado a `AuthProvider` |
+| `PersonalDashboardScreen` | **Activa**, ruta `/` del navigator interno de `MainLayout` | Panel real, conectado a `AuthProvider` |
 | `AdminDashboardPage` | **Mockup, no enrutada** | Vista estática con datos financieros de ejemplo (saldo del fondo, indicadores, gráfica de barras con `fl_chart`) — sin controllers, sin llamadas a API, sin conexión a `AuthProvider`. Previsualización del futuro módulo de Gestión Financiera. |
 | `MemberDashboardPage` | **Mockup, no enrutada** | Igual que la anterior mockup, con datos de ejemplo (ahorro personal, préstamo, liquidaciones, gráficas de línea/torta con `fl_chart`). Tampoco está referenciada desde ningún lugar de la app. |
 
-## `PersonalDashboardPage` — composición (`presentation/widgets/personal/`)
+## `PersonalDashboardScreen` — composición (`presentation/widgets/personal/`)
 
 `PremiumGradientHeader` + `HeaderUserBlock`, luego (según `hasOrganizations`):
 - **Sin organizaciones**: `NoActiveOrganizationCard` con acciones para crear/unirse.

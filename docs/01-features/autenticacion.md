@@ -8,11 +8,11 @@ Login, registro, recuperación de contraseña, y el estado de sesión global de 
 
 | Pantalla | Ruta de acceso | Descripción |
 |---|---|---|
-| `LoginPage` | `home` de `MaterialApp` (no logueado) | Formulario de login + enlaces a registro y "olvidé mi contraseña" |
-| `RegisterPage` | `Navigator.pushNamed(context, "/register")` desde login | Formulario de registro + vista de éxito |
-| `ForgotPasswordPage` | `Navigator.push` (MaterialPageRoute) desde login | Paso 1 de recuperación: solicitar código |
-| `VerificationCodePage` | Push desde `ForgotPasswordPage` | Paso 2: verificar código, obtiene `resetToken` |
-| `ResetPasswordPage` | Push desde `VerificationCodePage` | Paso 3: nueva contraseña |
+| `LoginScreen` | `home` de `MaterialApp` (no logueado) | Formulario de login + enlaces a registro y "olvidé mi contraseña" |
+| `RegisterScreen` | `Navigator.pushNamed(context, "/register")` desde login | Formulario de registro + vista de éxito |
+| `ForgotPasswordScreen` | `Navigator.push` (MaterialPageRoute) desde login | Paso 1 de recuperación: solicitar código |
+| `VerificationCodeScreen` | Push desde `ForgotPasswordScreen` | Paso 2: verificar código, obtiene `resetToken` |
+| `ResetPasswordScreen` | Push desde `VerificationCodeScreen` | Paso 3: nueva contraseña |
 
 ## Estado
 
@@ -25,6 +25,6 @@ Ver [casos de uso — autenticación](../00-core/04-casos-de-uso/authentication/
 
 ## Puntos de atención
 
-- `RegisterPage` vuelve a login con `Navigator.pop(context)`, no con una ruta nombrada `/login` (no existe como ruta registrada).
+- `RegisterScreen` vuelve a login con `Navigator.pop(context)`, no con una ruta nombrada `/login` (no existe como ruta registrada).
 - `ForgotPasswordController` maneja los 3 pasos de recuperación con un único controller compartido (`sendCode`, `verifyCode`, `resetPassword`), inyectado una sola vez vía `AuthInjection.forgotPassword()` y reutilizado a través de las 3 pantallas navegadas en cadena.
 - `AuthApi` no distingue login/registro exitoso de un usuario "no logueado a propósito" — cualquier respuesta no-2xx se traduce a `ApiException`.

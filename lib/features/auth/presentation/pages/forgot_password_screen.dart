@@ -5,16 +5,16 @@ import '../controllers/auth_injection.dart';
 import '../controllers/forgot_password_controller.dart';
 import '../widgets/login/backend_error_card.dart';
 import '../widgets/login/login_utils.dart';
-import 'verification_code_page.dart';
+import 'verification_code_screen.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _emailFocusNode = FocusNode();
@@ -61,7 +61,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => VerificationCodePage(email: email),
+          builder: (context) => VerificationCodeScreen(email: email),
         ),
       );
     } catch (e) {
