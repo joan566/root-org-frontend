@@ -6,9 +6,8 @@ import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 // Widgets refactorizados
 import '../widgets/backend_error_card.dart';
 import 'widgets/create_account_card.dart';
-import 'widgets/left_identity_panel.dart';
 import 'widgets/login_form_header.dart';
-import '../widgets/login_utils.dart';
+import '../widgets/login_utils.dart' show FieldLabel, FormDivider;
 import 'widgets/social_logins_grid.dart';
 import '../forgot_password/forgot_password_screen.dart';
 
@@ -16,6 +15,10 @@ import '../forgot_password/forgot_password_screen.dart';
 import '../state/auth_injection.dart';
 import 'state/login_controller.dart';
 import '../provider/auth_provider.dart';
+
+// Vistas responsive (Fase 5)
+import 'mobile/login_mobile_view.dart';
+import 'desktop/login_desktop_view.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -98,110 +101,82 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, constraints) {
           bool isDesktop = constraints.maxWidth > 950;
           bool isTablet = constraints.maxWidth <= 950 && constraints.maxWidth > 600;
+          final double horizontalPadding = isDesktop ? 64.0 : (isTablet ? 48.0 : 20.0);
+          final formCard = _buildFormCard();
 
-          return Row(
-            children: [
-              if (isDesktop)
-                const Expanded(
-                  flex: 45,
-                  child: LeftIdentityPanel(),
-                ),
-
-              Expanded(
-                flex: isDesktop ? 55 : 100,
-                child: Stack(
-                  children: [
-                    const AbstractBackgroundDecoration(),
-
-                    Center(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isDesktop ? 64.0 : (isTablet ? 48.0 : 20.0),
-                          vertical: 32.0,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 480),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              if (!isDesktop) ...[
-                                const MobileMiniBrandHeader(),
-                                const SizedBox(height: 32),
-                              ],
-
-                              if (_backendErrorMessage != null) ...[
-                                BackendErrorCard(
-                                  message: _backendErrorMessage!,
-                                  onClose: () => setState(() => _backendErrorMessage = null),
-                                ),
-                                const SizedBox(height: 20),
-                              ],
-
-                              FocusTraversalGroup(
-                                child: Form(
-                                  key: _formKey,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(32),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.surface,
-                                      borderRadius: BorderRadius.circular(24),
-                                      border: Border.all(color: AppColors.border),
-                                      boxShadow: AppColors.premiumShadow(),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const LoginFormHeader(),
-                                        const SizedBox(height: 28),
-
-                                        const FieldLabel(label: 'Correo electrónico corporativo'),
-                                        const SizedBox(height: 6),
-                                        _buildEmailField(),
-                                        const SizedBox(height: 20),
-
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const FieldLabel(label: 'Contraseña'),
-                                            _buildForgotPasswordAction(),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 6),
-                                        _buildPasswordField(),
-                                        const SizedBox(height: 16),
-
-                                        _buildRememberMeCheckbox(),
-                                        const SizedBox(height: 24),
-
-                                        _buildSubmitButton(),
-                                        const SizedBox(height: 28),
-
-                                        const FormDivider(),
-                                        const SizedBox(height: 20),
-
-                                        const FutureSocialLoginsGrid(),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 24),
-
-                              const CreateAccountBottomCard(),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
+          return isDesktop
+              ? LoginDesktopView(horizontalPadding: horizontalPadding, formCard: formCard)
+              : LoginMobileView(horizontalPadding: horizontalPadding, formCard: formCard);
         },
       ),
+    );
+  }
+
+  Widget _buildFormCard() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (_backendErrorMessage != null) ...[
+          BackendErrorCard(
+            message: _backendErrorMessage!,
+            onClose: () => setState(() => _backendErrorMessage = null),
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        FocusTraversalGroup(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              padding: const EdgeInsets.all(32),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.border),
+                boxShadow: AppColors.premiumShadow(),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const LoginFormHeader(),
+                  const SizedBox(height: 28),
+
+                  const FieldLabel(label: 'Correo electrónico corporativo'),
+                  const SizedBox(height: 6),
+                  _buildEmailField(),
+                  const SizedBox(height: 20),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const FieldLabel(label: 'Contraseña'),
+                      _buildForgotPasswordAction(),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  _buildPasswordField(),
+                  const SizedBox(height: 16),
+
+                  _buildRememberMeCheckbox(),
+                  const SizedBox(height: 24),
+
+                  _buildSubmitButton(),
+                  const SizedBox(height: 28),
+
+                  const FormDivider(),
+                  const SizedBox(height: 20),
+
+                  const FutureSocialLoginsGrid(),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        const CreateAccountBottomCard(),
+      ],
     );
   }
 
