@@ -21,6 +21,7 @@ class RegisterDesktopView extends StatelessWidget {
           child: LeftRegisterIdentityPanel(),
         ),
         Expanded(
+          flex: 55,
           child: Stack(
             children: [
               const RegisterBackgroundDecoration(),
