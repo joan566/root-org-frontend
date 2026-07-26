@@ -5,18 +5,20 @@
 ## 1. Lista de pantallas afectadas
 
 > **Actualización 2026-07-26:** `admin_dashboard_page.dart` y `member_dashboard_page.dart` se confirmaron como no vigentes (mocks descartados, sin referencias en el resto del código) y se **eliminaron** del proyecto. Quedan 12 pantallas activas.
+>
+> **Actualización 2026-07-26 (Fase 4 ejecutada):** las 6 filas marcadas ✅ abajo ya se dividieron — sus clases privadas/widgets inline se extrajeron a `widgets/`/`dialogs/`/`bottom_sheets/` propios de cada pantalla. Detalle de cada extracción en los mensajes de commit correspondientes. `login_screen.dart` (345 líneas) se evaluó y **no requirió división**: ya estaba compuesta casi enteramente de widgets extraídos previamente (`LoginFormHeader`, `LeftIdentityPanel`, etc.), sin clases privadas adicionales que mover.
 
-12 pantallas en total. Umbral de división obligatoria: **> 300 líneas** (5 de 12, ~42%, lo superan hoy).
+12 pantallas en total. Umbral de división obligatoria: **> 300 líneas**.
 
-| Archivo | Líneas | Feature | ¿Requiere división (Fase 4)? | Notas |
+| Archivo | Líneas (antes → después) | Feature | Fase 4 | Notas |
 |---|---|---|---|---|
-| `tenant/presentation/pages/tenant_page.dart` | 829 | tenant | Sí | 13 clases privadas inline; contiene `_RoleChip`/`_StatusChip` duplicados (ver §3) |
-| `tenant/presentation/pages/create_tenant_page.dart` | 820 | tenant | Sí | 12 clases privadas inline, incluye `_BackendErrorCard`/`_FieldLabel`/`_GridPainter` duplicados |
-| `auth/presentation/pages/register_page.dart` | 791 | auth | Sí | 13 clases privadas inline, 7 patrones de validación, `_BackendErrorCard`/`_FieldLabel`/`_GridPatternPainter` duplicados |
-| `tenant/presentation/pages/join_tenant_page.dart` | 753 | tenant | Sí | Contiene **2 diálogos completos inline** (`_SuccessDialog` con animación, `_ErrorDialog`) que deben extraerse a `dialogs/` |
-| `user/presentation/pages/password/change_password_page.dart` | 542 | user | Sí | Widgets reutilizables (`PasswordField`, `PrimaryButton`) declarados públicos pero viven en el archivo de la page, no en `widgets/` |
-| `user/presentation/widgets/profile/edit_profile_bottom_sheet.dart` | 416 | user | Sí (aunque ya vive en `widgets/`) | 12 `TextEditingController` + validación + llamada a controller en un solo archivo → candidato a extraer a `forms/` |
-| `auth/presentation/pages/login_page.dart` | 345 | auth | Sí (división ligera) | El más simple de los 7; buen candidato para ser el primero migrado end-to-end (piloto de Fase 2-5) |
+| `tenant/presentation/tenant_list/tenant_screen.dart` | 829 → 161 | tenant | ✅ Dividida | 11 clases privadas extraídas a `widgets/`; el modal de "crear o unirse" se extrajo a `bottom_sheets/create_or_join_bottom_sheet.dart` |
+| `tenant/presentation/create_tenant/create_tenant_screen.dart` | 820 → 342 | tenant | ✅ Dividida | 10 clases privadas extraídas a `widgets/` |
+| `auth/presentation/register/register_screen.dart` | 791 → 374 | auth | ✅ Dividida | 10 clases privadas extraídas a `widgets/`; `FieldLabel`/`MobileMiniBrandHeader` unificados con el compartido de `auth/widgets/login_utils.dart` (eran idénticos byte a byte) |
+| `tenant/presentation/join_tenant/join_tenant_screen.dart` | 753 → 248 | tenant | ✅ Dividida | 6 widgets a `widgets/`; **los 2 diálogos animados** (`SuccessDialog`, `ErrorDialog`) extraídos a `dialogs/` preservando la asimetría de animación original — la extracción de mayor riesgo del plan, verificada con `flutter analyze` sin errores |
+| `user/presentation/change_password/change_password_screen.dart` | 542 → 278 | user | ✅ Dividida | Las 5 clases públicas (`PasswordField`, `PrimaryButton`, etc.) ya estaban bien separadas, solo se movieron a `widgets/` |
+| `user/presentation/profile/bottom_sheets/edit_profile_bottom_sheet.dart` | 416 → 369 | user | ✅ Parcial | Diálogo de error extraído a `dialogs/`; el formulario de 5 campos se mantiene como un único widget cohesivo (extraerlo a `forms/` no reduciría complejidad real sin más contexto de negocio) |
+| `auth/presentation/login/login_screen.dart` | 345 | auth | No requerida | Ya compuesta de widgets extraídos previamente; sin clases privadas adicionales |
 | `dashboard/presentation/pages/personal/personal_dashboard_page.dart` | 298 | dashboard | No (límite) | Vigilar — está a 2 líneas del umbral |
 | `auth/presentation/pages/verification_code_page.dart` | 249 | auth | No | — |
 | `shell/presentation/pages/main_layout.dart` | 241 | shell | No (pero sí reorganización de navegación, ver [03-arquitectura-navegacion.md](./03-arquitectura-navegacion.md)) | — |
@@ -51,6 +53,10 @@ Estos son los únicos candidatos **confirmados** (2+ implementaciones reales del
 
 **Nota de alcance:** unificar estos 7 componentes es trabajo de Fase 6, y depende de que la Fase 4 primero los extraiga de las pages a archivos propios dentro de cada feature. No se saltan pasos: primero se separan (Fase 4), después se comparan y unifican en `shared/` (Fase 6).
 
+> **Actualización 2026-07-26 (Fase 4 ejecutada):** al extraer `register_screen.dart`, `create_tenant_screen.dart` y `tenant_screen.dart` se encontraron **2 casos adicionales** de duplicación no listados arriba (el inventario de Fase 1 solo comparó nombres/archivos ya existentes, no el contenido completo de las pantallas grandes, que todavía no se había leído en detalle):
+> - `FieldLabel` y `MobileMiniBrandHeader` de `register_screen.dart` eran **copias byte-a-byte idénticas** de las ya compartidas en `auth/presentation/widgets/login_utils.dart` → se eliminó la copia y se apunta directamente al compartido (cero cambio de comportamiento, menos código).
+> - `FormDivider`, `BackendErrorCard`/`_BackendErrorCard`, `AbstractBackgroundDecoration`, `FutureSocialLoginsGrid`/`_LeftIdentityWorkspacePanel`/`_LeftRegisterIdentityPanel`, `TenantRoleChip`/`TenantStatusChip` **se parecen pero difieren** en texto, fontWeight, opacidad o proveedores listados entre `register_screen.dart`, `create_tenant_screen.dart` y los compartidos de `auth`/`user` → se mantuvieron como archivos propios de cada pantalla (`RegisterFormDivider`, `WorkspaceBackendErrorCard`, etc.) en vez de forzar una unificación que habría alterado contenido visual sin aprobación explícita. Siguen siendo candidatos válidos para Fase 6, pero esa fase deberá decidir explícitamente cuál texto/valor "gana" en cada caso (mismo patrón que las decisiones de ADR-011).
+
 ## 4. Plan de migración por Feature
 
 | Feature | Estado actual | Foco de la migración |
@@ -80,7 +86,7 @@ Estos son los únicos candidatos **confirmados** (2+ implementaciones reales del
 
 1. **Fase 2** (renombrado `Page`→`Screen`) sobre las 14 pantallas, aprovechando para unificar navegación en `AppNavigator` y eliminar rutas-string sueltas (mitiga 2 riesgos con un solo pase).
 2. **Fase 3** (nueva estructura de carpetas) creada vacía, sin mover código todavía.
-3. **Fase 4**, empezando por `auth/LoginScreen` como piloto (la pantalla grande más simple), después `tenant/*` (mayor concentración de deuda). El módulo dashboard admin/member se reconstruye desde cero con la estructura objetivo cuando el negocio defina su diseño vigente (los mocks anteriores fueron eliminados).
+3. **Fase 4** ✅ ejecutada (2026-07-26) para las 6 pantallas que la requerían (ver tabla actualizada en §1). `LoginScreen` se evaluó como piloto y no necesitó división. El módulo dashboard admin/member se reconstruye desde cero con la estructura objetivo cuando el negocio defina su diseño vigente (los mocks anteriores fueron eliminados).
 4. **Fase 5** (responsive) sobre las pantallas ya divididas en Fase 4, empezando por Login/Dashboard/Register/CreateTenant/JoinTenant como indica [04-estrategia-responsive.md](./04-estrategia-responsive.md).
 5. **Fase 6** (shared) unificando los 7 componentes confirmados en §3.
 6. **Fase 7** (design system) formalizando `AppColors` existente + agregando typography/spacing/radius/breakpoints que hoy no existen.
