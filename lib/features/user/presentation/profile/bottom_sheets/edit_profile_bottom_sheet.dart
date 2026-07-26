@@ -7,6 +7,7 @@ import 'package:savings_api_frontend/features/user/presentation/state/users_inje
 
 import '../../../../auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import '../dialogs/update_profile_error_dialog.dart';
 
 class EditProfileBottomSheet extends StatefulWidget {
   final String name;
@@ -356,7 +357,7 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
       HapticFeedback.vibrate();
 
       if (!mounted) return;
-      _showErrorPortal(e.toString().replaceAll("Exception: ", ""));
+      showUpdateProfileErrorDialog(context, e.toString().replaceAll("Exception: ", ""));
     } finally {
       if (mounted) {
         setState(() {
@@ -365,53 +366,5 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
       }
     }
 
-  }
-
-  void _showErrorPortal(String message) {
-    if (!mounted) return;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: const Row(
-            children: [
-              Icon(
-                Icons.error_outline_rounded,
-                color: Colors.redAccent,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'Ocurrió un error',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          content: Text(
-            message,
-            style: const TextStyle(
-              height: 1.4,
-            ),
-          ),
-          actions: [
-            FilledButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-              },
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.primary,
-              ),
-              child: const Text("Entendido"),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
