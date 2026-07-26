@@ -5,14 +5,14 @@ import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'package:savings_api_frontend/core/routing/app_routes.dart';
 
 // Widgets refactorizados
-import '../../widgets/personal/premium_gradient_header.dart';
-import '../../widgets/personal/side_control_panel.dart';
-import '../../widgets/personal/header_user_block.dart';
-import '../../widgets/personal/main_dashboard_feed.dart';
-import '../../widgets/no_active_organization_card.dart';
+import 'widgets/premium_gradient_header.dart';
+import 'widgets/side_control_panel.dart';
+import 'widgets/header_user_block.dart';
+import 'widgets/main_dashboard_feed.dart';
+import 'widgets/no_active_organization_card.dart';
 
-import '../../../../auth/domain/entities/user.dart';
-import '../../../../auth/presentation/provider/auth_provider.dart';
+import '../../../auth/domain/entities/user.dart';
+import '../../../auth/presentation/provider/auth_provider.dart';
 
 class PersonalDashboardScreen extends StatefulWidget {
   const PersonalDashboardScreen({super.key});

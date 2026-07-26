@@ -5,7 +5,7 @@ import 'package:savings_api_frontend/features/tenant/presentation/join_tenant/jo
 import 'package:savings_api_frontend/features/tenant/presentation/tenant_list/tenant_screen.dart';
 import 'package:savings_api_frontend/features/user/presentation/change_password/change_password_screen.dart';
 import 'package:savings_api_frontend/features/user/presentation/profile/profile_screen.dart';
-import 'package:savings_api_frontend/features/dashboard/presentation/pages/personal/personal_dashboard_screen.dart';
+import 'package:savings_api_frontend/features/dashboard/presentation/personal_dashboard/personal_dashboard_screen.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 class MainLayout extends StatefulWidget {
