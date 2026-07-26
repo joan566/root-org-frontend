@@ -4,16 +4,16 @@ import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 import '../state/auth_injection.dart';
 import 'state/register_controller.dart';
-import '../widgets/login_utils.dart' show FieldLabel, MobileMiniBrandHeader;
+import '../widgets/login_utils.dart' show FieldLabel;
 import 'widgets/password_strength_indicator.dart';
 import 'widgets/success_confirmation_view.dart';
-import 'widgets/left_register_identity_panel.dart';
 import 'widgets/register_form_header.dart';
 import 'widgets/register_backend_error_card.dart';
 import 'widgets/login_redirect_bottom_card.dart';
 import 'widgets/register_form_divider.dart';
 import 'widgets/register_social_logins_grid.dart';
-import 'widgets/register_background_decoration.dart';
+import 'mobile/register_mobile_view.dart';
+import 'desktop/register_desktop_view.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -117,112 +117,87 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           }
 
-          return Row(
-            children: [
-              if (isDesktop)
-                const Expanded(
-                  flex: 45,
-                  child: LeftRegisterIdentityPanel(),
-                ),
+          final double horizontalPadding = isDesktop ? 64.0 : (isTablet ? 48.0 : 20.0);
+          final formCard = _buildFormCard();
 
-              Expanded(
-                child: Stack(
-                  children: [
-                    const RegisterBackgroundDecoration(),
-                    Center(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isDesktop ? 64.0 : (isTablet ? 48.0 : 20.0),
-                          vertical: 32.0,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 520),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              if (!isDesktop) ...[
-                                const MobileMiniBrandHeader(),
-                                const SizedBox(height: 32),
-                              ],
-
-                              if (_backendErrorMessage != null) ...[
-                                RegisterBackendErrorCard(
-                                  message: _backendErrorMessage!,
-                                  onClose: () => setState(() => _backendErrorMessage = null),
-                                ),
-                                const SizedBox(height: 20),
-                              ],
-
-                              FocusTraversalGroup(
-                                child: Form(
-                                  key: _formKey,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(32),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.surface,
-                                      borderRadius: BorderRadius.circular(24),
-                                      border: Border.all(color: AppColors.border),
-                                      boxShadow: AppColors.premiumShadow(),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const RegisterFormHeader(),
-                                        const SizedBox(height: 24),
-
-                                        const FieldLabel(label: 'Nombre completo'),
-                                        const SizedBox(height: 6),
-                                        _buildNameField(),
-                                        const SizedBox(height: 18),
-
-                                        const FieldLabel(label: 'Teléfono de contacto'),
-                                        const SizedBox(height: 6),
-                                        _buildPhoneField(),
-                                        const SizedBox(height: 18),
-
-                                        const FieldLabel(label: 'Correo electrónico corporativo'),
-                                        const SizedBox(height: 6),
-                                        _buildEmailField(),
-                                        const SizedBox(height: 18),
-
-                                        const FieldLabel(label: 'Contraseña de seguridad'),
-                                        const SizedBox(height: 6),
-                                        _buildPasswordField(),
-                                        const SizedBox(height: 8),
-                                        PasswordStrengthIndicator(password: _passwordController.text),
-                                        const SizedBox(height: 20),
-
-                                        _buildTermsCheckbox(),
-                                        const SizedBox(height: 24),
-
-                                        _buildSubmitButton(),
-                                        const SizedBox(height: 28),
-
-                                        const RegisterFormDivider(),
-                                        const SizedBox(height: 20),
-                                        const RegisterSocialLoginsGrid(),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 24),
-
-                              const LoginRedirectBottomCard(),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
+          return isDesktop
+              ? RegisterDesktopView(horizontalPadding: horizontalPadding, formCard: formCard)
+              : RegisterMobileView(horizontalPadding: horizontalPadding, formCard: formCard);
         },
       ),
+    );
+  }
+
+  Widget _buildFormCard() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (_backendErrorMessage != null) ...[
+          RegisterBackendErrorCard(
+            message: _backendErrorMessage!,
+            onClose: () => setState(() => _backendErrorMessage = null),
+          ),
+          const SizedBox(height: 20),
+        ],
+
+        FocusTraversalGroup(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              padding: const EdgeInsets.all(32),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.border),
+                boxShadow: AppColors.premiumShadow(),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const RegisterFormHeader(),
+                  const SizedBox(height: 24),
+
+                  const FieldLabel(label: 'Nombre completo'),
+                  const SizedBox(height: 6),
+                  _buildNameField(),
+                  const SizedBox(height: 18),
+
+                  const FieldLabel(label: 'Teléfono de contacto'),
+                  const SizedBox(height: 6),
+                  _buildPhoneField(),
+                  const SizedBox(height: 18),
+
+                  const FieldLabel(label: 'Correo electrónico corporativo'),
+                  const SizedBox(height: 6),
+                  _buildEmailField(),
+                  const SizedBox(height: 18),
+
+                  const FieldLabel(label: 'Contraseña de seguridad'),
+                  const SizedBox(height: 6),
+                  _buildPasswordField(),
+                  const SizedBox(height: 8),
+                  PasswordStrengthIndicator(password: _passwordController.text),
+                  const SizedBox(height: 20),
+
+                  _buildTermsCheckbox(),
+                  const SizedBox(height: 24),
+
+                  _buildSubmitButton(),
+                  const SizedBox(height: 28),
+
+                  const RegisterFormDivider(),
+                  const SizedBox(height: 20),
+                  const RegisterSocialLoginsGrid(),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        const LoginRedirectBottomCard(),
+      ],
     );
   }
 
