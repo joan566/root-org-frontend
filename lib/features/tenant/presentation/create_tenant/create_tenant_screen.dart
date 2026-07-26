@@ -8,13 +8,12 @@ import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import '../state/tenant_injection.dart';
 import 'widgets/success_workspace_view.dart';
 import 'widgets/live_workspace_preview_card.dart';
-import 'widgets/left_identity_workspace_panel.dart';
 import 'widgets/workspace_form_header.dart';
 import 'widgets/future_organization_type_selector.dart';
 import 'widgets/workspace_backend_error_card.dart';
 import 'widgets/workspace_field_label.dart';
-import 'widgets/mobile_brand_header.dart';
-import 'widgets/background_abstract_design.dart';
+import 'mobile/create_tenant_mobile_view.dart';
+import 'desktop/create_tenant_desktop_view.dart';
 
 class CreateTenantScreen extends StatefulWidget {
   const CreateTenantScreen({super.key});
@@ -135,122 +134,94 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
             );
           }
 
-          return Row(
-            children: [
-              if (isDesktop)
-                const Expanded(
-                  flex: 40,
-                  child: LeftIdentityWorkspacePanel(),
-                ),
+          final double horizontalPadding = isDesktop ? 48.0 : (isTablet ? 36.0 : 20.0);
+          final content = _buildContent(showPreview: constraints.maxWidth > 800);
 
-              Expanded(
-                flex: isDesktop ? 60 : 100,
-                child: Stack(
-                  children: [
-                    const BackgroundAbstractDesign(),
-                    Center(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.fromLTRB(
-                          isDesktop ? 48.0 : (isTablet ? 36.0 : 20.0),
-                          16,
-                          isDesktop ? 48.0 : (isTablet ? 36.0 : 20.0),
-                          24,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 960),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              if (!isDesktop) ...[
-                                const MobileBrandHeader(),
-                                const SizedBox(height: 24),
-                              ],
+          return isDesktop
+              ? CreateTenantDesktopView(horizontalPadding: horizontalPadding, content: content)
+              : CreateTenantMobileView(horizontalPadding: horizontalPadding, content: content);
+        },
+      ),
+    );
+  }
 
-                              if (_backendErrorMessage != null) ...[
-                                WorkspaceBackendErrorCard(
-                                  message: _backendErrorMessage!,
-                                  onClose: () => setState(() => _backendErrorMessage = null),
-                                ),
-                                const SizedBox(height: 16),
-                              ],
+  Widget _buildContent({required bool showPreview}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (_backendErrorMessage != null) ...[
+          WorkspaceBackendErrorCard(
+            message: _backendErrorMessage!,
+            onClose: () => setState(() => _backendErrorMessage = null),
+          ),
+          const SizedBox(height: 16),
+        ],
 
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    flex: 55,
-                                    child: Form(
-                                      key: _formKey,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(32),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.surface,
-                                          borderRadius: BorderRadius.circular(24),
-                                          border: Border.all(color: AppColors.border),
-                                          boxShadow: AppColors.premiumShadow(),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const WorkspaceFormHeader(),
-                                            const SizedBox(height: 24),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 55,
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: AppColors.border),
+                    boxShadow: AppColors.premiumShadow(),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const WorkspaceFormHeader(),
+                      const SizedBox(height: 24),
 
-                                            const WorkspaceFieldLabel(label: 'Nombre de la organización'),
-                                            const SizedBox(height: 6),
-                                            _buildNameField(),
-                                            const SizedBox(height: 18),
+                      const WorkspaceFieldLabel(label: 'Nombre de la organización'),
+                      const SizedBox(height: 6),
+                      _buildNameField(),
+                      const SizedBox(height: 18),
 
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                const WorkspaceFieldLabel(label: 'Descripción o propósito'),
-                                                Text(
-                                                  '${descriptionController.text.length}/200',
-                                                  style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 6),
-                                            _buildDescriptionField(),
-                                            const SizedBox(height: 20),
-
-                                            const WorkspaceFieldLabel(label: 'Tipo de organización (Opcional)'),
-                                            const SizedBox(height: 6),
-                                            const FutureOrganizationTypeSelector(),
-                                            const SizedBox(height: 28),
-
-                                            _buildSubmitButton(),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  if (constraints.maxWidth > 800) ...[
-                                    const SizedBox(width: 24),
-                                    Expanded(
-                                      flex: 45,
-                                      child: LiveWorkspacePreviewCard(
-                                        name: nameController.text,
-                                        description: descriptionController.text,
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const WorkspaceFieldLabel(label: 'Descripción o propósito'),
+                          Text(
+                            '${descriptionController.text.length}/200',
+                            style: const TextStyle(fontSize: 11, color: AppColors.textMuted, fontWeight: FontWeight.bold),
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 6),
+                      _buildDescriptionField(),
+                      const SizedBox(height: 20),
+
+                      const WorkspaceFieldLabel(label: 'Tipo de organización (Opcional)'),
+                      const SizedBox(height: 6),
+                      const FutureOrganizationTypeSelector(),
+                      const SizedBox(height: 28),
+
+                      _buildSubmitButton(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            if (showPreview) ...[
+              const SizedBox(width: 24),
+              Expanded(
+                flex: 45,
+                child: LiveWorkspacePreviewCard(
+                  name: nameController.text,
+                  description: descriptionController.text,
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ],
+        ),
+      ],
     );
   }
 
