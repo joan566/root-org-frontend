@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 class FutureSocialLoginsGrid extends StatelessWidget {
   const FutureSocialLoginsGrid({super.key});

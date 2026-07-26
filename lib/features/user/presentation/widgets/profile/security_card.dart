@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:savings_api_frontend/features/core/routes/app_navigator.dart';
-import 'package:savings_api_frontend/features/core/routes/app_routes.dart';
+import 'package:savings_api_frontend/core/routing/app_navigator.dart';
+import 'package:savings_api_frontend/core/routing/app_routes.dart';
 
-import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'base_container_card.dart';
 import 'data_tile.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
-import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 // Widgets refactorizados
 import '../../widgets/profile/personal_info_card.dart';

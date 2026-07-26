@@ -5,7 +5,7 @@ import 'package:savings_api_frontend/features/shell/presentation/pages/main_layo
 import 'features/auth/presentation/pages/login_screen.dart';
 import 'features/auth/presentation/pages/register_screen.dart';
 import 'features/auth/presentation/provider/auth_provider.dart';
-import 'features/core/routes/app_routes.dart';
+import 'core/routing/app_routes.dart';
 
 void main() {
   runApp(

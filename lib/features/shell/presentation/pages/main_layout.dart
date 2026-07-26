@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:savings_api_frontend/features/core/routes/app_routes.dart';
+import 'package:savings_api_frontend/core/routing/app_routes.dart';
 import 'package:savings_api_frontend/features/tenant/presentation/pages/create_tenant_screen.dart';
 import 'package:savings_api_frontend/features/tenant/presentation/pages/join_tenant_screen.dart';
 import 'package:savings_api_frontend/features/tenant/presentation/pages/tenant_screen.dart';
 import 'package:savings_api_frontend/features/user/presentation/pages/password/change_password_screen.dart';
 import 'package:savings_api_frontend/features/user/presentation/pages/profile/profile_screen.dart';
 import 'package:savings_api_frontend/features/dashboard/presentation/pages/personal/personal_dashboard_screen.dart';
-import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});

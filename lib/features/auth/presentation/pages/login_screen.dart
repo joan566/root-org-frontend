@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 // Widgets refactorizados
 import '../widgets/login/backend_error_card.dart';

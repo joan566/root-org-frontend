@@ -3,8 +3,8 @@ import 'package:savings_api_frontend/features/user/presentation/controllers/chan
 import 'package:savings_api_frontend/features/user/presentation/controllers/users_injection.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
-import 'package:savings_api_frontend/features/shell/presentation/widgets/app_back_button.dart';
-import 'package:savings_api_frontend/features/core/presentation/styles/app_colors.dart';
+import 'package:savings_api_frontend/shared/widgets/app_back_button.dart';
+import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
