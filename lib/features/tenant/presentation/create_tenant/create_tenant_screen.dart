@@ -2,11 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/controller/register_tenant_with_owner_controller.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/create_tenant/state/register_tenant_with_owner_controller.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/shared/widgets/app_back_button.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
-import '../controller/tenant_injection.dart';
+import '../state/tenant_injection.dart';
 
 class CreateTenantScreen extends StatefulWidget {
   const CreateTenantScreen({super.key});

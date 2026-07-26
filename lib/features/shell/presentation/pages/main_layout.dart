@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/routing/app_routes.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/pages/create_tenant_screen.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/pages/join_tenant_screen.dart';
-import 'package:savings_api_frontend/features/tenant/presentation/pages/tenant_screen.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/create_tenant/create_tenant_screen.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/join_tenant/join_tenant_screen.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/tenant_list/tenant_screen.dart';
 import 'package:savings_api_frontend/features/user/presentation/pages/password/change_password_screen.dart';
 import 'package:savings_api_frontend/features/user/presentation/pages/profile/profile_screen.dart';
 import 'package:savings_api_frontend/features/dashboard/presentation/pages/personal/personal_dashboard_screen.dart';
