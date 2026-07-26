@@ -1,4 +1,5 @@
 class AppRoutes {
+  static const dashboard = '/dashboard';
   static const register = '/register';
   static const tenants = '/tenants';
   static const joinTenant = '/join-to-tenant';

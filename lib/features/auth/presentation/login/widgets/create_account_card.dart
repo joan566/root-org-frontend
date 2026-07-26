@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/routing/app_routes.dart';
 
 class CreateAccountBottomCard extends StatelessWidget {
   const CreateAccountBottomCard({super.key});
@@ -27,7 +28,7 @@ class CreateAccountBottomCard extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           OutlinedButton(
-            onPressed: () => Navigator.pushNamed(context, "/register"),
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.register),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: AppColors.border),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

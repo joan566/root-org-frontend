@@ -5,6 +5,7 @@ import 'package:savings_api_frontend/features/tenant/presentation/create_tenant/
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/shared/widgets/app_back_button.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/routing/app_routes.dart';
 import '../state/tenant_injection.dart';
 import 'widgets/success_workspace_view.dart';
 import 'widgets/live_workspace_preview_card.dart';
@@ -130,7 +131,7 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
             return SuccessWorkspaceView(
               organizationName: nameController.text.trim(),
               invitationCode: generatedCode!,
-              onContinue: () => Navigator.pushReplacementNamed(context, "/dashboard"),
+              onContinue: () => Navigator.pushReplacementNamed(context, AppRoutes.dashboard),
             );
           }
 

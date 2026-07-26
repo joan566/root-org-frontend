@@ -26,7 +26,7 @@ class _MainLayoutState extends State<MainLayout> {
 
       int? targetIndex;
 
-      if (routeName == '/' || routeName == '/dashboard') {
+      if (routeName == '/' || routeName == AppRoutes.dashboard) {
         targetIndex = 0;
       } else if (routeName == AppRoutes.tenants ||
           routeName == AppRoutes.createTenant ||
