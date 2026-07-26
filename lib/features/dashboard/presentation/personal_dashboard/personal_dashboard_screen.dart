@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_palette.dart';
 import 'package:savings_api_frontend/core/routing/app_routes.dart';
+import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
 
 // Widgets refactorizados
 import 'widgets/premium_gradient_header.dart';
@@ -277,6 +278,7 @@ class _PersonalDashboardScreenState extends State<PersonalDashboardScreen> {
                 title: const Text('Cerrar sesión', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w600)),
                 onTap: () {
                   HapticFeedback.heavyImpact();
+                  context.read<TenantSessionController>().clear();
                   context.read<AuthProvider>().logout();
                 },
               ),

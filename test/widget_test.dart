@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/theme_controller.dart';
+import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
 import 'package:savings_api_frontend/main.dart';
 
 void main() {
@@ -31,6 +32,7 @@ void main() {
         providers: [
           ChangeNotifierProvider(create: (_) => AuthProvider()),
           ChangeNotifierProvider(create: (_) => ThemeController()),
+          ChangeNotifierProvider(create: (_) => TenantSessionController()),
         ],
         child: const MainApp(),
       ),

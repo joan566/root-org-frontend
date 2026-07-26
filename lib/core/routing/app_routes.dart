@@ -6,4 +6,7 @@ class AppRoutes {
   static const createTenant = '/create-tenant';
   static const profile = '/profile';
   static const changePassword = '/change-password';
+  static const organization = '/organization';
+  static const modules = '/modules';
+  static const administration = '/administration';
 }

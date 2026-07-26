@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
 
 // Widgets refactorizados
 import 'widgets/personal_info_card.dart';
@@ -165,6 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         LogoutCard(
                           onLogout: () async {
                             HapticFeedback.heavyImpact();
+                            context.read<TenantSessionController>().clear();
                             context.read<AuthProvider>().logout();
                           },
                         ),
