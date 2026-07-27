@@ -59,6 +59,15 @@ Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
 
 Al cerrar sesión (`LogoutCard` en `ProfileScreen`, o desde `SelectTenantScreen` inicial) se llama `TenantSessionController.clear()` además de `AuthProvider.logout()`, para no arrastrar la organización activa a la siguiente sesión.
 
+**Segundo bug relacionado, encontrado tras el anterior:** con el logout ya arreglado, iniciar sesión, cerrar sesión, y volver a iniciar sesión dejaba al usuario atascado en `LoginScreen` sin avanzar. Causa: `LoginScreen._login()` nunca navegaba explícitamente tras un login exitoso — dependía del mismo mecanismo reactivo de `MaterialApp.home`, que solo reacciona mientras la app sigue en la ruta `"/"` del Navigator raíz. El fix de logout de arriba hace que **todo** logout saque a `"/"` del historial permanentemente (antes solo pasaba con 2+ organizaciones); una vez ahí, ningún login subsiguiente tenía a quién notificar. Se corrigió agregando el mismo patrón en `LoginScreen._login()`, apuntando siempre a `SelectTenantScreen` (el gate es el destino correcto tras cualquier login):
+
+```dart
+Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+  MaterialPageRoute(builder: (_) => const SelectTenantScreen()),
+  (route) => false,
+);
+```
+
 ## Widgets
 
 - `AppBackButton`/`HeaderClipper` (`shared/widgets/`): sin cambios.

@@ -16,6 +16,7 @@ import '../forgot_password/forgot_password_screen.dart';
 import '../state/auth_injection.dart';
 import 'state/login_controller.dart';
 import '../provider/auth_provider.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/select_tenant/select_tenant_screen.dart';
 
 // Vistas responsive (Fase 5)
 import 'mobile/login_mobile_view.dart';
@@ -82,6 +83,16 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
       context.read<AuthProvider>().login(session);
 
+      // MaterialApp.home reactivo solo actualiza la pantalla mientras siga
+      // en la ruta "/" del Navigator raíz; tras un logout (que ya hace
+      // pushAndRemoveUntil hacia aquí) este LoginScreen ya no está en "/",
+      // así que sin esta navegación explícita un segundo login se queda
+      // atascado. El gate se muestra siempre tras loguearse, así que el
+      // destino es siempre SelectTenantScreen, nunca directo al shell.
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const SelectTenantScreen()),
+        (route) => false,
+      );
     } catch (e) {
       if (!mounted) return;
       setState(() {
