@@ -25,6 +25,11 @@ Controllers (vía `UsersInjection`): `GetUserController`, `UpdateProfileControll
 
 Ver [casos de uso — user](../00-core/04-casos-de-uso/user/casos-de-uso.md).
 
+## Reglas de negocio
+
+- **Perfil completo requerido para crear/unirse a una organización** (2026-07-26): un usuario no puede crear ni unirse a una organización si su perfil está incompleto. La fuente única de verdad es `User.isProfileComplete` (getter calculado en `auth/domain/entities/user.dart`), que exige 6 campos no vacíos: `name`, `lastName`, `document`, `phoneNumber`, `dateOfBirth`, `gender` — los mismos que exige `EditProfileBottomSheet` para guardar. **No** se usa `User.profileStatus` (string cruda del backend) para esta decisión: su formato es inconsistente entre lo que compara el código (`'COMPLETED'`) y el ejemplo de payload documentado en [ADR-011](../00-core/06-api-integration/ADR-011-sistema-permisos.md) (`'Completo'`) — nunca coinciden, así que no es confiable como gate. `profileStatus` se conserva en la entidad solo como dato informativo del backend.
+- El guard vive en `CreateTenantScreen`/`JoinTenantScreen` (no en cada botón que navega hacia ellas) — ver [organizaciones.md](./organizaciones.md#puntos-de-atención).
+
 ## Puntos de atención
 
 - "Solicitar eliminación de cuenta" en `LogoutCard` es un placeholder visual sin lógica (`onTap` vacío).

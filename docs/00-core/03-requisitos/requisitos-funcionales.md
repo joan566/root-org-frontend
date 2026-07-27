@@ -16,6 +16,8 @@ Ver [casos de uso — autenticación](../04-casos-de-uso/authentication/casos-de
 - **RF-05 — Crear organización**: un usuario autenticado crea una organización nueva (nombre + descripción) y queda como su propietario (`roles: ["Admin"]` asignado automáticamente por el backend). Recibe un código de invitación único para compartir.
 - **RF-06 — Unirse a una organización por código**: un usuario ingresa el código de invitación de una organización y queda vinculado a ella con el rol base `Member`. El formulario no permite elegir un rol — el backend lo asigna siempre.
 - **RF-07 — Listar organizaciones propias**: ver todas las organizaciones a las que el usuario pertenece, con su nombre, código, roles y estado.
+- **RF-15 — Selección de organización obligatoria tras login**: tras iniciar sesión, todo usuario ve una pantalla de selección/gate antes de entrar al panel, sin importar cuántas organizaciones tenga. Con 2+, elige explícitamente cuál activar. Con 1, debe confirmarla explícitamente (ya no se autoselecciona en este paso — sí se sigue autoseleccionando para el resto de la app una vez dentro). Con 0, ve un mensaje indicando que debe crear o unirse a una organización.
+- **RF-16 — Perfil completo requerido para crear/unirse a una organización**: un usuario no puede crear ni unirse a una organización si su perfil personal está incompleto (nombre, apellido, documento, teléfono, fecha de nacimiento y género). Si lo intenta con el perfil incompleto, se le muestra un aviso guiándolo a completarlo primero, en vez del formulario correspondiente. No aplica para entrar a una organización a la que ya pertenece.
 
 Ver [casos de uso — tenant](../04-casos-de-uso/tenant/casos-de-uso.md).
 
@@ -31,7 +33,7 @@ Ver [casos de uso — user](../04-casos-de-uso/user/casos-de-uso.md).
 ## Panel principal (`features/dashboard`)
 
 - **RF-12 — Panel principal personal**: al iniciar sesión, ver un resumen del estado de la cuenta — organizaciones vinculadas, rol activo, checklist de primeros pasos (perfil completo, correo verificado, primera organización creada), accesos rápidos a crear/unirse a una organización, y actividad reciente.
-- **RF-13 — Estado "sin organización"**: si el usuario no pertenece a ninguna organización, el panel muestra una vista dedicada con las acciones de crear/unirse, en vez del panel completo.
+- **RF-13 — Estado "sin organización" (fallback dentro del panel)**: si un usuario ya dentro del shell no pertenece a ninguna organización (ej. al volver atrás desde "Crear organización"), el panel principal muestra una vista dedicada con las acciones de crear/unirse, en vez del panel completo. Esta es una vista de respaldo — el flujo principal para un usuario sin organizaciones es el gate post-login (RF-15).
 
 ## Navegación (`features/shell`)
 

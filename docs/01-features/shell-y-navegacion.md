@@ -23,14 +23,39 @@ Módulos y Administración no tienen backend/dominio propio hoy (ver [frontend-n
 
 ## Selección de organización activa
 
-**Nuevo:** `TenantSessionController` (`core/session/tenant_session_controller.dart`) recuerda cuál `UserTenant` está activo durante la sesión — es aditivo, no modifica `AuthProvider`/`LoginSesion`. `MainApp` (`main.dart`) decide entre `LoginScreen`/`SelectTenantScreen`/`MainShellScreen` según `auth.isLogged` y `tenantSession.resolveActive(tenants)`:
+`TenantSessionController` (`core/session/tenant_session_controller.dart`) recuerda cuál `UserTenant` está activo durante la sesión — es aditivo, no modifica `AuthProvider`/`LoginSesion`. `MainApp` (`main.dart`) decide entre `LoginScreen`/`SelectTenantScreen`/`MainShellScreen` con 3 ramas:
 
-- 0 organizaciones o 1 organización → se resuelve automáticamente, entra directo a `MainShellScreen`.
-- 2+ organizaciones sin elección explícita → `SelectTenantScreen` (`features/tenant/presentation/select_tenant/`), reutiliza `OrganizationCard`.
+```dart
+if (!auth.isLogged) home = const LoginScreen();
+else if (!tenantSession.hasPassedGate) home = const SelectTenantScreen();
+else home = const MainShellScreen();
+```
+
+**Actualizado (Fase 5, 2026-07-26):** `SelectTenantScreen` (modo inicial) ahora es un **gate obligatorio** — se muestra siempre tras el login, sin importar cuántas organizaciones tenga el usuario (antes solo aparecía con 2+; con 0 o 1 se entraba directo). `hasPassedGate` es un flag nuevo en `TenantSessionController`, independiente de `resolveActive()` (que sigue autoseleccionando con 1 organización para el resto de la app — dashboard, organización, etc. — solo el gate de login exige confirmación explícita incluso con una sola). `clear()` resetea `hasPassedGate` al cerrar sesión.
 
 `SelectTenantScreen` tiene dos modos, controlados por `isInitialSelection` (default `true`):
-- **Inicial** (login, sin sesión de shell todavía): sin `AppBar`, con botón "Cerrar sesión"; al elegir, `pushAndRemoveUntil` reemplaza toda la pila por un `MainShellScreen` nuevo — mismo comportamiento que si acabara de iniciar sesión.
-- **Cambio a mitad de sesión** (`isInitialSelection: false`, abierta desde el chip de organización en `HeaderUserBlock` del Dashboard General — ver [panel-principal.md](./panel-principal.md)): con `AppBar`/botón de retroceso, sin "Cerrar sesión"; al elegir, solo hace `pop()` — se empujó sobre el navigator interno del shell, así que el Dashboard (que ya escucha `TenantSessionController`) se actualiza solo al volver.
+- **Inicial** (login, sin sesión de shell todavía) — 3 estados según los datos reales:
+  1. Perfil incompleto (`!user.isProfileComplete`) → `ProfileIncompleteNotice` (ver [perfil-y-usuario.md](./perfil-y-usuario.md#reglas-de-negocio)).
+  2. Perfil completo, 0 organizaciones → reutiliza `NoActiveOrganizationView` (ver [panel-principal.md](./panel-principal.md)).
+  3. 1+ organizaciones → lista (`OrganizationCard`), con confirmación explícita incluso con una sola.
+
+  Cualquiera de los 3 entra al shell vía el helper `_enterShell`, que llama `markGatePassed()` y hace `Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => MainShellScreen(initialPushRoute: ...)), (route) => false)` — con `initialPushRoute` opcional (`AppRoutes.profile`/`createTenant`/`joinTenant`) para aterrizar directo en esa pantalla en vez del dashboard.
+- **Cambio a mitad de sesión** (`isInitialSelection: false`, abierta desde el chip de organización en `HeaderUserBlock` del Dashboard General — ver [panel-principal.md](./panel-principal.md), solo cuando el usuario ya tiene 2+): con `AppBar`/botón de retroceso, sin "Cerrar sesión"; al elegir, solo hace `pop()` — se empujó sobre el navigator interno del shell, así que el Dashboard (que ya escucha `TenantSessionController`) se actualiza solo al volver.
+
+### `MainShellScreen(initialPushRoute:)`
+
+Parámetro opcional nuevo en `MainShellScreen`: en `initState`, si viene seteado, hace `addPostFrameCallback` y empuja esa ruta con nombre sobre `AppRoutes.dashboard` (la ruta inicial de siempre) en el `Navigator` interno. El dashboard queda debajo en la pila, así que el botón atrás regresa ahí con normalidad, y pantallas como `CreateTenantScreen`/`ProfileScreen` funcionan sin ningún cambio — siguen resolviendo contra el mismo `Navigator` interno de siempre, sin importar si llegaron ahí por un acceso rápido normal o por este mecanismo.
+
+### Logout — fix de un bug preexistente
+
+`SelectTenantScreen._enterShell` entra al shell con `pushAndRemoveUntil(..., (route) => false)`, lo que elimina permanentemente la ruta `"/"` del historial del Navigator raíz. Antes de esta fase, `LogoutCard` (`ProfileScreen`) y `SelectTenantScreen._logout` cerraban sesión sin ningún `Navigator` explícito, confiando en que `MaterialApp.home` reactivo regresara a `LoginScreen` — eso solo funciona mientras `"/"` siga en el historial, así que el logout ya estaba roto (bug preexistente) para cualquier usuario que hubiera pasado por el flujo de 2+ organizaciones. Como esta fase hace que **todo** login pase por ese mismo mecanismo (incluso con 1 organización), se corrigió en los 2 call sites agregando el mismo patrón que ya usa `_enterShell`:
+
+```dart
+Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+  MaterialPageRoute(builder: (_) => const LoginScreen()),
+  (route) => false,
+);
+```
 
 Al cerrar sesión (`LogoutCard` en `ProfileScreen`, o desde `SelectTenantScreen` inicial) se llama `TenantSessionController.clear()` además de `AuthProvider.logout()`, para no arrastrar la organización activa a la siguiente sesión.
 

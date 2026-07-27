@@ -2,6 +2,8 @@
 
 > **Estado: 🟢 Implementado (Fases 1-4).** Fase 0 fue el entregable de análisis/propuesta (este documento); Fases 1-4 ya se ejecutaron — ver [shell-y-navegacion.md](./01-features/shell-y-navegacion.md), [panel-principal.md](./01-features/panel-principal.md) y [organizacion.md](./01-features/organizacion.md) para el estado final de cada pieza.
 >
+> **Actualización 2026-07-26 (Fase 5):** el flujo de login descrito en §1/§2 (0/1 organizaciones → entra directo; 2+ → `SelectTenantScreen`) fue superado por un gate obligatorio de selección de organización, sin importar cuántas tenga el usuario — y se agregó la regla de negocio "perfil completo requerido para crear/unirse a una organización". Ver [shell-y-navegacion.md](./01-features/shell-y-navegacion.md) y [perfil-y-usuario.md](./01-features/perfil-y-usuario.md#reglas-de-negocio) para el comportamiento vigente. El resto de este documento (mapa de navegación del shell, hallazgos de backend) sigue vigente sin cambios.
+>
 > **Alcance explícito:** esto es una reorganización de navegación/presentación sobre la arquitectura ya vigente de [ADR-012](./00-core/07-refactor-arquitectura-frontend/ADR-012-refactor-arquitectura-frontend.md). No se modifica `domain/`, `data/` ni casos de uso existentes, y no se rehace ADR-012.
 >
 > **Nota de convención:** el resto de la documentación del proyecto vive en `docs/00-core/NN-tema/` (números consecutivos, ADRs incluidos) y `docs/01-features/`. Este archivo se creó en `docs/` (raíz) porque así se pidió explícitamente. Si se prefiere, se puede mover a `docs/00-core/08-navegacion-modular/ADR-013-rediseno-navegacion.md` sin cambiar el contenido — es una decisión de forma, no de fondo.
