@@ -56,7 +56,12 @@ class AccountStateCard extends StatelessWidget {
           const SizedBox(height: 14),
           _buildStateRow(colors, 'Correo electrónico', maskedEmail, isEmailVerified),
           _buildStateRow(colors, 'Teléfono vinculado', maskedPhone, phone != 'No disponible'),
-          _buildStateRow(colors, 'Estado del perfil', _translateProfileStatus(currentUser?.profileStatus), currentUser?.profileStatus == 'COMPLETED'),
+          _buildStateRow(
+            colors,
+            'Estado del perfil',
+            currentUser?.isProfileComplete == true ? 'Completo' : 'Incompleto',
+            currentUser?.isProfileComplete ?? false,
+          ),
           _buildStateRow(colors, 'Sincronización cloud', syncStatus, true),
           _buildStateRow(colors, 'Idioma de entorno', 'Español ($deviceCountry)', false),
           _buildStateRow(colors, 'Zona horaria', timeZoneOffset, false),
@@ -120,16 +125,4 @@ class AccountStateCard extends StatelessWidget {
     return '$prefix •••• $suffix';
   }
 
-  // Traducción visual del estado del perfil
-  String _translateProfileStatus(String? status) {
-    if (status == null) return 'Incompleto';
-    switch (status.toUpperCase()) {
-      case 'COMPLETED':
-        return 'Completo';
-      case 'PENDING':
-        return 'Pendiente';
-      default:
-        return 'Incompleto';
-    }
-  }
 }

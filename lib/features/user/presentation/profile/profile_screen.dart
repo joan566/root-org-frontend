@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:savings_api_frontend/features/auth/presentation/login/login_screen.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
@@ -64,30 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     loading = false;
   }
 
-  double _getProfileProgress() {
-    if (user == null) return 0.0;
-    int filled = 0;
-    if (user!.name.isNotEmpty) filled++;
-    if (user!.lastName != null && user!.lastName!.isNotEmpty) filled++;
-    if (user!.document != null && user!.document!.isNotEmpty) filled++;
-    if (user!.phoneNumber.isNotEmpty) filled++;
-    if (user!.dateOfBirth != null) filled++;
-    if (user!.gender != null) filled++;
-    return filled / 6;
-  }
-
-  int _getPendingCount() {
-    if (user == null) return 6;
-    int pending = 0;
-    if (user!.name.isEmpty) pending++;
-    if (user!.lastName == null || user!.lastName!.isEmpty) pending++;
-    if (user!.document == null || user!.document!.isEmpty) pending++;
-    if (user!.phoneNumber.isEmpty) pending++;
-    if (user!.dateOfBirth == null) pending++;
-    if (user!.gender == null || user!.gender!.isEmpty) pending++;
-    return pending;
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().session?.user;
@@ -108,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 name: user!.name,
                 lastName: user!.lastName ?? "",
                 email: user!.email,
-                completionPercentage: _getProfileProgress(),
+                completionPercentage: user!.profileCompletionRatio,
                 onEditPressed: () => _openEditProfileModal(
                     context, user!.name, user!.lastName ?? "---",
                     user!.document ?? "---", user!.phoneNumber, user!.dateOfBirth, user!.gender ?? ""),
@@ -122,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProfileCompletionCard(completionPercentage: _getProfileProgress(), pendingCount: _getPendingCount()),
+                        ProfileCompletionCard(completionPercentage: user!.profileCompletionRatio, pendingCount: user!.missingProfileFieldsCount),
                         const SizedBox(height: 24),
 
                         ProfileStats(tenantCount: user!.tenants.length),
@@ -168,6 +145,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             HapticFeedback.heavyImpact();
                             context.read<TenantSessionController>().clear();
                             context.read<AuthProvider>().logout();
+                            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                              (route) => false,
+                            );
                           },
                         ),
                       ],

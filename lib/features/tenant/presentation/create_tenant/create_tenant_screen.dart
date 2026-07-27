@@ -13,6 +13,7 @@ import 'widgets/workspace_form_header.dart';
 import 'widgets/future_organization_type_selector.dart';
 import 'package:savings_api_frontend/shared/widgets/backend_error_card.dart';
 import 'package:savings_api_frontend/shared/widgets/field_label.dart';
+import 'package:savings_api_frontend/shared/widgets/profile_incomplete_notice.dart';
 import 'mobile/create_tenant_mobile_view.dart';
 import 'desktop/create_tenant_desktop_view.dart';
 
@@ -109,20 +110,32 @@ class _CreateTenantScreenState extends State<CreateTenantScreen> {
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
 
+    final appBar = AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      automaticallyImplyLeading: false,
+      leadingWidth: 80,
+      leading: const Padding(
+        padding: EdgeInsets.only(left: 20, top: 4, bottom: 4),
+        child: AppBackButton(),
+      ),
+    );
+
+    final user = context.watch<AuthProvider>().session?.user;
+    if (user?.isProfileComplete != true) {
+      return Scaffold(
+        backgroundColor: colors.background,
+        appBar: appBar,
+        body: ProfileIncompleteNotice(
+          onCompleteProfile: () => Navigator.pushReplacementNamed(context, AppRoutes.profile),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: colors.background,
-
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        automaticallyImplyLeading: false,
-        leadingWidth: 80,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 20, top: 4, bottom: 4),
-          child: AppBackButton(),
-        ),
-      ),
+      appBar: appBar,
 
       body: LayoutBuilder(
         builder: (context, constraints) {

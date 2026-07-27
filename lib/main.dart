@@ -38,12 +38,10 @@ class MainApp extends StatelessWidget {
 
         if (!auth.isLogged) {
           home = const LoginScreen();
+        } else if (!tenantSession.hasPassedGate) {
+          home = const SelectTenantScreen();
         } else {
-          final tenants = auth.session!.user.tenants;
-          final activeTenant = tenantSession.resolveActive(tenants);
-          home = (tenants.length > 1 && activeTenant == null)
-              ? const SelectTenantScreen()
-              : const MainShellScreen();
+          home = const MainShellScreen();
         }
 
         return MaterialApp(

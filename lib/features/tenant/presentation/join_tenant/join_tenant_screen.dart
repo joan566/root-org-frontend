@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/features/tenant/presentation/join_tenant/state/join_tenant_controller.dart';
 import 'package:savings_api_frontend/shared/widgets/app_back_button.dart';
+import 'package:savings_api_frontend/shared/widgets/profile_incomplete_notice.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
+import 'package:savings_api_frontend/core/routing/app_routes.dart';
 import '../state/tenant_injection.dart';
 import 'widgets/join_tenant_header.dart';
 import 'widgets/code_field.dart';
@@ -161,20 +163,32 @@ class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerPr
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
 
+    final appBar = AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      automaticallyImplyLeading: false,
+      leadingWidth: 80,
+      leading: const Padding(
+        padding: EdgeInsets.only(left: 20, top: 4, bottom: 4),
+        child: AppBackButton(),
+      ),
+    );
+
+    final user = context.watch<AuthProvider>().session?.user;
+    if (user?.isProfileComplete != true) {
+      return Scaffold(
+        backgroundColor: colors.background,
+        appBar: appBar,
+        body: ProfileIncompleteNotice(
+          onCompleteProfile: () => Navigator.pushReplacementNamed(context, AppRoutes.profile),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: colors.background,
-
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        automaticallyImplyLeading: false,
-        leadingWidth: 80,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 20, top: 4, bottom: 4),
-          child: AppBackButton(),
-        ),
-      ),
+      appBar: appBar,
 
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

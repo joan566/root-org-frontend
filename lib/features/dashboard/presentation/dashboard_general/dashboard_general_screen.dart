@@ -48,7 +48,7 @@ class _DashboardGeneralScreenState extends State<DashboardGeneralScreen> {
     if (_initializedRecommendations) return;
 
     final hasOrgs = user?.tenants.isNotEmpty ?? false;
-    final isProfileComplete = user?.profileStatus == 'COMPLETED';
+    final isProfileComplete = user?.isProfileComplete ?? false;
 
     _smartRecommendations = [
       if (!isProfileComplete)
@@ -107,7 +107,7 @@ class _DashboardGeneralScreenState extends State<DashboardGeneralScreen> {
 
     _initRecommendations(currentUser);
 
-    final isProfileComplete = currentUser?.profileStatus == 'COMPLETED';
+    final isProfileComplete = currentUser?.isProfileComplete ?? false;
     final bool onboardingCompleted = isProfileComplete && hasOrganizations;
 
     final List<Map<String, dynamic>> checklistItems = [

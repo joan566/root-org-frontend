@@ -13,7 +13,14 @@ import '../widgets/shell_sidebar.dart';
 /// mismo `Navigator` interno, resuelto contra `RouteRegistry` en vez de un
 /// switch centralizado.
 class MainShellScreen extends StatefulWidget {
-  const MainShellScreen({super.key});
+  /// Ruta a empujar sobre `AppRoutes.dashboard` apenas monta el shell — ej.
+  /// para entrar directo a "Crear organización" o "Completar perfil" desde
+  /// el gate de selección de organización (`SelectTenantScreen`). El
+  /// dashboard queda debajo en la pila, así que el botón atrás funciona
+  /// normalmente. `null` (default) entra solo al dashboard, como siempre.
+  final String? initialPushRoute;
+
+  const MainShellScreen({super.key, this.initialPushRoute});
 
   @override
   State<MainShellScreen> createState() => _MainShellScreenState();
@@ -23,6 +30,18 @@ class _MainShellScreenState extends State<MainShellScreen> {
   int selectedIndex = 0;
 
   final GlobalKey<NavigatorState> _innerNavigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    final route = widget.initialPushRoute;
+    if (route != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _innerNavigatorKey.currentState?.pushNamed(route);
+      });
+    }
+  }
 
   static const List<ShellSection> _sections = [
     ShellSection(label: 'Dashboard', icon: Icons.dashboard_rounded, route: AppRoutes.dashboard),
