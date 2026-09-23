@@ -6,7 +6,7 @@ void showCreateOrJoinBottomSheet(
   required VoidCallback onCreate,
   required VoidCallback onJoin,
 }) {
-  final colors = AppColors.of(context);
+  final colors = AppColors.of(context, listen: false);
 
   showModalBottomSheet(
     context: context,

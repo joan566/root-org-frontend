@@ -10,17 +10,23 @@ import 'package:savings_api_frontend/core/session/tenant_session_controller.dart
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/features/tenant/domain/entities/tenant_member.dart';
 import 'package:savings_api_frontend/features/tenant/presentation/state/tenant_injection.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/state/tenant_users_provider.dart';
 
 import 'invite_user_bottom_sheet.dart';
 import 'pending_join_requests_screen.dart';
 import 'user_card.dart';
-import 'user_detail_bottom_sheet.dart';
+import 'package:savings_api_frontend/shared/widgets/user_detail_bottom_sheet.dart';
 import 'user_filters_bottom_sheet.dart';
 import 'users_skeleton_loader.dart';
 
 /// Pestaña "Usuarios" de Organización (ver docs/01-features/organizacion.md).
 /// Solo administra membresía -- no roles/permisos (eso vive en otra
-/// sección). Lista real vía `GET /tenant/{id}/users`; banner + pantalla de
+/// sección). Lista real vía `GET /tenant/{id}/users`, cacheada en
+/// `TenantUsersProvider` (cache global por tenant, registrada en
+/// `main.dart`) -- no en el estado de este widget, así sobrevive a navegar
+/// fuera de Organización y volver, no solo a cambiar de pestaña. Esta pestaña
+/// solo dispara la carga la primera vez que se visita cada organización en
+/// la sesión, o cuando el usuario pide pull-to-refresh; banner + pantalla de
 /// solicitudes pendientes reales vía los endpoints de
 /// docs/01-features/organizaciones.md; invitar/desasociar son honestos
 /// "Próximamente" -- no existe backend para esas dos acciones todavía.
@@ -37,7 +43,6 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
 
   bool _loading = true;
   Object? _error;
-  List<TenantMember> _members = [];
   int _pendingRequestsCount = 0;
 
   final _searchController = TextEditingController();
@@ -57,7 +62,14 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
   void initState() {
     super.initState();
     _searchController.addListener(() => setState(() => _query = _searchController.text.trim().toLowerCase()));
-    _load();
+
+    final tenantId = _tenantId;
+    if (tenantId != null && context.read<TenantUsersProvider>().isLoaded(tenantId)) {
+      _loading = false;
+      _loadPendingRequests();
+    } else {
+      _load();
+    }
   }
 
   @override
@@ -66,6 +78,8 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
     super.dispose();
   }
 
+  /// Recarga forzada -- es lo que de verdad hay detrás del pull-to-refresh,
+  /// ignora si el tenant ya estaba cacheado.
   Future<void> _load() async {
     final tenantId = _tenantId;
     final token = context.read<AuthProvider>().session?.token;
@@ -83,12 +97,9 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
     });
 
     try {
-      final members = await TenantInjection.getTenantUsersController().getTenantUsers(tenantId, token);
+      await context.read<TenantUsersProvider>().load(tenantId, token);
       if (!mounted) return;
-      setState(() {
-        _members = members;
-        _loading = false;
-      });
+      setState(() => _loading = false);
     } catch (e) {
       if (!mounted) return;
       setState(() {
@@ -97,10 +108,18 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
       });
     }
 
-    // Contador de solicitudes pendientes -- solo lo puede ver un admin
-    // (`core.tenant.join_request.read`). Si el usuario no lo es, el 403 se
-    // ignora en silencio y el banner simplemente no aparece; no es un error
-    // que deba bloquear la lista de miembros.
+    await _loadPendingRequests();
+  }
+
+  // Contador de solicitudes pendientes -- solo lo puede ver un admin
+  // (`core.tenant.join_request.read`). Si el usuario no lo es, el 403 se
+  // ignora en silencio y el banner simplemente no aparece; no es un error
+  // que deba bloquear la lista de miembros.
+  Future<void> _loadPendingRequests() async {
+    final tenantId = _tenantId;
+    final token = context.read<AuthProvider>().session?.token;
+    if (tenantId == null || token == null) return;
+
     try {
       final pending = await TenantInjection.getPendingJoinRequestsController().getPendingJoinRequests(tenantId, token);
       if (!mounted) return;
@@ -111,8 +130,8 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
     }
   }
 
-  List<TenantMember> get _filteredMembers {
-    final result = _members.where((m) {
+  List<TenantMember> _filteredMembers(List<TenantMember> members) {
+    final result = members.where((m) {
       if (_statusFilter == UserStatusFilter.active && m.status.toUpperCase() != 'ACTIVE') return false;
       if (_selectedRoles.isNotEmpty && !m.roles.any(_selectedRoles.contains)) return false;
       if (_query.isNotEmpty) {
@@ -129,9 +148,8 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
     return result;
   }
 
-  Set<String> get _availableRoles => _members.expand((m) => m.roles).toSet();
-
-  Future<void> _openFilters() async {
+  Future<void> _openFilters(List<TenantMember> members) async {
+    final availableRoles = members.expand((m) => m.roles).toSet();
     final result = await showModalBottomSheet<UserFiltersResult>(
       context: context,
       isScrollControlled: true,
@@ -140,7 +158,7 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
         initialStatus: _statusFilter,
         initialRoles: _selectedRoles,
         initialSort: _sortMode,
-        availableRoles: _availableRoles,
+        availableRoles: availableRoles,
       ),
     );
     if (result == null) return;
@@ -203,6 +221,9 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
     if (_error != null) return _buildError(context);
 
     final colors = AppColors.of(context);
+    final tenantId = _tenantId;
+    final members = tenantId == null ? const <TenantMember>[] : context.watch<TenantUsersProvider>().membersFor(tenantId);
+    final filteredMembers = _filteredMembers(members);
 
     return RefreshIndicator(
       onRefresh: _load,
@@ -237,7 +258,7 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
                       color: colors.surface,
                       shape: RoundedRectangleBorder(borderRadius: AppRadius.borderMd, side: BorderSide(color: colors.border)),
                       child: InkWell(
-                        onTap: _openFilters,
+                        onTap: () => _openFilters(members),
                         borderRadius: AppRadius.borderMd,
                         child: Padding(
                           padding: const EdgeInsets.all(12),
@@ -248,9 +269,9 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
                   ],
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                if (_members.isEmpty)
+                if (members.isEmpty)
                   _EmptyMembersNotice(colors: colors, onInvite: _openInvite)
-                else if (_filteredMembers.isEmpty)
+                else if (filteredMembers.isEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
                     child: Center(
@@ -258,7 +279,7 @@ class _UsersTabState extends State<UsersTab> with AutomaticKeepAliveClientMixin<
                     ),
                   )
                 else
-                  for (final member in _filteredMembers) ...[
+                  for (final member in filteredMembers) ...[
                     UserCard(
                       member: member,
                       onTap: () => _openMemberDetail(member),

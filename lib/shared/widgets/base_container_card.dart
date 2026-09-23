@@ -30,7 +30,14 @@ class BaseContainerCard extends StatelessWidget {
               children: [
                 Icon(icon, size: 18, color: colors.textPrimary),
                 const SizedBox(width: 10),
-                Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary, letterSpacing: -0.2)),
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textPrimary, letterSpacing: -0.2),
+                  ),
+                ),
               ],
             ),
           ),

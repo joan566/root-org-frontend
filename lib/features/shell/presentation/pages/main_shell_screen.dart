@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:savings_api_frontend/core/design_system/breakpoints/breakpoints.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'package:savings_api_frontend/core/routing/app_routes.dart';
 import 'package:savings_api_frontend/core/routing/route_registry.dart';
+import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
+import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import '../widgets/shell_bottom_nav.dart';
+import '../widgets/shell_header.dart';
+import '../widgets/shell_header_mobile.dart';
 import '../widgets/shell_section.dart';
 import '../widgets/shell_sidebar.dart';
 
@@ -15,7 +20,7 @@ import '../widgets/shell_sidebar.dart';
 class MainShellScreen extends StatefulWidget {
   /// Ruta a empujar sobre `AppRoutes.dashboard` apenas monta el shell — ej.
   /// para entrar directo a "Crear organización" o "Completar perfil" desde
-  /// el gate de selección de organización (`SelectTenantScreen`). El
+  /// el gate de selección de organización (`MyOrganizationsScreen`). El
   /// dashboard queda debajo en la pila, así que el botón atrás funciona
   /// normalmente. `null` (default) entra solo al dashboard, como siempre.
   final String? initialPushRoute;
@@ -31,6 +36,9 @@ class _MainShellScreenState extends State<MainShellScreen> {
 
   final GlobalKey<NavigatorState> _innerNavigatorKey = GlobalKey<NavigatorState>();
 
+  TenantSessionController? _tenantSession;
+  int? _activeTenantId;
+
   @override
   void initState() {
     super.initState();
@@ -43,18 +51,62 @@ class _MainShellScreenState extends State<MainShellScreen> {
     }
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final tenantSession = context.read<TenantSessionController>();
+    if (!identical(_tenantSession, tenantSession)) {
+      _tenantSession?.removeListener(_onTenantSessionChanged);
+      _tenantSession = tenantSession;
+      tenantSession.addListener(_onTenantSessionChanged);
+      _activeTenantId = _resolveActiveTenantId();
+    }
+  }
+
+  @override
+  void dispose() {
+    _tenantSession?.removeListener(_onTenantSessionChanged);
+    super.dispose();
+  }
+
+  int? _resolveActiveTenantId() {
+    final tenants = context.read<AuthProvider>().session?.user.tenants ?? const [];
+    return context.read<TenantSessionController>().resolveActive(tenants)?.tenant.id;
+  }
+
+  /// Reacciona a cambios en la organización activa -- ver
+  /// docs/00-core/07-refactor-arquitectura-frontend (fix de navegación):
+  /// cambiar de org a mitad de sesión estando varios niveles profundo en el
+  /// navigator interno (ej. dentro de `DepartmentWorkspaceScreen`) dejaba al
+  /// usuario atascado, porque el stack seguía apuntando a datos de la org
+  /// anterior. `TenantSessionController.clear()` (logout) también dispara
+  /// este listener -- se descarta explícitamente vía `hasPassedGate`, ya que
+  /// ahí el shell está a punto de desmontarse, no es un cambio de org real.
+  void _onTenantSessionChanged() {
+    if (!mounted) return;
+    final tenantSession = context.read<TenantSessionController>();
+    if (!tenantSession.hasPassedGate) return;
+
+    final newActiveTenantId = _resolveActiveTenantId();
+    if (newActiveTenantId == _activeTenantId) return;
+
+    _activeTenantId = newActiveTenantId;
+    setState(() => selectedIndex = 0);
+    _innerNavigatorKey.currentState?.pushNamedAndRemoveUntil(AppRoutes.dashboard, (route) => false);
+  }
+
   static const List<ShellSection> _sections = [
-    ShellSection(label: 'Dashboard', icon: Icons.dashboard_rounded, route: AppRoutes.dashboard),
-    ShellSection(label: 'Organización', icon: Icons.apartment_rounded, route: AppRoutes.organization),
-    ShellSection(label: 'Módulos', icon: Icons.widgets_rounded, route: AppRoutes.modules),
+    ShellSection(label: 'Dashboard', icon: Icons.dashboard_outlined, route: AppRoutes.dashboard),
+    ShellSection(label: 'Organización', icon: Icons.apartment_outlined, route: AppRoutes.organization),
+    ShellSection(label: 'Módulos', icon: Icons.widgets_outlined, route: AppRoutes.modules),
     ShellSection(
-      label: 'Administración',
-      icon: Icons.admin_panel_settings_rounded,
+      label: 'Mis Departamentos',
+      icon: Icons.admin_panel_settings_outlined,
       route: AppRoutes.administration,
     ),
     ShellSection(
       label: 'Configuración',
-      icon: Icons.settings_rounded,
+      icon: Icons.settings_outlined,
       route: AppRoutes.profile,
       relatedRoutes: [AppRoutes.changePassword],
     ),
@@ -73,7 +125,7 @@ class _MainShellScreenState extends State<MainShellScreen> {
   void _onItemTapped(int index) {
     if (selectedIndex == index) return;
     setState(() => selectedIndex = index);
-    _innerNavigatorKey.currentState?.pushReplacementNamed(_sections[index].route);
+    _innerNavigatorKey.currentState?.pushNamedAndRemoveUntil(_sections[index].route, (route) => false);
   }
 
   Route<dynamic> _onGenerateRoute(RouteSettings settings) {
@@ -97,16 +149,28 @@ class _MainShellScreenState extends State<MainShellScreen> {
     final Widget scaffold = isDesktop
         ? Scaffold(
             backgroundColor: colors.background,
-            body: Row(
+            body: Column(
               children: [
-                ShellSidebar(sections: _sections, selectedIndex: selectedIndex, onSelect: _onItemTapped),
-                Expanded(child: navigator),
+                const ShellHeader(),
+                Expanded(
+                  child: Row(
+                    children: [
+                      ShellSidebar(sections: _sections, selectedIndex: selectedIndex, onSelect: _onItemTapped),
+                      Expanded(child: navigator),
+                    ],
+                  ),
+                ),
               ],
             ),
           )
         : Scaffold(
             backgroundColor: colors.background,
-            body: navigator,
+            body: Column(
+              children: [
+                const ShellHeaderMobile(),
+                Expanded(child: navigator),
+              ],
+            ),
             bottomNavigationBar: ShellBottomNav(
               sections: _sections,
               selectedIndex: selectedIndex,

@@ -6,11 +6,16 @@ import 'core/routing/register_all_routes.dart';
 import 'core/design_system/colors/theme_controller.dart';
 import 'core/design_system/colors/app_theme.dart';
 import 'core/session/tenant_session_controller.dart';
+import 'features/organization_unit/presentation/state/my_unit_join_requests_provider.dart';
+import 'features/organization_unit/presentation/state/organization_units_provider.dart';
+import 'features/organization_unit/presentation/state/roles_provider.dart';
+import 'features/permission/presentation/state/permissions_provider.dart';
 import 'features/auth/presentation/login/login_screen.dart';
 import 'features/auth/presentation/register/register_screen.dart';
 import 'features/auth/presentation/provider/auth_provider.dart';
 import 'features/shell/presentation/pages/main_shell_screen.dart';
-import 'features/tenant/presentation/select_tenant/select_tenant_screen.dart';
+import 'features/tenant/presentation/my_organizations/my_organizations_screen.dart';
+import 'features/tenant/presentation/state/tenant_users_provider.dart';
 
 void main() {
   registerAllRoutes();
@@ -21,6 +26,11 @@ void main() {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ThemeController()),
         ChangeNotifierProvider(create: (_) => TenantSessionController()),
+        ChangeNotifierProvider(create: (_) => TenantUsersProvider()),
+        ChangeNotifierProvider(create: (_) => OrganizationUnitsProvider()),
+        ChangeNotifierProvider(create: (_) => RolesProvider()),
+        ChangeNotifierProvider(create: (_) => PermissionsProvider()),
+        ChangeNotifierProvider(create: (_) => MyUnitJoinRequestsProvider()),
       ],
       child: const MainApp(),
     ),
@@ -39,7 +49,7 @@ class MainApp extends StatelessWidget {
         if (!auth.isLogged) {
           home = const LoginScreen();
         } else if (!tenantSession.hasPassedGate) {
-          home = const SelectTenantScreen();
+          home = const MyOrganizationsScreen();
         } else {
           home = const MainShellScreen();
         }

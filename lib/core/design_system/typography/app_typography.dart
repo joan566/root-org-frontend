@@ -29,4 +29,11 @@ class AppTypography {
     fontWeight: FontWeight.w800,
     letterSpacing: -0.5,
   );
+
+  /// Numero principal de una tarjeta de metricas (estilo dashboard SaaS).
+  static const TextStyle displayNumber = TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.w800,
+    letterSpacing: -0.5,
+  );
 }

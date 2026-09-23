@@ -68,8 +68,22 @@ There is no DI framework (no `get_it`, no `injectable`, no Riverpod). Each featu
 ### State management
 
 Two different mechanisms coexist, used for different things:
-- **`AuthProvider`** (`ChangeNotifier`, wired via `provider` package at the app root in `main.dart`) holds the *only* global state: the current `LoginSesion` (token, `hasTenant`, `User`). Session is in-memory only — nothing is persisted to disk, so it resets on app restart. `MainApp` in `main.dart` decides `LoginScreen` vs `MainLayout` based on `auth.isLogged`.
+- **Root-registered `ChangeNotifier`s** (wired via `provider`'s `MultiProvider` in `main.dart`) hold state that must survive navigating away from the screen that loaded it and back — session/selection state (`AuthProvider` for the current `LoginSesion`: token, `hasTenant`, `User`; `TenantSessionController` for the active tenant; `ThemeController`) and **per-tenant backend caches** (`TenantUsersProvider` for `GET /tenant/{id}/users`, `OrganizationUnitsProvider` for organization units/departments). All of these are in-memory only — nothing is persisted to disk, so they reset on app restart. `MainApp` in `main.dart` decides `LoginScreen` vs the gate vs `MainShellScreen` based on `auth.isLogged`/`tenantSession.hasPassedGate`.
 - **Everything else** (login/register forms, profile edits, tenant creation, etc.) uses plain non-reactive `Controller` classes instantiated per-screen via the feature's `*Injection`. Screens manage their own loading/error/success UI state locally (typically `setState`), calling `await controller.someAction(...)` and catching exceptions thrown by the API layer.
+
+#### Rule: don't requery the backend for data that hasn't changed
+
+A screen must not refetch data it (or another screen) already has in memory just because it was rebuilt by navigation — every avoidable `GET` is wasted backend load. This bit the app twice already: once with Estructura Organizacional's departments (fixed by `OrganizationUnitsProvider`), once with the tenant members list (fixed by `TenantUsersProvider`) — both ended up needing a promotion to a root-registered cache after starting as widget-local state. Skip that rework by applying this from the start whenever a screen loads a list/detail that:
+- is shown in more than one place (a tab plus a detail screen, two tabs, etc.), or
+- the user is expected to navigate away from and back to (switching bottom-nav tabs, pushing a detail screen, backgrounding the section).
+
+How to apply it, following the `OrganizationUnitsProvider`/`TenantUsersProvider` pattern exactly:
+1. Own the data in a `ChangeNotifier` registered in `main.dart`'s `MultiProvider`, keyed by tenant id (`Map<int, T>`), with `isLoaded(tenantId)`, a getter for the cached value, and a `load(tenantId, token)` that unconditionally (re)fetches and calls `notifyListeners()` — never catch errors inside it, let the caller's `try`/`catch` decide how to show them.
+2. In the consuming screen's `initState`, check `isLoaded(tenantId)` first: if cached, read straight from the provider and skip the network call; only call `_load()` when it's genuinely missing.
+3. Wire actual backend calls to exactly two triggers: the first-ever visit for that tenant, and an explicit manual refresh (`RefreshIndicator`/"Reintentar" button) — never to returning from a pushed screen or closing a bottom sheet.
+4. After a create/update/delete mutation, apply the mutation response to the cached in-memory state directly (the provider's own `add`/`applyUpdate`-style methods) instead of reloading the list — the response (or a locally-inferable change) almost always already has what's needed.
+5. If two features need the same backend list (e.g. both a members tab and a departments tab need tenant users), make one provider the single owner and have the other read/depend on it instead of keeping a second copy — don't cache the same endpoint's data in two places.
+6. Register `.clear()` on every logout call site (there are currently two: `profile_screen.dart` and `my_organizations_screen.dart`) so cached data never leaks across accounts.
 
 ### Navigation
 

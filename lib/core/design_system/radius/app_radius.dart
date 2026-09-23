@@ -14,6 +14,9 @@ class AppRadius {
   static const double xl = 20;
   static const double xxl = 24;
 
+  /// Radio estandar de tarjeta en el dashboard desktop (estilo SaaS premium).
+  static const double card = 20;
+
   /// Radio "pill" para elementos totalmente redondeados (search bars, badges).
   static const double pill = 100;
 
@@ -23,5 +26,6 @@ class AppRadius {
   static BorderRadius get borderLg => BorderRadius.circular(lg);
   static BorderRadius get borderXl => BorderRadius.circular(xl);
   static BorderRadius get borderXxl => BorderRadius.circular(xxl);
+  static BorderRadius get borderCard => BorderRadius.circular(card);
   static BorderRadius get borderPill => BorderRadius.circular(pill);
 }

@@ -14,7 +14,13 @@ class TenantSessionController extends ChangeNotifier {
   /// - Si hay una elección explícita y sigue siendo válida, se usa esa.
   /// - Si el usuario pertenece a una sola organización, se autoselecciona.
   /// - Si pertenece a 2+ sin elección explícita, devuelve null (requiere
-  ///   que el usuario elija en `SelectTenantScreen`).
+  ///   que el usuario elija en `MyOrganizationsScreen`).
+  ///
+  /// Importante: cuando hay elección explícita, se devuelve la instancia
+  /// de `tenants` que matchea por id -- no el objeto cacheado en
+  /// `_explicitActive` -- para que ediciones (ej. `PUT /tenant/{id}`) que
+  /// reconstruyen `AuthProvider.session.user.tenants` con datos frescos se
+  /// reflejen de inmediato en toda la UI que llama a `resolveActive`.
   ///
   /// No confundir con [hasPassedGate]: este método sigue autoseleccionando
   /// con 1 organización para el resto de la app (dashboard, organización,
@@ -23,8 +29,10 @@ class TenantSessionController extends ChangeNotifier {
   /// consumidores de `resolveActive`.
   UserTenant? resolveActive(List<UserTenant> tenants) {
     final explicit = _explicitActive;
-    if (explicit != null && tenants.any((t) => t.id == explicit.id)) {
-      return explicit;
+    if (explicit != null) {
+      for (final t in tenants) {
+        if (t.id == explicit.id) return t;
+      }
     }
     if (tenants.length == 1) return tenants.first;
     return null;
@@ -36,7 +44,7 @@ class TenantSessionController extends ChangeNotifier {
   }
 
   /// True una vez que el usuario pasó explícitamente por el gate de
-  /// selección de organización (`SelectTenantScreen`, `isInitialSelection:
+  /// selección de organización (`MyOrganizationsScreen`, `isInitialSelection:
   /// true`) en esta sesión — ver docs/frontend-navigation-redesign.md.
   bool get hasPassedGate => _hasPassedGate;
 

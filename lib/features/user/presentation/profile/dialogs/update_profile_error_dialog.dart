@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 
 void showUpdateProfileErrorDialog(BuildContext context, String message) {
-  final colors = AppColors.of(context);
+  final colors = AppColors.of(context, listen: false);
 
   showDialog(
     context: context,

@@ -1,4 +1,4 @@
-import 'package:savings_api_frontend/features/tenant/domain/entities/join_tenant.dart';
+import 'package:savings_api_frontend/features/tenant/domain/entities/join_request.dart';
 import 'package:savings_api_frontend/features/tenant/domain/repositories/tenant_repository_port.dart';
 
 class JoinTenantUseCase {
@@ -6,13 +6,12 @@ class JoinTenantUseCase {
 
   JoinTenantUseCase(this.tenantRepositoryPort);
 
-  Future<JoinTenant> execute({
-      required int userId,
+  Future<({JoinRequest request, String message})> execute({
       required String tenantCode,
       required String token
   }) {
-    return tenantRepositoryPort.joinTenant(
-        userId: userId, tenantCode: tenantCode,
+    return tenantRepositoryPort.requestToJoinTenant(
+        tenantCode: tenantCode,
         token: token
     );
   }

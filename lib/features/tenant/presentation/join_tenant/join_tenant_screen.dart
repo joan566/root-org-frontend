@@ -74,24 +74,15 @@ class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerPr
 
     final auth = context.read<AuthProvider>();
     final session = auth.session!;
-    final user = session.user;
 
     try {
-      final joinTenant = await _controller.joinTenant(
-        user.id,
-        cleanCode,
-        session.token,
-      );
-
-      user.tenants?.add(joinTenant.userTenant);
-      session.hasTenant = true;
-      auth.refreshSession();
+      final result = await _controller.joinTenant(cleanCode, session.token);
 
       HapticFeedback.lightImpact();
       Future.delayed(const Duration(milliseconds: 100), () => HapticFeedback.lightImpact());
 
       if (!mounted) return;
-      _showSuccessPortal();
+      _showSuccessPortal(result.message);
     } catch (e) {
       debugPrint('Join tenant error: $e');
       HapticFeedback.vibrate();
@@ -119,7 +110,7 @@ class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerPr
     }
   }
 
-  void _showSuccessPortal() {
+  void _showSuccessPortal(String message) {
     final pageNavigator = Navigator.of(context);
 
     showGeneralDialog(
@@ -131,9 +122,13 @@ class _JoinTenantScreenState extends State<JoinTenantScreen> with SingleTickerPr
       transitionBuilder: (dialogContext, animation, secondAnimation, child) {
         return SuccessDialog(
           animation: animation,
+          title: 'Solicitud enviada',
+          message: message,
           onContinue: () {
             Navigator.of(dialogContext).pop();
-            pageNavigator.pop();
+            // `true`: le avisa a quien empujó esta pantalla (Mis
+            // Organizaciones) que debe refrescar su lista de solicitudes.
+            pageNavigator.pop(true);
           },
         );
       },

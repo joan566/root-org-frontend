@@ -4,8 +4,16 @@ import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 class SuccessDialog extends StatefulWidget {
   final Animation<double> animation;
   final VoidCallback onContinue;
+  final String title;
+  final String message;
 
-  const SuccessDialog({super.key, required this.animation, required this.onContinue});
+  const SuccessDialog({
+    super.key,
+    required this.animation,
+    required this.onContinue,
+    this.title = '¡Bienvenido!',
+    this.message = 'Ahora haces parte de la organización.',
+  });
 
   @override
   State<SuccessDialog> createState() => _SuccessDialogState();
@@ -55,9 +63,9 @@ class _SuccessDialogState extends State<SuccessDialog> with SingleTickerProvider
                 ),
               ),
               const SizedBox(height: 24),
-              Text('¡Bienvenido!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5)),
+              Text(widget.title, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: colors.textPrimary, letterSpacing: -0.5)),
               const SizedBox(height: 8),
-              Text('Ahora haces parte de la organización.', textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: colors.textSecondary)),
+              Text(widget.message, textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: colors.textSecondary)),
               const SizedBox(height: 28),
               SizedBox(
                 width: double.infinity,

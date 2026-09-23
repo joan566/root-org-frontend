@@ -6,6 +6,11 @@ import 'package:savings_api_frontend/features/auth/presentation/login/login_scre
 import 'package:savings_api_frontend/features/auth/presentation/provider/auth_provider.dart';
 import 'package:savings_api_frontend/core/design_system/colors/app_colors.dart';
 import 'package:savings_api_frontend/core/session/tenant_session_controller.dart';
+import 'package:savings_api_frontend/features/organization_unit/presentation/state/my_unit_join_requests_provider.dart';
+import 'package:savings_api_frontend/features/organization_unit/presentation/state/organization_units_provider.dart';
+import 'package:savings_api_frontend/features/organization_unit/presentation/state/roles_provider.dart';
+import 'package:savings_api_frontend/features/permission/presentation/state/permissions_provider.dart';
+import 'package:savings_api_frontend/features/tenant/presentation/state/tenant_users_provider.dart';
 
 // Widgets refactorizados
 import 'widgets/personal_info_card.dart';
@@ -144,6 +149,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           onLogout: () async {
                             HapticFeedback.heavyImpact();
                             context.read<TenantSessionController>().clear();
+                            context.read<OrganizationUnitsProvider>().clear();
+                            context.read<RolesProvider>().clear();
+                            context.read<PermissionsProvider>().clear();
+                            context.read<TenantUsersProvider>().clear();
+                            context.read<MyUnitJoinRequestsProvider>().clear();
                             context.read<AuthProvider>().logout();
                             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (_) => const LoginScreen()),

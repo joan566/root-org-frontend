@@ -26,7 +26,7 @@ class PreferencesCard extends StatelessWidget {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.of(context).surface,
+      backgroundColor: AppColors.of(context, listen: false).surface,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       builder: (sheetContext) {
         final colors = AppColors.of(sheetContext);

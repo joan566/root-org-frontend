@@ -13,6 +13,7 @@ class AppPalette {
   // Marca (se ajustan por paleta para mantener contraste/legibilidad)
   final Color primary;
   final Color primaryLight;
+  final Color secondary;
 
   // Superficies
   final Color background;
@@ -46,6 +47,7 @@ class AppPalette {
     required this.slateDark,
     required this.primary,
     required this.primaryLight,
+    required this.secondary,
     required this.background,
     required this.surface,
     required this.textPrimary,
@@ -112,19 +114,32 @@ class AppPalette {
     );
   }
 
+  /// Tarjeta blanca plana, estilo SaaS (Notion/Linear/Stripe): sin gradiente,
+  /// solo borde sutil + sombra discreta. Distinta de [translucentCardDecoration]
+  /// (que sigue usando el resto de la app) - pensada para el dashboard desktop.
+  BoxDecoration flatCardDecoration({double radius = 20.0}) {
+    return BoxDecoration(
+      color: surface,
+      borderRadius: BorderRadius.circular(radius),
+      border: Border.all(color: border),
+      boxShadow: subtleShadow(),
+    );
+  }
+
   static const AppPalette light = AppPalette(
     brightness: Brightness.light,
-    primaryDark: Color(0xFF064E3B),
+    primaryDark: Color(0xFF1E3A8A),
     slateDark: Color(0xFF0F172A),
-    primary: Color(0xFF10B981),
-    primaryLight: Color(0xFFD1FAE5),
-    background: Color(0xFFF8FAFC),
+    primary: Color(0xFF2563EB),
+    primaryLight: Color(0xFFDBEAFE),
+    secondary: Color(0xFF4F46E5),
+    background: Color(0xFFF5F7FB),
     surface: Color(0xFFFFFFFF),
-    textPrimary: Color(0xFF0F172A),
-    textSecondary: Color(0xFF64748B),
+    textPrimary: Color(0xFF111827),
+    textSecondary: Color(0xFF6B7280),
     textMuted: Color(0xFF94A3B8),
-    border: Color(0xFFE2E8F0),
-    borderFocus: Color(0xFF3B82F6),
+    border: Color(0xFFE5E7EB),
+    borderFocus: Color(0xFF2563EB),
     success: Color(0xFF22C55E),
     warning: Color(0xFFF59E0B),
     danger: Color(0xFFEF4444),
@@ -136,17 +151,18 @@ class AppPalette {
 
   static const AppPalette dark = AppPalette(
     brightness: Brightness.dark,
-    primaryDark: Color(0xFF064E3B),
+    primaryDark: Color(0xFF1E3A8A),
     slateDark: Color(0xFF0F172A),
-    primary: Color(0xFF34D399),
-    primaryLight: Color(0xFF0F2E22),
+    primary: Color(0xFF3B82F6),
+    primaryLight: Color(0xFF172554),
+    secondary: Color(0xFF818CF8),
     background: Color(0xFF0B1220),
     surface: Color(0xFF151E2E),
     textPrimary: Color(0xFFF1F5F9),
     textSecondary: Color(0xFF94A3B8),
     textMuted: Color(0xFF64748B),
     border: Color(0xFF263244),
-    borderFocus: Color(0xFF60A5FA),
+    borderFocus: Color(0xFF3B82F6),
     success: Color(0xFF4ADE80),
     warning: Color(0xFFFBBF24),
     danger: Color(0xFFF87171),

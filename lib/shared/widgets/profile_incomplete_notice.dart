@@ -6,7 +6,7 @@ import 'package:savings_api_frontend/core/design_system/typography/app_typograph
 /// Aviso reutilizable para cuando una acción requiere perfil personal
 /// completo (`User.isProfileComplete`) y el usuario todavía no lo tiene.
 /// Se usa en 3 lugares: el gate de selección de organización tras el login
-/// (`SelectTenantScreen`), `CreateTenantScreen` y `JoinTenantScreen` — por
+/// (`MyOrganizationsScreen`), `CreateTenantScreen` y `JoinTenantScreen` — por
 /// eso vive en `shared/`, no en una sola feature.
 class ProfileIncompleteNotice extends StatelessWidget {
   final VoidCallback onCompleteProfile;

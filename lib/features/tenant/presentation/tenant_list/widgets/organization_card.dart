@@ -141,15 +141,21 @@ class _OrganizationCardState extends State<OrganizationCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Icon(Icons.access_time_rounded, size: 12, color: colors.textSecondary),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Último acceso reciente',
-                              style: TextStyle(fontSize: 11, color: colors.textSecondary, fontWeight: FontWeight.w400),
-                            ),
-                          ],
+                        Flexible(
+                          child: Row(
+                            children: [
+                              Icon(Icons.access_time_rounded, size: 12, color: colors.textSecondary),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  'Último acceso reciente',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 11, color: colors.textSecondary, fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.min,

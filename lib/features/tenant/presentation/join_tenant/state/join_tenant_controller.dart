@@ -1,4 +1,4 @@
-import 'package:savings_api_frontend/features/tenant/domain/entities/join_tenant.dart';
+import 'package:savings_api_frontend/features/tenant/domain/entities/join_request.dart';
 import 'package:savings_api_frontend/features/tenant/domain/usecases/join_tenant_use_case.dart';
 
 class JoinTenantController {
@@ -6,13 +6,7 @@ class JoinTenantController {
 
   JoinTenantController(this.joinTenantUseCase);
 
-  Future<JoinTenant> joinTenant(
-      int userId, String tenantCode,
-      String token
-    ) async {
-    return await joinTenantUseCase.execute(
-        userId: userId, tenantCode: tenantCode,
-        token: token
-    );
+  Future<({JoinRequest request, String message})> joinTenant(String tenantCode, String token) async {
+    return await joinTenantUseCase.execute(tenantCode: tenantCode, token: token);
   }
 }

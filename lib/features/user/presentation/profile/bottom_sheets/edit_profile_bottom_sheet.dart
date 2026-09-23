@@ -80,7 +80,7 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
   /// Método encargado de desplegar el selector de fecha con estética Material Design
   Future<void> _selectDateOfBirth(BuildContext context) async {
-    final colors = AppColors.of(context);
+    final colors = AppColors.of(context, listen: false);
     final DateTime today = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,

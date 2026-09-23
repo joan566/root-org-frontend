@@ -16,8 +16,14 @@ import 'theme_controller.dart';
 class AppColors {
   const AppColors._();
 
-  static AppPalette of(BuildContext context) {
-    final mode = context.watch<ThemeController>().mode;
+  /// [listen] controla si el widget que llama se resuscribe a cambios de
+  /// tema (`context.watch`, el default -- solo valido durante `build()`) o
+  /// simplemente lee el valor actual sin resuscribirse (`context.read`,
+  /// `listen: false`) -- necesario para llamar `AppColors.of` desde un
+  /// callback (`onTap`/`onPressed`) en vez de un `build()`, ej. para armar
+  /// un color antes de `showDialog`/`showModalBottomSheet`/`showDatePicker`.
+  static AppPalette of(BuildContext context, {bool listen = true}) {
+    final mode = listen ? context.watch<ThemeController>().mode : context.read<ThemeController>().mode;
 
     switch (mode) {
       case ThemeMode.light:
