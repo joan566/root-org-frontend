@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:savings_api_frontend/core/errors/api_exception.dart';
+import 'package:savings_api_frontend/core/networking/api_config.dart';
 
 class RoleApi {
-  final String baseUrl = "http://192.168.0.104:8080/roles";
+  final String baseUrl = "${ApiConfig.baseUrl}/roles";
 
   Uri _uri(String path, Map<String, String>? queryParameters) {
     final url = path.isEmpty ? baseUrl : '$baseUrl/$path';
@@ -48,7 +49,10 @@ class RoleApi {
     return _decode(response);
   }
 
-  Future<Map<String, dynamic>> listRoles({required int tenantId, required String token}) {
+  Future<Map<String, dynamic>> listRoles({
+    required int tenantId,
+    required String token,
+  }) {
     return _get('', queryParameters: {'tenantId': '$tenantId'}, token: token);
   }
 }

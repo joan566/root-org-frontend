@@ -2,12 +2,17 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:savings_api_frontend/core/errors/api_exception.dart';
+import 'package:savings_api_frontend/core/networking/api_config.dart';
 
 class TenantApi {
-  final String baseUrl = "http://192.168.0.104:8080/tenant";
+  final String baseUrl = "${ApiConfig.baseUrl}/tenant";
 
   // Método privado para realizar solicitudes POST
-  Future<Map<String, dynamic>> _post(String endpoint, Map<String, dynamic> data, String token) async {
+  Future<Map<String, dynamic>> _post(
+    String endpoint,
+    Map<String, dynamic> data,
+    String token,
+  ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/$endpoint'),
       headers: {
@@ -38,7 +43,11 @@ class TenantApi {
     );
   }
 
-  Future<Map<String, dynamic>> _put(String endpoint, Map<String, dynamic> data, String token) async {
+  Future<Map<String, dynamic>> _put(
+    String endpoint,
+    Map<String, dynamic> data,
+    String token,
+  ) async {
     final response = await http.put(
       Uri.parse('$baseUrl/$endpoint'),
       headers: {
@@ -70,11 +79,12 @@ class TenantApi {
   }
 
   Future<Map<String, dynamic>> _get(
-      String endpoint, {
-        Map<String, String>? queryParameters,
-        String? token,
-      }) async {
-    final uri = Uri.parse('$baseUrl/$endpoint').replace(queryParameters: queryParameters);
+    String endpoint, {
+    Map<String, String>? queryParameters,
+    String? token,
+  }) async {
+    final uri = Uri.parse('$baseUrl/$endpoint')
+        .replace(queryParameters: queryParameters);
 
     final response = await http.get(
       uri,
@@ -113,15 +123,15 @@ class TenantApi {
   }
 
   Future<Map<String, dynamic>> createTenantWithOwner({
-      required String name,
-      required String description,
-      required int userId,
-      required String token
+    required String name,
+    required String description,
+    required int userId,
+    required String token,
   }) {
     return _post("create-with-owner", {
       "name": name,
       "description": description,
-      "userId": userId
+      "userId": userId,
     }, token);
   }
 
@@ -130,28 +140,31 @@ class TenantApi {
   /// organización; la relación `UserTenant` se crea únicamente cuando un
   /// admin aprueba la solicitud (`approveJoinRequest`).
   Future<Map<String, dynamic>> requestToJoinTenant({
-    required String tenantCode, required String token
+    required String tenantCode,
+    required String token,
   }) {
-    return _post("join-tenant", {
-      "tenantCode": tenantCode
-    },
-    token);
+    return _post("join-tenant", {"tenantCode": tenantCode}, token);
   }
 
   Future<Map<String, dynamic>> getPendingJoinRequests({
-    required int tenantId, required String token
+    required int tenantId,
+    required String token,
   }) {
     return _get('$tenantId/join-requests', token: token);
   }
 
   Future<Map<String, dynamic>> approveJoinRequest({
-    required int tenantId, required int requestId, required String token
+    required int tenantId,
+    required int requestId,
+    required String token,
   }) {
     return _post('$tenantId/join-requests/$requestId/approve', {}, token);
   }
 
   Future<Map<String, dynamic>> rejectJoinRequest({
-    required int tenantId, required int requestId, required String token
+    required int tenantId,
+    required int requestId,
+    required String token,
   }) {
     return _post('$tenantId/join-requests/$requestId/reject', {}, token);
   }
@@ -159,7 +172,8 @@ class TenantApi {
   /// Sin `tenantId` en la ruta -- el backend valida que la solicitud
   /// pertenezca al usuario autenticado.
   Future<Map<String, dynamic>> cancelJoinRequest({
-    required int requestId, required String token
+    required int requestId,
+    required String token,
   }) {
     return _post('join-requests/$requestId/cancel', {}, token);
   }
@@ -177,9 +191,6 @@ class TenantApi {
     required String description,
     required String token,
   }) {
-    return _put('$tenantId', {
-      "name": name,
-      "description": description,
-    }, token);
+    return _put('$tenantId', {"name": name, "description": description}, token);
   }
 }

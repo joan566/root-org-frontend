@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:savings_api_frontend/core/errors/api_exception.dart';
+import 'package:savings_api_frontend/core/networking/api_config.dart';
 
 class PermissionApi {
-  final String baseUrl = "http://192.168.0.104:8080/me/permissions";
+  final String baseUrl = "${ApiConfig.baseUrl}/me/permissions";
 
   Uri _uri(Map<String, String> queryParameters) {
     return Uri.parse(baseUrl).replace(queryParameters: queryParameters);
@@ -42,7 +43,8 @@ class PermissionApi {
   }) async {
     final queryParameters = {
       'tenantId': '$tenantId',
-      if (organizationUnitId != null) 'organizationUnitId': '$organizationUnitId',
+      if (organizationUnitId != null)
+        'organizationUnitId': '$organizationUnitId',
     };
 
     final response = await http.get(

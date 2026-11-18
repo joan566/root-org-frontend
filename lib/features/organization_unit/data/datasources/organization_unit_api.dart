@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:savings_api_frontend/core/errors/api_exception.dart';
+import 'package:savings_api_frontend/core/networking/api_config.dart';
 
 class OrganizationUnitApi {
-  final String baseUrl = "http://192.168.0.104:8080/organization-units";
+  final String baseUrl = "${ApiConfig.baseUrl}/organization-units";
 
   Uri _uri(String path, Map<String, String>? queryParameters) {
     final url = path.isEmpty ? baseUrl : '$baseUrl/$path';
@@ -65,7 +66,11 @@ class OrganizationUnitApi {
     return _decode(response);
   }
 
-  Future<Map<String, dynamic>> _put(String path, Map<String, dynamic> data, String token) async {
+  Future<Map<String, dynamic>> _put(
+    String path,
+    Map<String, dynamic> data,
+    String token,
+  ) async {
     final response = await http.put(
       _uri(path, null),
       headers: {
@@ -92,7 +97,10 @@ class OrganizationUnitApi {
     return _decode(response);
   }
 
-  Future<Map<String, dynamic>> listUnits({required int tenantId, required String token}) {
+  Future<Map<String, dynamic>> listUnits({
+    required int tenantId,
+    required String token,
+  }) {
     return _get('', queryParameters: {'tenantId': '$tenantId'}, token: token);
   }
 
@@ -129,8 +137,16 @@ class OrganizationUnitApi {
     }, token);
   }
 
-  Future<Map<String, dynamic>> deleteUnit({required int id, required int tenantId, required String token}) {
-    return _delete('$id', queryParameters: {'tenantId': '$tenantId'}, token: token);
+  Future<Map<String, dynamic>> deleteUnit({
+    required int id,
+    required int tenantId,
+    required String token,
+  }) {
+    return _delete(
+      '$id',
+      queryParameters: {'tenantId': '$tenantId'},
+      token: token,
+    );
   }
 
   Future<Map<String, dynamic>> assignMember({
@@ -139,7 +155,10 @@ class OrganizationUnitApi {
     required int userId,
     required String token,
   }) {
-    return _post('$id/members', {'tenantId': tenantId, 'userId': userId}, token);
+    return _post('$id/members', {
+      'tenantId': tenantId,
+      'userId': userId,
+    }, token);
   }
 
   Future<Map<String, dynamic>> removeMember({
@@ -148,7 +167,11 @@ class OrganizationUnitApi {
     required int userId,
     required String token,
   }) {
-    return _delete('$id/members/$userId', queryParameters: {'tenantId': '$tenantId'}, token: token);
+    return _delete(
+      '$id/members/$userId',
+      queryParameters: {'tenantId': '$tenantId'},
+      token: token,
+    );
   }
 
   Future<Map<String, dynamic>> assignManager({
@@ -158,7 +181,11 @@ class OrganizationUnitApi {
     required int roleId,
     required String token,
   }) {
-    return _post('$id/manager', {'tenantId': tenantId, 'userId': userId, 'roleId': roleId}, token);
+    return _post('$id/manager', {
+      'tenantId': tenantId,
+      'userId': userId,
+      'roleId': roleId,
+    }, token);
   }
 
   Future<Map<String, dynamic>> transferManager({
@@ -167,28 +194,53 @@ class OrganizationUnitApi {
     required int newUserId,
     required String token,
   }) {
-    return _put('$id/manager', {'tenantId': tenantId, 'newUserId': newUserId}, token);
+    return _put('$id/manager', {
+      'tenantId': tenantId,
+      'newUserId': newUserId,
+    }, token);
   }
 
-  Future<Map<String, dynamic>> removeManager({required int id, required int tenantId, required String token}) {
-    return _delete('$id/manager', queryParameters: {'tenantId': '$tenantId'}, token: token);
+  Future<Map<String, dynamic>> removeManager({
+    required int id,
+    required int tenantId,
+    required String token,
+  }) {
+    return _delete(
+      '$id/manager',
+      queryParameters: {'tenantId': '$tenantId'},
+      token: token,
+    );
   }
 
   /// `manager` en la respuesta es `null` cuando la unidad no tiene encargado
   /// vigente -- no es un error (ver ADR-021).
-  Future<Map<String, dynamic>> getManager({required int id, required int tenantId, required String token}) {
-    return _get('$id/manager', queryParameters: {'tenantId': '$tenantId'}, token: token);
+  Future<Map<String, dynamic>> getManager({
+    required int id,
+    required int tenantId,
+    required String token,
+  }) {
+    return _get(
+      '$id/manager',
+      queryParameters: {'tenantId': '$tenantId'},
+      token: token,
+    );
   }
 
   /// El usuario se resuelve del JWT -- sin body, sin `tenantId`.
-  Future<Map<String, dynamic>> requestToJoinUnit({required int id, required String token}) {
+  Future<Map<String, dynamic>> requestToJoinUnit({
+    required int id,
+    required String token,
+  }) {
     return _post('$id/join-requests', {}, token);
   }
 
   /// Sin `id` de unidad en la ruta -- el backend valida que la solicitud
   /// pertenezca al usuario autenticado (mismo patrón que
   /// `TenantApi.cancelJoinRequest`).
-  Future<Map<String, dynamic>> cancelUnitJoinRequest({required int requestId, required String token}) {
+  Future<Map<String, dynamic>> cancelUnitJoinRequest({
+    required int requestId,
+    required String token,
+  }) {
     return _post('join-requests/$requestId/cancel', {}, token);
   }
 
@@ -203,7 +255,10 @@ class OrganizationUnitApi {
     required int roleId,
     required String token,
   }) {
-    return _post('$id/members/$userId/role', {'tenantId': tenantId, 'roleId': roleId}, token);
+    return _post('$id/members/$userId/role', {
+      'tenantId': tenantId,
+      'roleId': roleId,
+    }, token);
   }
 
   Future<Map<String, dynamic>> removeMemberRole({
@@ -225,7 +280,11 @@ class OrganizationUnitApi {
     required int tenantId,
     required String token,
   }) {
-    return _get('$id/join-requests', queryParameters: {'tenantId': '$tenantId'}, token: token);
+    return _get(
+      '$id/join-requests',
+      queryParameters: {'tenantId': '$tenantId'},
+      token: token,
+    );
   }
 
   Future<Map<String, dynamic>> approveUnitJoinRequest({
@@ -234,7 +293,12 @@ class OrganizationUnitApi {
     required int tenantId,
     required String token,
   }) {
-    return _post('$id/join-requests/$requestId/approve', {}, token, queryParameters: {'tenantId': '$tenantId'});
+    return _post(
+      '$id/join-requests/$requestId/approve',
+      {},
+      token,
+      queryParameters: {'tenantId': '$tenantId'},
+    );
   }
 
   Future<Map<String, dynamic>> rejectUnitJoinRequest({
@@ -243,6 +307,11 @@ class OrganizationUnitApi {
     required int tenantId,
     required String token,
   }) {
-    return _post('$id/join-requests/$requestId/reject', {}, token, queryParameters: {'tenantId': '$tenantId'});
+    return _post(
+      '$id/join-requests/$requestId/reject',
+      {},
+      token,
+      queryParameters: {'tenantId': '$tenantId'},
+    );
   }
 }

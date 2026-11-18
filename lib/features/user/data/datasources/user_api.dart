@@ -2,11 +2,16 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:savings_api_frontend/core/errors/api_exception.dart';
+import 'package:savings_api_frontend/core/networking/api_config.dart';
 
 class UserApi {
-  final String baseUrl = "http://192.168.0.104:8080";
+  final String baseUrl = ApiConfig.baseUrl;
 
-  Future<Map<String, dynamic>> _post(String endpoint, Map<String, dynamic> data, String token) async {
+  Future<Map<String, dynamic>> _post(
+    String endpoint,
+    Map<String, dynamic> data,
+    String token,
+  ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/$endpoint'),
       headers: {
@@ -38,21 +43,18 @@ class UserApi {
   }
 
   Future<Map<String, dynamic>> _get(
-      String endpoint, {
-        Map<String, String>? queryParameters,
-        String? token,
-      }) async {
-
-    final uri = Uri.parse('$baseUrl/$endpoint').replace(
-      queryParameters: queryParameters,
-    );
+    String endpoint, {
+    Map<String, String>? queryParameters,
+    String? token,
+  }) async {
+    final uri = Uri.parse('$baseUrl/$endpoint')
+        .replace(queryParameters: queryParameters);
 
     final response = await http.get(
       uri,
       headers: {
         'Content-Type': 'application/json',
-        if (token != null)
-          'Authorization': 'Bearer $token',
+        if (token != null) 'Authorization': 'Bearer $token',
       },
     );
 
@@ -78,15 +80,12 @@ class UserApi {
   }
 
   Future<Map<String, dynamic>> getProfile({
-      required int userId,
-      required String token,
+    required int userId,
+    required String token,
   }) async {
-
     return await _get(
       "users/profile",
-      queryParameters: {
-        "id": userId.toString(),
-      },
+      queryParameters: {"id": userId.toString()},
       token: token,
     );
   }
@@ -99,37 +98,29 @@ class UserApi {
     required String phoneNumber,
     required String dateOfBirth,
     required String gender,
-    required String token
+    required String token,
   }) async {
-    return await _post(
-        "users/update-profile",
-        {
-          "userId": userId,
-          "name": name,
-          "lastName": lastName,
-          "document": document,
-          "phoneNumber": phoneNumber,
-          "dateOfBirth": dateOfBirth,
-          "gender": gender
-        },
-        token
-    );
+    return await _post("users/update-profile", {
+      "userId": userId,
+      "name": name,
+      "lastName": lastName,
+      "document": document,
+      "phoneNumber": phoneNumber,
+      "dateOfBirth": dateOfBirth,
+      "gender": gender,
+    }, token);
   }
 
   Future<Map<String, dynamic>> changePassword({
     required String oldPassword,
     required String newPassword,
     required String confirmPassword,
-    required String token
+    required String token,
   }) async {
-    return await _post(
-        "auth/users/change-password",
-        {
-          "oldPassword": oldPassword,
-          "newPassword": newPassword,
-          "confirmPassword": confirmPassword
-        },
-        token
-    );
+    return await _post("auth/users/change-password", {
+      "oldPassword": oldPassword,
+      "newPassword": newPassword,
+      "confirmPassword": confirmPassword,
+    }, token);
   }
 }

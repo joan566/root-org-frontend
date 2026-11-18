@@ -1,12 +1,17 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:savings_api_frontend/core/errors/api_exception.dart';
+import 'package:savings_api_frontend/core/networking/api_config.dart';
 
 class AuthApi {
-  final String baseUrl = "http://192.168.0.104:8080";
+  final String baseUrl = ApiConfig.baseUrl;
 
   // Método privado para realizar solicitudes POST
-  Future<Map<String, dynamic>> _post(String endpoint, Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> _post(
+    String endpoint,
+    Map<String, dynamic> data,
+  ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/$endpoint'),
       headers: {'Content-Type': 'application/json'},
@@ -39,10 +44,7 @@ class AuthApi {
     required String email,
     required String password,
   }) {
-    return _post("auth/login", {
-      "email": email,
-      "password": password,
-    });
+    return _post("auth/login", {"email": email, "password": password});
   }
 
   // Método para registrarse
@@ -50,7 +52,8 @@ class AuthApi {
     required String name,
     required String phoneNumber,
     required String email,
-    required String password}) {
+    required String password,
+  }) {
     return _post("auth/users/create", {
       "name": name,
       "phoneNumber": phoneNumber,
@@ -65,10 +68,7 @@ class AuthApi {
   }
 
   Future<Map<String, dynamic>> verifyCode(String email, String code) {
-    return _post("auth/verify-code", {
-      "email": email,
-      "code": code,
-    });
+    return _post("auth/verify-code", {"email": email, "code": code});
   }
 
   Future<Map<String, dynamic>> resetPassword({
