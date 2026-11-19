@@ -1,39 +1,62 @@
 import 'package:flutter/material.dart';
 
-/// Escala tipografica del proyecto (nomenclatura estilo Material 3),
-/// formalizada a partir de las combinaciones fontSize/fontWeight mas usadas
-/// en el codigo existente (ver ADR-012-plan-migracion.md, Fase 7).
-///
-/// Estos estilos NO fijan color (a partir de ADR-013, modo oscuro): cada
-/// consumidor debe aplicar el color segun la paleta activa, ej.
-/// `AppTypography.bodyMedium.copyWith(color: AppColors.of(context).textPrimary)`.
-class AppTypography {
-  const AppTypography._();
-
-  static const TextStyle labelSmall = TextStyle(fontSize: 11, fontWeight: FontWeight.w500);
-  static const TextStyle labelMedium = TextStyle(fontSize: 12, fontWeight: FontWeight.w600);
-  static const TextStyle labelLarge = TextStyle(fontSize: 13, fontWeight: FontWeight.w600);
-  static const TextStyle bodyMedium = TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
-  static const TextStyle bodyLarge = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
-  static const TextStyle titleSmall = TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
-  static const TextStyle titleMedium = TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-
-  static const TextStyle titleLarge = TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.w800,
-    letterSpacing: -0.5,
-  );
-
-  static const TextStyle headlineSmall = TextStyle(
-    fontSize: 26,
-    fontWeight: FontWeight.w800,
-    letterSpacing: -0.5,
-  );
-
-  /// Numero principal de una tarjeta de metricas (estilo dashboard SaaS).
-  static const TextStyle displayNumber = TextStyle(
-    fontSize: 32,
-    fontWeight: FontWeight.w800,
-    letterSpacing: -0.5,
+abstract final class AppTypography {
+  static const textTheme = TextTheme(
+    displayLarge: TextStyle(fontSize: 57, height: 1.12, letterSpacing: -0.25),
+    displayMedium: TextStyle(fontSize: 45, height: 1.16),
+    displaySmall: TextStyle(fontSize: 36, height: 1.22),
+    headlineLarge: TextStyle(
+      fontSize: 32,
+      height: 1.25,
+      fontWeight: FontWeight.w600,
+    ),
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      height: 1.29,
+      fontWeight: FontWeight.w600,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
+      height: 1.33,
+      fontWeight: FontWeight.w600,
+    ),
+    titleLarge: TextStyle(
+      fontSize: 22,
+      height: 1.27,
+      fontWeight: FontWeight.w600,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      height: 1.5,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.15,
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14,
+      height: 1.43,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.1,
+    ),
+    bodyLarge: TextStyle(fontSize: 16, height: 1.5, letterSpacing: 0.15),
+    bodyMedium: TextStyle(fontSize: 14, height: 1.43, letterSpacing: 0.25),
+    bodySmall: TextStyle(fontSize: 12, height: 1.33, letterSpacing: 0.4),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      height: 1.43,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.1,
+    ),
+    labelMedium: TextStyle(
+      fontSize: 12,
+      height: 1.33,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.5,
+    ),
+    labelSmall: TextStyle(
+      fontSize: 11,
+      height: 1.45,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.5,
+    ),
   );
 }
