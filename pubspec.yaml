@@ -1,4 +1,4 @@
-name: savings_api_frontend
+name: RootOrg
 description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -19,8 +19,11 @@ dependencies:
   provider: ^6.1.5
 
   cupertino_icons: ^1.0.8
-  http: ^1.0.0
   shared_preferences: ^2.5.5
+  dio: ^5.11.1
+  flutter_secure_storage: ^11.2.0
+  go_router: ^18.1.4
+  connectivity_plus: ^7.3.2
 
 dev_dependencies:
   flutter_test:
