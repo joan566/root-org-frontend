@@ -19,6 +19,7 @@ class ResetPasswordMobileView extends StatelessWidget {
     return AuthFormLayout(
       title: 'Restablecer contraseña',
       subtitle: 'El enlace vence 10 minutos después de solicitarlo.',
+      artwork: AuthArtwork.recovery,
       child: ResetPasswordForm(controller: controller, resetToken: resetToken),
     );
   }

@@ -7,7 +7,7 @@ final class AppConfig {
   );
   static const _configuredApiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:8080/api/v1',
+    defaultValue: 'http://192.168.0.102:8080',
   );
 
   final Environment environment;

@@ -15,6 +15,7 @@ class ForgotPasswordDesktopView extends StatelessWidget {
       title: 'Recuperar contraseña',
       subtitle: 'Te enviaremos un enlace a tu correo.',
       desktop: true,
+      artwork: AuthArtwork.recovery,
       child: ForgotPasswordForm(controller: controller),
     );
   }

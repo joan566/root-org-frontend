@@ -20,6 +20,7 @@ class ResetPasswordDesktopView extends StatelessWidget {
       title: 'Restablecer contraseña',
       subtitle: 'El enlace vence 10 minutos después de solicitarlo.',
       desktop: true,
+      artwork: AuthArtwork.recovery,
       child: ResetPasswordForm(controller: controller, resetToken: resetToken),
     );
   }

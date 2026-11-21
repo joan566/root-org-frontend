@@ -40,6 +40,7 @@ class AppUserModel {
   const AppUserModel({
     required this.id,
     required this.organizationUnitMemberships,
+    required this.emailVerified,
     this.name,
     this.lastName,
     this.email,
@@ -51,6 +52,7 @@ class AppUserModel {
   final String? name;
   final String? lastName;
   final String? email;
+  final bool emailVerified;
   final String? phoneNumber;
   final String? status;
   final List<OrganizationUnitMembershipModel> organizationUnitMemberships;
@@ -59,6 +61,12 @@ class AppUserModel {
     final id = _intValue(json['id']);
     if (id == null) {
       throw const FormatException('User response is missing its id.');
+    }
+    final emailVerified = json['emailVerified'];
+    if (emailVerified is! bool) {
+      throw const FormatException(
+        'User response is missing its emailVerified status.',
+      );
     }
 
     final membershipsJson = json['organizationUnitMemberInfos'];
@@ -77,6 +85,7 @@ class AppUserModel {
       name: json['name'] as String?,
       lastName: json['lastName'] as String?,
       email: (json['userEmail'] ?? json['email']) as String?,
+      emailVerified: emailVerified,
       phoneNumber: json['phoneNumber'] as String?,
       status: json['status'] as String?,
       organizationUnitMemberships: memberships,
@@ -89,6 +98,7 @@ class AppUserModel {
       name: name,
       lastName: lastName,
       email: email,
+      emailVerified: emailVerified,
       phoneNumber: phoneNumber,
       status: status,
       organizationUnitMemberships: organizationUnitMemberships

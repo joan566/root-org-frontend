@@ -20,6 +20,7 @@ class EmailVerificationDesktopView extends StatelessWidget {
       title: 'Verifica tu correo',
       subtitle: 'Confirma tu dirección de correo electrónico.',
       desktop: true,
+      artwork: AuthArtwork.verification,
       child: EmailVerificationForm(controller: controller, email: email),
     );
   }

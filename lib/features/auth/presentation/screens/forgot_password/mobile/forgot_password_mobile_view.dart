@@ -14,6 +14,7 @@ class ForgotPasswordMobileView extends StatelessWidget {
     return AuthFormLayout(
       title: 'Recuperar contraseña',
       subtitle: 'Te enviaremos un enlace a tu correo.',
+      artwork: AuthArtwork.recovery,
       child: ForgotPasswordForm(controller: controller),
     );
   }

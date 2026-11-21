@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../widgets/auth_form_layout.dart';
-import '../widgets/sign_in_form.dart';
 import '../../../state/auth_controller.dart';
+import '../../../widgets/auth_entry_layout.dart';
+import '../widgets/sign_in_form.dart';
 
 class SignInMobileView extends StatelessWidget {
   const SignInMobileView({required this.controller, super.key});
@@ -11,9 +11,8 @@ class SignInMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthFormLayout(
-      title: 'Iniciar sesión',
-      subtitle: 'Ingresa a tu cuenta para continuar.',
+    return AuthEntryLayout(
+      mode: AuthEntryLayoutMode.mobile,
       child: SignInForm(controller: controller),
     );
   }

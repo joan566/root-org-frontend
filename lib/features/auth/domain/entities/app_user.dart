@@ -21,6 +21,7 @@ class AppUser {
     this.name,
     this.lastName,
     this.email,
+    this.emailVerified = false,
     this.phoneNumber,
     this.status,
   });
@@ -29,7 +30,21 @@ class AppUser {
   final String? name;
   final String? lastName;
   final String? email;
+  final bool emailVerified;
   final String? phoneNumber;
   final String? status;
   final List<OrganizationUnitMembership> organizationUnitMemberships;
+
+  AppUser copyWith({bool? emailVerified}) {
+    return AppUser(
+      id: id,
+      name: name,
+      lastName: lastName,
+      email: email,
+      emailVerified: emailVerified ?? this.emailVerified,
+      phoneNumber: phoneNumber,
+      status: status,
+      organizationUnitMemberships: organizationUnitMemberships,
+    );
+  }
 }

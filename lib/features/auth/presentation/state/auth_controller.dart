@@ -57,6 +57,7 @@ final class AuthController extends ChangeNotifier
   AuthStatus _status = AuthStatus.restoring;
   AuthSession? _session;
   Object? _restoreError;
+  bool _emailVerificationPendingNavigation = false;
 
   AuthStatus get status => _status;
   AuthSession? get session => _session;
@@ -79,6 +80,18 @@ final class AuthController extends ChangeNotifier
     }
 
     if (isAuthenticated) {
+      if (_session?.user.emailVerified != true) {
+        if (path == '/auth/email-verification') return null;
+        final email = _session?.user.email;
+        return Uri(
+          path: '/auth/email-verification',
+          queryParameters: email == null ? null : {'email': email},
+        ).toString();
+      }
+      if (path == '/auth/email-verification' &&
+          _emailVerificationPendingNavigation) {
+        return null;
+      }
       if (isPublicRoute && !isPasswordReset) return '/';
       return null;
     }
@@ -90,6 +103,7 @@ final class AuthController extends ChangeNotifier
   Future<void> restore() async {
     _status = AuthStatus.restoring;
     _restoreError = null;
+    _emailVerificationPendingNavigation = false;
     notifyListeners();
     try {
       _session = await _restoreSession.execute();
@@ -108,6 +122,7 @@ final class AuthController extends ChangeNotifier
     _session = session;
     _status = AuthStatus.authenticated;
     _restoreError = null;
+    _emailVerificationPendingNavigation = false;
     notifyListeners();
   }
 
@@ -132,8 +147,25 @@ final class AuthController extends ChangeNotifier
   Future<void> confirmEmailVerification({
     required String email,
     required String code,
-  }) {
-    return _confirmEmailVerification.execute(email: email, code: code);
+  }) async {
+    await _confirmEmailVerification.execute(email: email, code: code);
+    final session = _session;
+    if (session != null &&
+        session.user.email?.toLowerCase() == email.trim().toLowerCase()) {
+      _session = AuthSession(
+        user: session.user.copyWith(emailVerified: true),
+        hasOrganizationUnit: session.hasOrganizationUnit,
+        accessTokenExpiresAt: session.accessTokenExpiresAt,
+      );
+      _emailVerificationPendingNavigation = true;
+      notifyListeners();
+    }
+  }
+
+  void continueAfterEmailVerification() {
+    if (!_emailVerificationPendingNavigation) return;
+    _emailVerificationPendingNavigation = false;
+    notifyListeners();
   }
 
   Future<void> requestPasswordReset(String email) {
@@ -170,6 +202,7 @@ final class AuthController extends ChangeNotifier
     } finally {
       _session = null;
       _status = AuthStatus.unauthenticated;
+      _emailVerificationPendingNavigation = false;
       notifyListeners();
     }
   }
@@ -208,6 +241,7 @@ final class AuthController extends ChangeNotifier
       _session = null;
       _status = AuthStatus.unauthenticated;
       _restoreError = null;
+      _emailVerificationPendingNavigation = false;
       notifyListeners();
     }
   }

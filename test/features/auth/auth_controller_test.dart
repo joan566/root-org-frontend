@@ -33,6 +33,22 @@ void main() {
   });
 
   test(
+    'marks the active session verified after confirming its email',
+    () async {
+      final controller = _createController(_FakeAuthRepository());
+      addTearDown(controller.dispose);
+      await controller.signIn(email: 'a@example.com', password: 'Password1');
+
+      await controller.confirmEmailVerification(
+        email: 'a@example.com',
+        code: '123456',
+      );
+
+      expect(controller.session?.user.emailVerified, isTrue);
+    },
+  );
+
+  test(
     'clears in-memory authentication even when remote logout fails',
     () async {
       final repository = _FakeAuthRepository()
@@ -69,7 +85,12 @@ AuthController _createController(AuthRepository repository) {
 class _FakeAuthRepository implements AuthRepository {
   Object? logoutError;
   final session = AuthSession(
-    user: const AppUser(id: 12, name: 'Test', organizationUnitMemberships: []),
+    user: const AppUser(
+      id: 12,
+      name: 'Test',
+      email: 'a@example.com',
+      organizationUnitMemberships: [],
+    ),
     hasOrganizationUnit: false,
     accessTokenExpiresAt: DateTime.utc(2027),
   );

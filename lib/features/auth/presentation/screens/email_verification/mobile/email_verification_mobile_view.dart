@@ -19,6 +19,7 @@ class EmailVerificationMobileView extends StatelessWidget {
     return AuthFormLayout(
       title: 'Verifica tu correo',
       subtitle: 'Confirma tu dirección de correo electrónico.',
+      artwork: AuthArtwork.verification,
       child: EmailVerificationForm(controller: controller, email: email),
     );
   }

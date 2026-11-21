@@ -14,6 +14,7 @@ class ChangePasswordMobileView extends StatelessWidget {
     return AuthFormLayout(
       title: 'Cambiar contraseña',
       subtitle: 'Actualiza la contraseña de tu cuenta.',
+      artwork: AuthArtwork.security,
       child: ChangePasswordForm(controller: controller),
     );
   }

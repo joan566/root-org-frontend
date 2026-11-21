@@ -15,6 +15,7 @@ class ChangePasswordDesktopView extends StatelessWidget {
       title: 'Cambiar contraseña',
       subtitle: 'Actualiza la contraseña de tu cuenta.',
       desktop: true,
+      artwork: AuthArtwork.security,
       child: ChangePasswordForm(controller: controller),
     );
   }

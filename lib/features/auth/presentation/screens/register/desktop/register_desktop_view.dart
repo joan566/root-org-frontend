@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../widgets/auth_form_layout.dart';
 import '../../../state/auth_controller.dart';
+import '../../../widgets/auth_entry_layout.dart';
 import '../widgets/register_form.dart';
 
 class RegisterDesktopView extends StatelessWidget {
@@ -11,10 +11,8 @@ class RegisterDesktopView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthFormLayout(
-      title: 'Crear cuenta',
-      subtitle: 'Regístrate para empezar a usar RootOrg.',
-      desktop: true,
+    return AuthEntryLayout(
+      mode: AuthEntryLayoutMode.desktop,
       child: RegisterForm(controller: controller),
     );
   }
